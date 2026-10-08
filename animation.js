@@ -1042,21 +1042,25 @@
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
         setTimeout(() => {
           createOverlay(el, {
-            badge: 'Step 4 of 4 • Favorites',
+            badge: 'Step 4 of 5 • Favorites',
             title: 'Star Your Favorites',
             desc: 'Star ⭐ any textbook or learning module to pin it to your quick-access favorites bar for 1-click launching!',
-            nextText: 'Finish Tour',
+            nextText: 'Next: Gemini AI',
             placement: 'bottom',
             radius: 12,
             cursorAction: 'click',
             onNext: () => {
-              completeTour();
+              try {
+                sessionStorage.setItem('pinpoint_walkthrough_active', 'true');
+                sessionStorage.setItem('pinpoint_walkthrough_step', '5');
+              } catch (e) {}
+              safeNavigate('./pages/ai.html');
             }
           });
         }, 150);
       } else if (attempts > 30) {
         clearInterval(checkSidebar);
-        completeTour();
+        runStep5Gemini();
       }
     }, 60);
   }
@@ -1074,29 +1078,21 @@
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
         setTimeout(() => {
           createOverlay(el, {
-            badge: 'Step 5 of 6 • Gemini AI',
+            badge: 'Step 5 of 5 • Gemini AI',
             title: 'Study with Gemini AI',
             desc: 'Your built-in AI assistant powered by Gemini! Ask questions, solve homework problems, write essays, and get explanations instantly.',
-            nextText: 'Next: Audio Systems',
+            nextText: 'Finish Tour',
             placement: 'top',
             radius: 28,
             cursorAction: 'type',
             onNext: () => {
-              try {
-                sessionStorage.setItem('pinpoint_walkthrough_active', 'true');
-                sessionStorage.setItem('pinpoint_walkthrough_step', '6');
-              } catch (e) {}
-              safeNavigate('../music.html');
+              completeTour();
             }
           });
         }, 150);
       } else if (attempts > 30) {
         clearInterval(checkAI);
-        try {
-          sessionStorage.setItem('pinpoint_walkthrough_active', 'true');
-          sessionStorage.setItem('pinpoint_walkthrough_step', '6');
-        } catch (e) {}
-        safeNavigate('../music.html');
+        completeTour();
       }
     }, 60);
   }

@@ -81,6 +81,10 @@
       "destination": "/pages/settings.html"
     },
     {
+      "source": "/pages/ai",
+      "destination": "/pages/ai.html"
+    },
+    {
       "source": "/textbooks/car-soccer.html",
       "destination": "/textbooks/car-soccer/index.html"
     },
@@ -99,6 +103,14 @@
   ],
   "headers": [
     {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, OPTIONS, HEAD" },
+        { "key": "Access-Control-Allow-Headers", "value": "*" }
+      ]
+    },
+    {
       "source": "/version.json",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate, max-age=0" },
@@ -115,7 +127,7 @@
       ]
     },
     {
-      "source": "/((?!favicons|images|styles|_vercel|.*\\.).*)",
+      "source": "/((?!api|favicons|images|styles|_vercel|.*\\.).*)",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate, max-age=0" },
         { "key": "Pragma", "value": "no-cache" },
