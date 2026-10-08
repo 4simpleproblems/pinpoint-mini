@@ -1,0 +1,126 @@
+{
+  "cleanUrls": true,
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
+  },
+  "redirects": [
+    {
+      "source": "/pages/english.html",
+      "destination": "/pages/history.html",
+      "permanent": true
+    },
+    {
+      "source": "/pages/classwork-english.html",
+      "destination": "/pages/classwork-history.html",
+      "permanent": true
+    },
+    {
+      "source": "/pages/english",
+      "destination": "/pages/history.html",
+      "permanent": true
+    },
+    {
+      "source": "/pages/classwork-english",
+      "destination": "/pages/classwork-history.html",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "referer",
+          "value": ".*(securly|deviceconsole).*"
+        }
+      ],
+      "destination": "https://classroom.google.com",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/classwork-history",
+      "destination": "/pages/classwork-history.html"
+    },
+    {
+      "source": "/classwork-history.html",
+      "destination": "/pages/classwork-history.html"
+    },
+    {
+      "source": "/classwork",
+      "destination": "/pages/classwork-history.html"
+    },
+    {
+      "source": "/history",
+      "destination": "/pages/history.html"
+    },
+    {
+      "source": "/history.html",
+      "destination": "/pages/history.html"
+    },
+    {
+      "source": "/settings",
+      "destination": "/pages/settings.html"
+    },
+    {
+      "source": "/settings.html",
+      "destination": "/pages/settings.html"
+    },
+    {
+      "source": "/pages/classwork-history",
+      "destination": "/pages/classwork-history.html"
+    },
+    {
+      "source": "/pages/history",
+      "destination": "/pages/history.html"
+    },
+    {
+      "source": "/pages/settings",
+      "destination": "/pages/settings.html"
+    },
+    {
+      "source": "/textbooks/car-soccer.html",
+      "destination": "/textbooks/car-soccer/index.html"
+    },
+    {
+      "source": "/textbooks/car-soccer",
+      "destination": "/textbooks/car-soccer/index.html"
+    },
+    {
+      "source": "/textbooks/people-playground.html",
+      "destination": "/textbooks/people-playground/index.html"
+    },
+    {
+      "source": "/textbooks/people-playground",
+      "destination": "/textbooks/people-playground/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/version.json",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate, max-age=0" },
+        { "key": "Pragma", "value": "no-cache" },
+        { "key": "Expires", "value": "0" }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(html|js|json)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate, max-age=0" },
+        { "key": "Pragma", "value": "no-cache" },
+        { "key": "Expires", "value": "0" }
+      ]
+    },
+    {
+      "source": "/((?!favicons|images|styles|_vercel|.*\\.).*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate, max-age=0" },
+        { "key": "Pragma", "value": "no-cache" },
+        { "key": "Expires", "value": "0" }
+      ]
+    }
+  ]
+}

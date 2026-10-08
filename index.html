@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="scripts/cors-interceptor.js"></script>
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Classroom</title>
+  <link rel="icon" type="image/png" href="favicons/google-classroom.png"/>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: #ffffff;
+      font-family: Roboto, Arial, sans-serif;
+    }
+    #classroom-iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      display: block;
+    }
+    #click-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 999999;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0);
+    }
+  </style>
+</head>
+<body>
+  <iframe id="classroom-iframe" src="https://classroom.google.com" title="Google Classroom"></iframe>
+  <div id="click-overlay"></div>
+
+  <script>
+    (function() {
+      // Save entry origin for domain block canary checks
+      try {
+        localStorage.setItem('pinpoint_entry_origin', window.location.origin);
+      } catch (e) {}
+
+      async function launchAboutBlank() {
+        try {
+          const origin = window.location.origin;
+          const res = await fetch('loader.html');
+          let html = await res.text();
+          
+          const baseTag = `<base href="${origin.endsWith('/') ? origin : origin + '/'}">`;
+          let injectedHtml = html;
+          if (injectedHtml.includes('<head>')) {
+            injectedHtml = injectedHtml.replace('<head>', '<head>' + baseTag);
+          } else {
+            injectedHtml = baseTag + injectedHtml;
+          }
+
+          const win = window.open('about:blank', '_blank');
+          if (win) {
+            win.document.open();
+            win.document.write(injectedHtml);
+            win.document.close();
+
+            // Disguise the original tab with Google Classroom so no unblocked domain tab remains
+            try {
+              window.location.replace('https://classroom.google.com');
+            } catch (e) {}
+          } else {
+            window.location.href = 'loader.html';
+          }
+        } catch(err) {
+          console.error('Failed to load loader.html into about:blank:', err);
+          window.location.href = 'home.html';
+        }
+      }
+
+      document.getElementById('click-overlay').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        launchAboutBlank();
+      });
+    })();
+  </script>
+</body>
+</html>

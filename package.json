@@ -1,0 +1,8 @@
+{
+  "name": "pinpoint-mini",
+  "version": "1.0.0",
+  "description": "Pinpoint Mini - Core Educational & Classwork Platform",
+  "scripts": {
+    "dev": "vercel dev"
+  }
+}

@@ -1,0 +1,2 @@
+textbooks/granny.html filter=lfs diff=lfs merge=lfs -text
+textbooks/geometry-dash-lite.html filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="scripts/cors-interceptor.js"></script>
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Classroom</title>
+  <link rel="icon" type="image/png" href="favicons/google-classroom.png"/>
+  <link rel="shortcut icon" type="image/png" href="favicons/google-classroom.png"/>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: #ffffff;
+    }
+    #app-frame {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      margin: 0;
+      padding: 0;
+      display: block;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <iframe id="app-frame" name="app-frame" src="home.html" allow="autoplay; fullscreen; camera; microphone; clipboard-read; clipboard-write; display-capture; geolocation"></iframe>
+
+  <script>
+    (function() {
+      // Sync title, favicon, panic key, and navigation from iframe
+      window.addEventListener('message', function(e) {
+        if (!e.data) return;
+        if (e.data.type === 'set-title' && e.data.title) {
+          document.title = e.data.title;
+        }
+        if (e.data.type === 'set-favicon' && e.data.favicon) {
+          var link = document.querySelector("link[rel*='icon']");
+          if (!link) {
+            link = document.createElement('link');
+            link.rel = 'icon';
+            document.head.appendChild(link);
+          }
+          link.href = e.data.favicon;
+        }
+        if (e.data.type === 'navigate' && e.data.url) {
+          var frame = document.getElementById('app-frame');
+          if (frame) frame.src = e.data.url;
+        }
+        if (e.data === 'panic' || e.data.type === 'panic') {
+          var targetUrl = localStorage.getItem('pinpoint_panic_url') || 'https://classroom.google.com/';
+          window.location.replace(targetUrl);
+        }
+      });
+
+      // Global panic key in top-level about:blank window
+      window.addEventListener('keydown', function(e) {
+        var enabled = localStorage.getItem('pinpoint_panic_enabled') !== 'false';
+        if (!enabled) return;
+        var targetKey = localStorage.getItem('pinpoint_panic_key') || String.fromCharCode(96);
+        if (e.key === targetKey) {
+          var targetUrl = localStorage.getItem('pinpoint_panic_url') || 'https://classroom.google.com/';
+          window.location.replace(targetUrl);
+        }
+      });
+    })();
+  </script>
+  <script src="scripts/canary.js"></script>
+</body>
+</html>
