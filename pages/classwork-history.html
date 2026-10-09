@@ -1578,17 +1578,44 @@ function updateDownloadBtnProgress(gameId, percent, title) {
   }
 }
 
+function applyRunnerModeState(isDl, mode) {
+  const toggleBtn = document.getElementById('runner-mode-toggle');
+  const toggleIcon = document.getElementById('runner-mode-icon');
+  if (!toggleBtn || !toggleIcon) return;
+
+  toggleBtn.style.display = 'inline-flex';
+
+  if (mode === 'offline') {
+    currentRunnerMode = 'offline';
+    toggleBtn.style.background = '#e8f0fe';
+    toggleBtn.style.color = '#1a73e8';
+    toggleBtn.style.borderColor = '#1a73e8';
+    toggleIcon.textContent = 'cloud_off';
+    toggleBtn.title = 'Playing offline version. Click to switch to Online mode.';
+  } else {
+    currentRunnerMode = 'online';
+    toggleBtn.style.background = '#e6f4ea';
+    toggleBtn.style.color = '#137333';
+    toggleBtn.style.borderColor = '#34a853';
+    toggleIcon.textContent = 'cloud';
+    toggleBtn.title = isDl
+      ? 'Playing online version. Click to switch to Offline mode.'
+      : 'Playing online version. Click to download and switch to Offline mode.';
+  }
+}
+
 function updateRunnerModeProgress(percent, isCancelled = false) {
   const toggleBtn = document.getElementById('runner-mode-toggle');
   const toggleIcon = document.getElementById('runner-mode-icon');
   if (!toggleBtn) return;
 
-  if (isCancelled || percent === 0) {
-    updateRunnerModeUI(false, 'online');
+  if (isCancelled || percent <= 0) {
+    applyRunnerModeState(false, 'online');
     return;
   }
 
   if (percent > 0 && percent < 100) {
+    toggleBtn.style.display = 'inline-flex';
     toggleBtn.style.background = `linear-gradient(to top, #1a73e8 0%, #1a73e8 ${percent}%, #e8f0fe ${percent}%, #e8f0fe 100%)`;
     toggleBtn.style.borderColor = '#1a73e8';
     toggleBtn.style.color = percent >= 55 ? '#ffffff' : '#1a73e8';
@@ -1597,7 +1624,7 @@ function updateRunnerModeProgress(percent, isCancelled = false) {
       toggleIcon.innerHTML = `<span style="font-size:11px;font-weight:700;line-height:1;">${percent}%</span>`;
     }
   } else if (percent >= 100) {
-    updateRunnerModeUI(true, 'offline');
+    applyRunnerModeState(true, 'offline');
   }
 }
 
@@ -1981,34 +2008,16 @@ function updateRunnerModeUI(isDl, mode) {
   // If currently downloading this game, preserve progress
   if (currentRunnerFile) {
     const runnerGameId = currentRunnerFile.replace(/[^a-zA-Z0-9_-]/g, '_');
-    if (PinpointGameStorage && PinpointGameStorage.isDownloading(runnerGameId)) {
+    if (typeof PinpointGameStorage !== 'undefined' && PinpointGameStorage.isDownloading(runnerGameId)) {
       const prog = activeDownloadProgress.get(runnerGameId);
-      if (prog && prog.percent > 0) {
+      if (prog && prog.percent > 0 && prog.percent < 100) {
         updateRunnerModeProgress(prog.percent);
         return;
       }
     }
   }
 
-  toggleBtn.style.display = 'inline-flex';
-
-  if (mode === 'offline') {
-    currentRunnerMode = 'offline';
-    toggleBtn.style.background = '#e8f0fe';
-    toggleBtn.style.color = '#1a73e8';
-    toggleBtn.style.borderColor = '#1a73e8';
-    toggleIcon.textContent = 'cloud_off';
-    toggleBtn.title = 'Playing offline version. Click to switch to Online mode.';
-  } else {
-    currentRunnerMode = 'online';
-    toggleBtn.style.background = '#e6f4ea';
-    toggleBtn.style.color = '#137333';
-    toggleBtn.style.borderColor = '#34a853';
-    toggleIcon.textContent = 'cloud';
-    toggleBtn.title = isDl
-      ? 'Playing online version. Click to switch to Offline mode.'
-      : 'Playing online version. Click to download and switch to Offline mode.';
-  }
+  applyRunnerModeState(isDl, mode);
 }
 
 async function toggleRunnerMode() {
