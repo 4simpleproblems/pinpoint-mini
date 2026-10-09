@@ -100,6 +100,13 @@ const GAME_MANIFESTS = {
         "/textbooks/ruffle/ruffle.js",
         "/textbooks/ruffle/core.ruffle.e1ab5671fe9d69a41e55.js",
         "/textbooks/ruffle/f9db7455c2c80fac021b.wasm"
+    ],
+    "textbooks/Bloons-TD.html": [
+        "/textbooks/Bloons-TD.html",
+        "/textbooks/Bloons-TD.swf",
+        "/textbooks/ruffle/ruffle.js",
+        "/textbooks/ruffle/core.ruffle.e1ab5671fe9d69a41e55.js",
+        "/textbooks/ruffle/f9db7455c2c80fac021b.wasm"
     ]
 };
 
