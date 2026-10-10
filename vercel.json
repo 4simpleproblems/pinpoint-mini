@@ -99,6 +99,14 @@
     {
       "source": "/textbooks/people-playground",
       "destination": "/textbooks/people-playground/index.html"
+    },
+    {
+      "source": "/textbooks/escape-road-3.html",
+      "destination": "/textbooks/escape-road-3/index.html"
+    },
+    {
+      "source": "/textbooks/escape-road-3",
+      "destination": "/textbooks/escape-road-3/index.html"
     }
   ],
   "headers": [
