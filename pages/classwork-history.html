@@ -1348,6 +1348,7 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
 <script src="../tab-disguiser.js"></script>
 <script src="../scripts/canary.js"></script>
 <script src="../animation.js"></script>
+<script src="../scripts/save-manager.js"></script>
 
 <div id="game-runner-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;z-index:999999;flex-direction:column;">
   <div class="runner-header">
@@ -1371,6 +1372,13 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
         <button id="mono-lvl-2" onclick="setMonochromeLevel(2)" tabindex="-1" class="runner-mono-btn" title="60% Monochrome (2)">2</button>
         <button id="mono-lvl-3" onclick="setMonochromeLevel(3)" tabindex="-1" class="runner-mono-btn" title="100% Monochrome (3)">3</button>
       </div>
+      <button id="runner-save-export" onclick="PinpointSaveManager.exportCurrentSave()" tabindex="-1" class="runner-circle-btn" style="display:none;color:#1a73e8;" title="Download Save Data (.json)">
+        <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">download</span>
+      </button>
+      <button id="runner-save-import" onclick="PinpointSaveManager.triggerImportCurrentSave()" tabindex="-1" class="runner-circle-btn" style="display:none;color:#188038;" title="Upload Save Data (.json)">
+        <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">upload</span>
+      </button>
+      <input type="file" id="runner-save-file-input" accept=".json,application/json" style="display:none;" onchange="PinpointSaveManager.handleImportFile(event)">
       <button id="runner-fav-btn" onclick="toggleRunnerFav()" tabindex="-1" class="runner-circle-btn" title="Favorite">
         <span class="material-symbols-outlined" id="runner-fav-icon" aria-hidden="true" style="font-size:20px;line-height:1;">star_border</span>
       </button>
@@ -2124,6 +2132,9 @@ async function launchGame(file, title, forceOffline = null) {
   const titleEl = document.getElementById('runner-title');
   if (titleEl) titleEl.textContent = title + (useOffline ? ' (Offline Mode)' : ' (Online Mode)');
   updateRunnerFavBtn();
+  if (typeof PinpointSaveManager !== 'undefined') {
+    PinpointSaveManager.updateUI(file);
+  }
   const overlay = document.getElementById('game-runner-overlay');
   if (overlay) overlay.style.display = 'flex';
   const iframe = document.getElementById('runner-iframe');
