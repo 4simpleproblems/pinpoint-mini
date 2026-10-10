@@ -115,6 +115,10 @@
     {
       "source": "/textbooks/escape-road-3",
       "destination": "/textbooks/escape-road-3/index.html"
+    },
+    {
+      "source": "/textbooks/StreamingAssets/:path*",
+      "destination": "/textbooks/escape-road-3/StreamingAssets/:path*"
     }
   ],
   "headers": [
