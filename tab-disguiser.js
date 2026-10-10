@@ -673,52 +673,27 @@ var TabDisguiser = window.TabDisguiser || {
         try {
             // Avoid showing inside textbook game iframes
             if (window.location.pathname.includes('/textbooks/')) return;
-            const cleanupSeen = localStorage.getItem('pinpoint_cleanup_reminder_seen') === 'true';
-            const scriptSeen = localStorage.getItem('pinpoint_domain_script_seen') === 'true';
-
-            if (!cleanupSeen) {
-                // Show delete data reminder first
-                this.showCleanupReminder();
-            } else if (!scriptSeen) {
-                // If cleanup was already seen, show script link reminder
-                this.showDomainScriptReminder();
+            const widgetDismissed = localStorage.getItem('pinpoint_info_widget_dismissed_v1') === 'true';
+            if (!widgetDismissed) {
+                this.showInfoWidget();
             }
         } catch (e) {}
     },
 
-    showCleanupReminder(force = false) {
+    showInfoWidget(force = false) {
         if (!force) {
-            const seen = localStorage.getItem('pinpoint_cleanup_reminder_seen') === 'true';
-            if (seen) return;
+            const dismissed = localStorage.getItem('pinpoint_info_widget_dismissed_v1') === 'true';
+            if (dismissed) return;
         }
 
-        // Kick user out of game player immediately to display the important notice
-        try {
-            const runner = document.getElementById('game-runner-overlay');
-            if (runner && runner.style.display !== 'none') {
-                runner.style.display = 'none';
-                const iframe = document.getElementById('runner-iframe');
-                if (iframe) iframe.src = 'about:blank';
-                if (typeof this.setTitle === 'function') {
-                    this.setTitle();
-                }
-            }
-            if (typeof window.closeRunner === 'function') {
-                window.closeRunner();
-            }
-            if (typeof window.closeGameRunner === 'function') {
-                window.closeGameRunner();
-            }
-        } catch (e) {}
-
         if (!document.body) {
-            document.addEventListener('DOMContentLoaded', () => this.showCleanupReminder(force));
+            document.addEventListener('DOMContentLoaded', () => this.showInfoWidget(force));
             return;
         }
 
-        let existing = document.getElementById('cleanup-reminder-modal');
+        let existing = document.getElementById('pinpoint-info-widget');
         if (existing) {
-            existing.style.display = 'block';
+            existing.style.display = 'flex';
             return;
         }
 
@@ -737,246 +712,264 @@ var TabDisguiser = window.TabDisguiser || {
             currentHost = 'Current Site';
         }
 
-        const modal = document.createElement('div');
-        modal.id = 'cleanup-reminder-modal';
-        modal.style.cssText = 'position:fixed;bottom:24px;right:24px;width:390px;max-width:calc(100vw - 48px);background:#ffffff;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.08);padding:20px;z-index:2147483647;font-family:\'Google Sans\',Roboto,Arial,sans-serif;box-sizing:border-box;color:#202124;';
-        
-        modal.innerHTML = `
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-                <div style="display:flex;align-items:center;gap:8px;">
-                    <span class="material-symbols-outlined notranslate" style="color:#ea4335;font-size:24px;line-height:1;">delete_sweep</span>
-                    <span style="font-size:16px;font-weight:700;color:#202124;letter-spacing:-0.01em;">Clean Old Blocked Sites!</span>
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbxOoEViQ2ohkOZK6Lrm3bpCB4EXT0CvAHGALItv9SWW0M13YQOPdX7qcsXivsSDXyAkoQ/exec';
+        const cleanupUrl = 'chrome://settings/content/all?searchSubpage=agrolujo.cl';
+
+        // Add style for 3-row accordion widget
+        if (!document.getElementById('pinpoint-info-widget-style')) {
+            const style = document.createElement('style');
+            style.id = 'pinpoint-info-widget-style';
+            style.textContent = `
+                .pinpoint-info-hub {
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    width: 385px;
+                    max-width: calc(100vw - 32px);
+                    z-index: 2147483647;
+                    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+                    box-sizing: border-box;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                    filter: drop-shadow(0 10px 28px rgba(0,0,0,0.22));
+                }
+                .pinpoint-info-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    background: #202124;
+                    color: #ffffff;
+                    padding: 8px 14px;
+                    border-radius: 12px;
+                    font-size: 13px;
+                    font-weight: 600;
+                    letter-spacing: 0.2px;
+                }
+                .pinpoint-info-row {
+                    background: #ffffff;
+                    border: 1px solid #e0e2e6;
+                    border-radius: 12px;
+                    padding: 10px 14px;
+                    cursor: pointer;
+                    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+                    overflow: hidden;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+                }
+                .pinpoint-info-row:hover, .pinpoint-info-row.active {
+                    background: #ffffff;
+                    border-color: #1a73e8;
+                    box-shadow: 0 4px 14px rgba(26,115,232,0.18);
+                }
+                .pinpoint-info-row-head {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 8px;
+                    user-select: none;
+                }
+                .pinpoint-info-row-title {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #202124;
+                }
+                .pinpoint-info-badge {
+                    font-size: 10px;
+                    font-weight: 700;
+                    padding: 2px 7px;
+                    border-radius: 99px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.4px;
+                }
+                .pinpoint-info-row-body {
+                    max-height: 0;
+                    opacity: 0;
+                    overflow: hidden;
+                    transition: max-height 0.28s ease, opacity 0.22s ease, margin-top 0.22s ease;
+                    font-size: 12.5px;
+                    line-height: 1.45;
+                    color: #3c4043;
+                    margin-top: 0;
+                }
+                .pinpoint-info-row.active .pinpoint-info-row-body,
+                .pinpoint-info-hub:not(:hover) .pinpoint-info-row.default-open .pinpoint-info-row-body,
+                .pinpoint-info-row:hover .pinpoint-info-row-body {
+                    max-height: 240px;
+                    opacity: 1;
+                    margin-top: 10px;
+                }
+                .pinpoint-info-row .row-chevron {
+                    font-size: 18px;
+                    color: #5f6368;
+                    transition: transform 0.2s;
+                }
+                .pinpoint-info-row:hover .row-chevron, .pinpoint-info-row.active .row-chevron {
+                    transform: rotate(180deg);
+                    color: #1a73e8;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        const container = document.createElement('div');
+        container.id = 'pinpoint-info-widget';
+        container.className = 'pinpoint-info-hub';
+
+        container.innerHTML = `
+            <div class="pinpoint-info-header">
+                <div style="display:flex;align-items:center;gap:6px;">
+                    <span class="material-symbols-outlined notranslate" style="font-size:18px;color:#8ab4f8;line-height:1;">notifications_active</span>
+                    <span>Classroom Highlights</span>
                 </div>
-                <button id="cleanup-modal-close-x" style="background:none;border:none;color:#5f6368;cursor:pointer;padding:4px;border-radius:50%;display:flex;align-items:center;justify-content:center;" title="Close">
-                    <span class="material-symbols-outlined" style="font-size:20px;line-height:1;">close</span>
+                <button id="pinpoint-info-dismiss-btn" style="background:none;border:none;color:#9aa0a6;cursor:pointer;padding:2px 4px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:color 0.15s;" title="Dismiss">
+                    <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">close</span>
                 </button>
             </div>
 
-            <div style="font-size:13px;line-height:1.45;color:#3c4043;margin-bottom:14px;">
-                <div style="margin-bottom:10px;">
-                    Paste this into a new tab's address bar:
-                    <div style="display:flex;align-items:center;gap:6px;margin-top:5px;">
-                        <code id="cleanup-url-text" style="background:#e8f0fe;color:#174ea6;padding:5px 8px;border-radius:6px;font-size:11px;word-break:break-all;flex:1;font-family:monospace;user-select:all;border:1px solid #d2e3fc;">chrome://settings/content/all?searchSubpage=agrolujo.cl</code>
-                        <button id="cleanup-copy-url-btn" style="background:#1a73e8;border:none;border-radius:6px;padding:6px 10px;font-size:11.5px;font-weight:600;color:#fff;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;font-family:inherit;">
+            <!-- Row 1: New Updates & Save Feature -->
+            <div class="pinpoint-info-row default-open active" data-row="1">
+                <div class="pinpoint-info-row-head">
+                    <div class="pinpoint-info-row-title">
+                        <span class="material-symbols-outlined notranslate" style="font-size:19px;color:#188038;line-height:1;">rocket_launch</span>
+                        <span>What's New: Games & Saves</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        <span class="pinpoint-info-badge" style="background:#e6f4ea;color:#137333;">New</span>
+                        <span class="material-symbols-outlined notranslate row-chevron">expand_more</span>
+                    </div>
+                </div>
+                <div class="pinpoint-info-row-body">
+                    <div style="background:#f8f9fa;border:1px solid #e8eaed;border-radius:8px;padding:8px 10px;margin-bottom:8px;">
+                        🏀 <strong>Basket Random</strong> & 🏎️ <strong>Escape Road 3</strong> are now ready to play!
+                    </div>
+                    <div style="background:#e8f0fe;border:1px solid #d2e3fc;border-radius:8px;padding:8px 10px;color:#174ea6;">
+                        💾 <strong>Save Manager:</strong> Download and upload your saves for Retro Bowl and Retro Bowl College from the top bar! Protected by anti-cheat file verification.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2: Latest Active Domain Link -->
+            <div class="pinpoint-info-row" data-row="2">
+                <div class="pinpoint-info-row-head">
+                    <div class="pinpoint-info-row-title">
+                        <span class="material-symbols-outlined notranslate" style="font-size:19px;color:#1a73e8;line-height:1;">link</span>
+                        <span>Latest Active Domain Link</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        <span class="pinpoint-info-badge" style="background:#e8f0fe;color:#1a73e8;">Share</span>
+                        <span class="material-symbols-outlined notranslate row-chevron">expand_more</span>
+                    </div>
+                </div>
+                <div class="pinpoint-info-row-body">
+                    <div style="margin-bottom:6px;font-size:12px;color:#5f6368;">
+                        Bookmark & share this Google Script to always get active unblocked links:
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                        <code id="info-script-url" style="background:#f1f3f4;color:#1a73e8;padding:4px 6px;border-radius:4px;font-size:11px;word-break:break-all;flex:1;font-family:monospace;border:1px solid #dadce0;max-height:32px;overflow:hidden;text-overflow:ellipsis;">${scriptUrl}</code>
+                        <button id="info-copy-script-btn" style="background:#1a73e8;border:none;border-radius:6px;padding:5px 9px;font-size:11.5px;font-weight:600;color:#fff;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;font-family:inherit;">
                             <span class="material-symbols-outlined notranslate" style="font-size:14px;line-height:1;">content_copy</span> Copy
                         </button>
                     </div>
-                </div>
-
-                <div style="background:#f8f9fa;border:1px solid #e8eaed;border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:12.5px;">
-                    <div style="margin-bottom:6px;">
-                        🗑️ <strong>Spam the trash icon</strong> on all old blocked links to wipe traces.
-                    </div>
-                    <div style="display:flex;align-items:center;gap:6px;background:#e6f4ea;border:1px solid #34a853;border-radius:6px;padding:6px 8px;color:#137333;font-size:12px;font-weight:600;">
-                        <span class="material-symbols-outlined notranslate" style="font-size:16px;line-height:1;color:#137333;flex-shrink:0;">shield</span>
-                        <span>DON'T delete: <span style="background:#fff;padding:2px 6px;border-radius:4px;border:1px solid #a8dab5;color:#0d652d;font-family:monospace;word-break:break-all;">${currentHost}</span> (keeps your saves!)</span>
-                    </div>
+                    <div id="info-script-toast" style="display:none;font-size:11.5px;color:#137333;font-weight:500;">✓ Script link copied to clipboard!</div>
                 </div>
             </div>
 
-            <div id="cleanup-feedback-msg" style="display:none;font-size:12px;color:#137333;background:#e6f4ea;border:1px solid #34a853;border-radius:6px;padding:6px 10px;margin-bottom:12px;align-items:center;gap:6px;">
-                <span class="material-symbols-outlined notranslate" style="font-size:15px;line-height:1;">check_circle</span>
-                <span id="cleanup-feedback-text">URL copied! Paste in a new tab.</span>
+            <!-- Row 3: Clean Blocked Sites -->
+            <div class="pinpoint-info-row" data-row="3">
+                <div class="pinpoint-info-row-head">
+                    <div class="pinpoint-info-row-title">
+                        <span class="material-symbols-outlined notranslate" style="font-size:19px;color:#ea4335;line-height:1;">delete_sweep</span>
+                        <span>Clean Old Blocked Sites</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        <span class="pinpoint-info-badge" style="background:#fce8e6;color:#c5221f;">Cleanup</span>
+                        <span class="material-symbols-outlined notranslate row-chevron">expand_more</span>
+                    </div>
+                </div>
+                <div class="pinpoint-info-row-body">
+                    <div style="margin-bottom:6px;font-size:12px;color:#5f6368;">
+                        Paste this into a new tab's URL bar to wipe blocked history:
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                        <code id="info-cleanup-url" style="background:#f1f3f4;color:#ea4335;padding:4px 6px;border-radius:4px;font-size:11px;word-break:break-all;flex:1;font-family:monospace;border:1px solid #dadce0;">${cleanupUrl}</code>
+                        <button id="info-copy-cleanup-btn" style="background:#ea4335;border:none;border-radius:6px;padding:5px 9px;font-size:11.5px;font-weight:600;color:#fff;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;font-family:inherit;">
+                            <span class="material-symbols-outlined notranslate" style="font-size:14px;line-height:1;">content_copy</span> Copy
+                        </button>
+                    </div>
+                    <div style="font-size:11.5px;color:#137333;background:#e6f4ea;border:1px solid #a8dab5;border-radius:6px;padding:4px 8px;display:flex;align-items:center;gap:4px;">
+                        <span class="material-symbols-outlined notranslate" style="font-size:14px;line-height:1;">shield</span>
+                        <span><strong>Keep:</strong> ${currentHost} (preserves your saves!)</span>
+                    </div>
+                    <div id="info-cleanup-toast" style="display:none;font-size:11.5px;color:#137333;font-weight:500;margin-top:4px;">✓ Chrome settings URL copied!</div>
+                </div>
             </div>
-
-            <button id="cleanup-continue-btn" disabled style="width:100%;background:#dadce0;border:none;border-radius:8px;padding:10px 16px;font-size:13.5px;font-weight:600;color:#5f6368;cursor:not-allowed;font-family:inherit;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px;">
-                Continue (<span id="cleanup-countdown">7</span>s)
-            </button>
         `;
 
-        document.body.appendChild(modal);
+        document.body.appendChild(container);
 
-        const targetUrl = 'chrome://settings/content/all?searchSubpage=agrolujo.cl';
+        // Hover & click interactive accordion logic
+        const rows = container.querySelectorAll('.pinpoint-info-row');
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                rows.forEach(r => {
+                    r.classList.remove('active');
+                    r.classList.remove('default-open');
+                });
+                row.classList.add('active');
+            });
+            row.addEventListener('click', (e) => {
+                // Prevent toggle when clicking copy buttons
+                if (e.target.closest('button') || e.target.closest('code')) return;
+                rows.forEach(r => {
+                    r.classList.remove('active');
+                    r.classList.remove('default-open');
+                });
+                row.classList.add('active');
+            });
+        });
 
-        const copyUrl = () => {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(targetUrl).catch(() => {});
-            }
-            const fb = document.getElementById('cleanup-feedback-msg');
-            const fbText = document.getElementById('cleanup-feedback-text');
-            if (fb && fbText) {
-                fbText.textContent = 'URL copied! Paste in a new tab.';
-                fb.style.display = 'flex';
-            }
-        };
-
-        const copyBtn = document.getElementById('cleanup-copy-url-btn');
-        if (copyBtn) copyBtn.onclick = copyUrl;
-
-        let timeLeft = 7;
-        const continueBtn = document.getElementById('cleanup-continue-btn');
-        const countdownSpan = document.getElementById('cleanup-countdown');
-
-        const timer = setInterval(() => {
-            timeLeft--;
-            if (timeLeft > 0) {
-                if (countdownSpan) countdownSpan.textContent = String(timeLeft);
-            } else {
-                clearInterval(timer);
-                if (continueBtn) {
-                    continueBtn.disabled = false;
-                    continueBtn.style.background = '#1a73e8';
-                    continueBtn.style.color = '#ffffff';
-                    continueBtn.style.cursor = 'pointer';
-                    continueBtn.textContent = 'Continue';
+        // Copy actions
+        const copyScriptBtn = document.getElementById('info-copy-script-btn');
+        if (copyScriptBtn) {
+            copyScriptBtn.onclick = (e) => {
+                e.stopPropagation();
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(scriptUrl).catch(() => {});
                 }
-            }
-        }, 1000);
-
-        const closeModal = () => {
-            clearInterval(timer);
-            try {
-                localStorage.setItem('pinpoint_cleanup_reminder_seen', 'true');
-            } catch (e) {}
-            modal.remove();
-            // Automatically trigger the domain script link reminder after closing
-            setTimeout(() => {
-                this.showDomainScriptReminder();
-            }, 300);
-        };
-
-        const closeX = document.getElementById('cleanup-modal-close-x');
-        if (closeX) closeX.onclick = closeModal;
-
-        if (continueBtn) {
-            continueBtn.onclick = () => {
-                if (!continueBtn.disabled) {
-                    closeModal();
+                const toast = document.getElementById('info-script-toast');
+                if (toast) {
+                    toast.style.display = 'block';
+                    setTimeout(() => { toast.style.display = 'none'; }, 3000);
                 }
             };
         }
-    },
 
-    showDomainScriptReminder(force = false) {
-        if (!force) {
-            const seen = localStorage.getItem('pinpoint_domain_script_seen') === 'true';
-            if (seen) return;
-        }
-
-        if (!document.body) {
-            document.addEventListener('DOMContentLoaded', () => this.showDomainScriptReminder(force));
-            return;
-        }
-
-        let existing = document.getElementById('domain-script-reminder-modal');
-        if (existing) {
-            existing.style.display = 'block';
-            return;
-        }
-
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbxOoEViQ2ohkOZK6Lrm3bpCB4EXT0CvAHGALItv9SWW0M13YQOPdX7qcsXivsSDXyAkoQ/exec';
-
-        const modal = document.createElement('div');
-        modal.id = 'domain-script-reminder-modal';
-        modal.style.cssText = 'position:fixed;bottom:24px;right:24px;width:390px;max-width:calc(100vw - 48px);background:#ffffff;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.08);padding:20px;z-index:2147483647;font-family:\'Google Sans\',Roboto,Arial,sans-serif;box-sizing:border-box;color:#202124;';
-        
-        let isCopied = false;
-
-        modal.innerHTML = `
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-                <div style="display:flex;align-items:center;gap:8px;">
-                    <span class="material-symbols-outlined notranslate" style="color:#1a73e8;font-size:24px;line-height:1;">share</span>
-                    <span style="font-size:16px;font-weight:700;color:#202124;letter-spacing:-0.01em;">Latest Domain & Share Link</span>
-                </div>
-                <button id="script-modal-close-x" style="background:none;border:none;color:#5f6368;cursor:not-allowed;opacity:0.4;padding:4px;border-radius:50%;display:flex;align-items:center;justify-content:center;" title="Copy link to close">
-                    <span class="material-symbols-outlined" style="font-size:20px;line-height:1;">close</span>
-                </button>
-            </div>
-
-            <div style="font-size:13px;line-height:1.45;color:#3c4043;margin-bottom:14px;">
-                <div style="margin-bottom:10px;">
-                    Visit this link anytime to get the newest active game link if this site gets blocked:
-                    <div style="display:flex;align-items:center;gap:6px;margin-top:6px;">
-                        <code id="script-url-code" style="background:#e8f0fe;color:#174ea6;padding:5px 8px;border-radius:6px;font-size:10.5px;word-break:break-all;flex:1;font-family:monospace;user-select:all;border:1px solid #d2e3fc;max-height:38px;overflow:hidden;text-overflow:ellipsis;">${scriptUrl}</code>
-                        <button id="script-copy-btn" style="background:#1a73e8;border:none;border-radius:6px;padding:6px 10px;font-size:11.5px;font-weight:600;color:#fff;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;font-family:inherit;">
-                            <span class="material-symbols-outlined notranslate" style="font-size:14px;line-height:1;">content_copy</span> Copy Link
-                        </button>
-                    </div>
-                </div>
-
-                <div style="background:#fef7e0;border:1px solid #f9ab00;border-radius:8px;padding:10px 12px;font-size:12.5px;color:#7c4a00;line-height:1.45;">
-                    📢 <strong>Share with friends!</strong> Bookmark and share this Google Script link & website with your classmates so everyone always has working games!
-                </div>
-            </div>
-
-            <div id="script-feedback-msg" style="display:none;font-size:12px;color:#137333;background:#e6f4ea;border:1px solid #34a853;border-radius:6px;padding:6px 10px;margin-bottom:12px;align-items:center;gap:6px;">
-                <span class="material-symbols-outlined notranslate" style="font-size:15px;line-height:1;">check_circle</span>
-                <span id="script-feedback-text">Link copied to clipboard! You can now continue.</span>
-            </div>
-
-            <button id="script-gotit-btn" disabled style="width:100%;background:#dadce0;border:none;border-radius:8px;padding:10px 16px;font-size:13.5px;font-weight:600;color:#5f6368;cursor:not-allowed;font-family:inherit;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px;">
-                Copy Link to Continue
-            </button>
-        `;
-
-        document.body.appendChild(modal);
-
-        const gotItBtn = document.getElementById('script-gotit-btn');
-        const closeX = document.getElementById('script-modal-close-x');
-        const copyBtn = document.getElementById('script-copy-btn');
-
-        const copyScriptUrl = () => {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(scriptUrl).catch(() => {});
-            }
-            isCopied = true;
-            const fb = document.getElementById('script-feedback-msg');
-            const fbText = document.getElementById('script-feedback-text');
-            if (fb && fbText) {
-                fb.style.display = 'flex';
-                fb.style.color = '#137333';
-                fb.style.background = '#e6f4ea';
-                fb.style.borderColor = '#34a853';
-                fbText.textContent = 'Link copied to clipboard! You can now continue.';
-            }
-            if (gotItBtn) {
-                gotItBtn.disabled = false;
-                gotItBtn.style.background = '#1a73e8';
-                gotItBtn.style.color = '#ffffff';
-                gotItBtn.style.cursor = 'pointer';
-                gotItBtn.textContent = 'Continue';
-            }
-            if (closeX) {
-                closeX.style.cursor = 'pointer';
-                closeX.style.opacity = '1';
-                closeX.title = 'Close';
-            }
-        };
-
-        if (copyBtn) copyBtn.onclick = copyScriptUrl;
-
-        const showCopyRequiredNotice = () => {
-            const fb = document.getElementById('script-feedback-msg');
-            const fbText = document.getElementById('script-feedback-text');
-            if (fb && fbText) {
-                fb.style.display = 'flex';
-                fb.style.color = '#b06000';
-                fb.style.background = '#fef7e0';
-                fb.style.borderColor = '#f9ab00';
-                fbText.textContent = 'Please copy the link above first to continue!';
-            }
-        };
-
-        const closeScriptModal = () => {
-            if (!isCopied) {
-                showCopyRequiredNotice();
-                return;
-            }
-            try {
-                localStorage.setItem('pinpoint_domain_script_seen', 'true');
-            } catch (e) {}
-            modal.remove();
-        };
-
-        if (closeX) closeX.onclick = closeScriptModal;
-
-        if (gotItBtn) {
-            gotItBtn.onclick = () => {
-                if (!isCopied) {
-                    showCopyRequiredNotice();
-                    return;
+        const copyCleanupBtn = document.getElementById('info-copy-cleanup-btn');
+        if (copyCleanupBtn) {
+            copyCleanupBtn.onclick = (e) => {
+                e.stopPropagation();
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(cleanupUrl).catch(() => {});
                 }
-                closeScriptModal();
+                const toast = document.getElementById('info-cleanup-toast');
+                if (toast) {
+                    toast.style.display = 'block';
+                    setTimeout(() => { toast.style.display = 'none'; }, 3000);
+                }
+            };
+        }
+
+        // Dismiss action
+        const dismissBtn = document.getElementById('pinpoint-info-dismiss-btn');
+        if (dismissBtn) {
+            dismissBtn.onclick = () => {
+                try {
+                    localStorage.setItem('pinpoint_info_widget_dismissed_v1', 'true');
+                } catch (e) {}
+                container.style.display = 'none';
             };
         }
     },

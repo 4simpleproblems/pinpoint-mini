@@ -1288,6 +1288,68 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
           align-items: center;
           margin-left: 4px;
         }
+        /* Topbar Material Design 3 Tooltips */
+        .runner-header [data-tooltip] {
+          position: relative;
+        }
+        .runner-header [data-tooltip]::after {
+          content: attr(data-tooltip);
+          position: absolute;
+          top: calc(100% + 7px);
+          left: 50%;
+          transform: translateX(-50%) translateY(-3px) scale(0.95);
+          background: #202124;
+          color: #ffffff;
+          font-family: 'Google Sans', Roboto, Arial, sans-serif;
+          font-size: 11px;
+          font-weight: 500;
+          white-space: nowrap;
+          padding: 4px 9px;
+          border-radius: 6px;
+          pointer-events: none;
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+          z-index: 1000000;
+          box-shadow: 0 3px 10px rgba(0,0,0,0.22);
+        }
+        .runner-header [data-tooltip]::before {
+          content: '';
+          position: absolute;
+          top: calc(100% + 2px);
+          left: 50%;
+          transform: translateX(-50%);
+          border-width: 5px;
+          border-style: solid;
+          border-color: transparent transparent #202124 transparent;
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.15s ease, visibility 0.15s ease;
+          pointer-events: none;
+          z-index: 1000000;
+        }
+        .runner-header [data-tooltip]:hover::after {
+          opacity: 1;
+          visibility: visible;
+          transform: translateX(-50%) translateY(0) scale(1);
+        }
+        .runner-header [data-tooltip]:hover::before {
+          opacity: 1;
+          visibility: visible;
+        }
+        .runner-header [data-tooltip-pos="right"]::after {
+          left: auto;
+          right: 0;
+          transform: translateY(-3px) scale(0.95);
+        }
+        .runner-header [data-tooltip-pos="right"]::before {
+          left: auto;
+          right: 12px;
+          transform: none;
+        }
+        .runner-header [data-tooltip-pos="right"]:hover::after {
+          transform: translateY(0) scale(1);
+        }
       </style>
       <div class="game-single-container">
         <!-- Top Toolbar with Segmented Tabs and Search -->
@@ -1353,39 +1415,39 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
 <div id="game-runner-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;z-index:999999;flex-direction:column;">
   <div class="runner-header">
     <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
-      <button onclick="closeRunner()" tabindex="-1" class="runner-back-btn" title="Close">
+      <button onclick="closeRunner()" tabindex="-1" class="runner-back-btn" data-tooltip="Close & Return" title="Close">
         <span class="material-symbols-outlined" aria-hidden="true" style="font-size:22px;line-height:1;">arrow_back</span>
       </button>
       <span id="runner-title" class="runner-title">Textbook</span>
-      <a href="https://forms.gle/EnzAhDYTACGkM2oYA" target="_blank" rel="noopener noreferrer" tabindex="-1" class="runner-circle-btn runner-circle-btn-danger" title="Feedback">
+      <a href="https://forms.gle/EnzAhDYTACGkM2oYA" target="_blank" rel="noopener noreferrer" tabindex="-1" class="runner-circle-btn runner-circle-btn-danger" data-tooltip="Feedback" title="Feedback">
         <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">description</span>
       </a>
-      <button id="runner-mode-toggle" onclick="toggleRunnerMode()" tabindex="-1" class="runner-circle-btn" style="border-color:#34a853;background:#e6f4ea;color:#137333;" title="Switch between Online and Offline version">
+      <button id="runner-mode-toggle" onclick="toggleRunnerMode()" tabindex="-1" class="runner-circle-btn" style="border-color:#34a853;background:#e6f4ea;color:#137333;" data-tooltip="Switch Online/Offline" title="Switch between Online and Offline version">
         <span class="material-symbols-outlined notranslate" id="runner-mode-icon" style="font-size:18px;line-height:1;">cloud</span>
       </button>
+      <button id="runner-save-export" onclick="PinpointSaveManager.exportCurrentSave()" tabindex="-1" class="runner-circle-btn" style="display:none;color:#1a73e8;border-color:#d2e3fc;background:#e8f0fe;" data-tooltip="Download Save (.json)" title="Download Save Data (.json)">
+        <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">download</span>
+      </button>
+      <button id="runner-save-import" onclick="PinpointSaveManager.triggerImportCurrentSave()" tabindex="-1" class="runner-circle-btn" style="display:none;color:#188038;border-color:#ceead6;background:#e6f4ea;" data-tooltip="Upload Save (.json)" title="Upload Save Data (.json)">
+        <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">upload</span>
+      </button>
+      <input type="file" id="runner-save-file-input" accept=".json,application/json" style="display:none;" onchange="PinpointSaveManager.handleImportFile(event)">
       <span id="runner-clock" class="runner-clock-pill"></span>
     </div>
     <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px;flex:1;min-width:0;white-space:nowrap;">
-      <div class="runner-mono-segment">
+      <div class="runner-mono-segment" data-tooltip="Color Filter">
         <span class="material-symbols-outlined notranslate runner-mono-label" style="font-size:16px;line-height:1;" title="Monochrome Filter">contrast</span>
         <button id="mono-lvl-1" onclick="setMonochromeLevel(1)" tabindex="-1" class="runner-mono-btn active" title="Full Color (1)">1</button>
         <button id="mono-lvl-2" onclick="setMonochromeLevel(2)" tabindex="-1" class="runner-mono-btn" title="60% Monochrome (2)">2</button>
         <button id="mono-lvl-3" onclick="setMonochromeLevel(3)" tabindex="-1" class="runner-mono-btn" title="100% Monochrome (3)">3</button>
       </div>
-      <button id="runner-save-export" onclick="PinpointSaveManager.exportCurrentSave()" tabindex="-1" class="runner-circle-btn" style="display:none;color:#1a73e8;" title="Download Save Data (.json)">
-        <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">download</span>
-      </button>
-      <button id="runner-save-import" onclick="PinpointSaveManager.triggerImportCurrentSave()" tabindex="-1" class="runner-circle-btn" style="display:none;color:#188038;" title="Upload Save Data (.json)">
-        <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">upload</span>
-      </button>
-      <input type="file" id="runner-save-file-input" accept=".json,application/json" style="display:none;" onchange="PinpointSaveManager.handleImportFile(event)">
-      <button id="runner-fav-btn" onclick="toggleRunnerFav()" tabindex="-1" class="runner-circle-btn" title="Favorite">
+      <button id="runner-fav-btn" onclick="toggleRunnerFav()" tabindex="-1" class="runner-circle-btn" data-tooltip="Favorite" title="Favorite">
         <span class="material-symbols-outlined" id="runner-fav-icon" aria-hidden="true" style="font-size:20px;line-height:1;">star_border</span>
       </button>
-      <button onclick="openInNewTab()" tabindex="-1" class="runner-circle-btn runner-circle-btn-primary" title="Popout">
+      <button onclick="openInNewTab()" tabindex="-1" class="runner-circle-btn runner-circle-btn-primary" data-tooltip="Popout to New Tab" title="Popout">
         <span class="material-symbols-outlined" aria-hidden="true" style="font-size:20px;line-height:1;">open_in_new</span>
       </button>
-      <button onclick="toggleFullscreen()" tabindex="-1" class="runner-circle-btn runner-circle-btn-primary" title="Fullscreen">
+      <button onclick="toggleFullscreen()" tabindex="-1" class="runner-circle-btn runner-circle-btn-primary" data-tooltip="Fullscreen" data-tooltip-pos="right" title="Fullscreen">
         <span class="material-symbols-outlined" aria-hidden="true" style="font-size:20px;line-height:1;">fullscreen</span>
       </button>
     </div>

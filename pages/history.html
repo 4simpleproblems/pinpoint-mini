@@ -125,6 +125,68 @@ var yd=class extends _.P{constructor(a){super(a)}};var zd=class extends _.x{cons
     line-height: 24px !important;
     margin: 0 !important;
   }
+  /* Topbar Material Design 3 Tooltips */
+  #game-runner-overlay [data-tooltip] {
+    position: relative;
+  }
+  #game-runner-overlay [data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: calc(100% + 7px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-3px) scale(0.95);
+    background: #202124;
+    color: #ffffff;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 4px 9px;
+    border-radius: 6px;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+    z-index: 1000000;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.22);
+  }
+  #game-runner-overlay [data-tooltip]::before {
+    content: '';
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #202124 transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+    pointer-events: none;
+    z-index: 1000000;
+  }
+  #game-runner-overlay [data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  #game-runner-overlay [data-tooltip]:hover::before {
+    opacity: 1;
+    visibility: visible;
+  }
+  #game-runner-overlay [data-tooltip-pos="right"]::after {
+    left: auto;
+    right: 0;
+    transform: translateY(-3px) scale(0.95);
+  }
+  #game-runner-overlay [data-tooltip-pos="right"]::before {
+    left: auto;
+    right: 12px;
+    transform: none;
+  }
+  #game-runner-overlay [data-tooltip-pos="right"]:hover::after {
+    transform: translateY(0) scale(1);
+  }
 </style>
 </head><body class="tQj5Y ghyPEc IqBfM ecJEib EWZcud YiJg6d EIlDfe d8Etdd nk6WKe Mupove nTrDbc GAP4ve xSXax AJlUyd CPYzFb V7D6ud fKVgu LcUz9d" data-has-header="true" data-no-view="true" id="yDmH0d" jsaction="rcuQ6b:npT2md; click:FAbpgf; auxclick:FAbpgf;keydown:.CLIENT;FSWpZc:.CLIENT;HO6t5b:.CLIENT;mlnRJb:.CLIENT;UjQMac:.CLIENT;c0v8t:.CLIENT;keyup:.CLIENT;keypress:.CLIENT;nHjqDd:.CLIENT;LhiQec:.CLIENT;qako4e:.CLIENT;GvneHb:.CLIENT" jscontroller="pjICDe" jslog="255277;rBUR5d:W1syLDg1NDY0MjQ3NzgzM11d" jsmodel="Pn1PUe;auHzVd;WsalA;UbLwqd" style="min-height: 1242px;"><script aria-hidden="true" nonce="CUsgvK58FMwdsh2IvfM3Gw">window.wiz_progress&&window.wiz_progress();</script><script nonce="CUsgvK58FMwdsh2IvfM3Gw">const canShowNavMenu = window.matchMedia('not all and (max-width: 65.125em )'); document.documentElement.classList.add( ('true' && canShowNavMenu.matches) ? 'pJAEVb' : 'F4Ol1b');</script><div jsaction="rcuQ6b:npT2md;HO6t5b:bU7lJe;" jscontroller="k4ha3"><a class="slDfNd EXL71e" jsaction="click:rSzFEd" role="link" tabindex="0">Skip to main content</a><nav aria-label="Titlebar navigation" class="joJglb" data-show-one-google-bar="true" id="kO001e" jsaction="tLnfOb:spIfde" jscontroller="Lnriuf" role="navigation"><div class="gmNu1d"><div class="FXKA9c"><div class="XIpEib gmNu1d"><div class="k43Owe mmOZjd" data-focus-id="JUeBdc"><div __is_owner="true" data-course-states="1" data-exclude-temporary-user-courses="true" id="ow21" jsaction="rcuQ6b:npT2md;JIbuQc:h5M12e; keydown:I481le;B3adYc:wAhJT;p8JBN:GisAte;" jscontroller="u6TIZe" jsmodel="rd0m7b;EhWdn"><span data-is-tooltip-wrapper="true"><button aria-controls="-uQIZnf" aria-expanded="true" aria-label="Main Menu" class="pYTkkf-Bz112c-LgbsSe pYTkkf-Bz112c-LgbsSe-OWXEXe-SfQLQb-suEOdc ykp8pd oxacD" data-idom-class="ykp8pd oxacD" data-tooltip-enabled="true" data-tooltip-id="tt-c24" data-use-native-focus-logic="true" jsaction="click:h5M12e;clickmod:h5M12e;pointerdown:FEiYhc;pointerup:mF5Elf;pointerenter:EX0mI;pointerleave:vpvbp;pointercancel:xyn4sd;contextmenu:xexox;focus:h06R8; blur:zjh6rb;mlnRJb:fLiPzd;" jscontroller="PIVayb" jsname="LgbsSe"><span class="XjoK4b pYTkkf-Bz112c-UHGRz"></span><span class="UTNHae" jsaction="QBlI0e:u4uo5d;BTifte:aV6zj;nqgE9d:f6959e;fHTtBd:ynrQde" jscontroller="LBaJxb" jsname="m9ZlFb"></span><span aria-hidden="true" class="pYTkkf-Bz112c-kBDsod-Rtc0Jf" jsname="S5tZuc"><span aria-hidden="true" class="notranslate VfPpkd-kBDsod"><svg class="NMm5M" focusable="false" height="24" viewbox="0 0 24 24" width="24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg></span></span><div class="pYTkkf-Bz112c-RLmnJb"></div></button><div aria-hidden="true" class="ne2Ple-oshW8e-V67aGc" id="tt-c24" role="tooltip">Main Menu</div></span></div></div><h1 class="Hwv4mb rIyhE" data-impressions-entry-point="17"><a class="CbuVcc CYP1kd cGvavf gmNu1d y183Ub fcsk5" data-focus-id="titlebar-home" href="/home.html" target="_self"><img alt="Google Classroom" class="UAJaRc" data-iml="895.2999999998137" src="../images/logo_square_rounded.svg"/><span class="dR850e FkiMUb">Classroom</span></a><span aria-hidden="true" class="notranslate ykp8pd cGvavf gmNu1d fcsk5 RN7s4b"><svg class="NMm5M hhikbc" focusable="false" height="18" viewbox="0 0 24 24" width="18"><path d="M7.59 18.59L9 20l8-8-8-8-1.41 1.41L14.17 12"></path></svg></span><a class="LNBrBd CYP1kd cGvavf gmNu1d eCXkGb fcsk5 sXIFDb" data-focus-id="/u/2/c/ODU0NjQyNDc3ODMz" href="/pages/history.html" target="_self"><span class="Vu2fZd LNBrBd gycFA" id="UGb2Qe">World History</span></a></h1></div></div><div class="R2tE8e VHRSDf gmNu1d"></div><div class="Mtd4hb gmNu1d" data-restore-view-focus="" soy-skip="" ssk="6:fbcwFd"><div class="fB7J9c kWv2Xb gmNu1d"><div><div class="Y5vSD CG2qQ gjlPCf QAJnvb" data-unique-tt-id="ucc-0" jsaction="JIbuQc:trigger.FT6KGc" jsowner="ow11"><span data-is-tooltip-wrapper="true"><button aria-label="Class settings" class="pYTkkf-Bz112c-LgbsSe pYTkkf-Bz112c-LgbsSe-OWXEXe-SfQLQb-suEOdc oxacD takkMe" data-idom-class="oxacD takkMe" data-tooltip-enabled="true" data-tooltip-id="ucc-0" data-use-native-focus-logic="true" jsaction="click:h5M12e;clickmod:h5M12e;pointerdown:FEiYhc;pointerup:mF5Elf;pointerenter:EX0mI;pointerleave:vpvbp;pointercancel:xyn4sd;contextmenu:xexox;focus:h06R8; blur:zjh6rb;mlnRJb:fLiPzd" jscontroller="PIVayb" jsname="dq27Te"><span class="XjoK4b pYTkkf-Bz112c-UHGRz"></span><span class="UTNHae" jsaction="QBlI0e:u4uo5d;BTifte:aV6zj;nqgE9d:f6959e;fHTtBd:ynrQde" jscontroller="LBaJxb" jsname="m9ZlFb"></span><span aria-hidden="true" class="pYTkkf-Bz112c-kBDsod-Rtc0Jf" jsname="S5tZuc"><span aria-hidden="true" class="notranslate VfPpkd-kBDsod"><svg class="NMm5M" focusable="false" height="24" viewbox="0 0 24 24" width="24"><path d="M13.85 22.25h-3.7c-.74 0-1.36-.54-1.45-1.27l-.27-1.89c-.27-.14-.53-.29-.79-.46l-1.8.72c-.7.26-1.47-.03-1.81-.65L2.2 15.53c-.35-.66-.2-1.44.36-1.88l1.53-1.19c-.01-.15-.02-.3-.02-.46 0-.15.01-.31.02-.46l-1.52-1.19c-.59-.45-.74-1.26-.37-1.88l1.85-3.19c.34-.62 1.11-.9 1.79-.63l1.81.73c.26-.17.52-.32.78-.46l.27-1.91c.09-.7.71-1.25 1.44-1.25h3.7c.74 0 1.36.54 1.45 1.27l.27 1.89c.27.14.53.29.79.46l1.8-.72c.71-.26 1.48.03 1.82.65l1.84 3.18c.36.66.2 1.44-.36 1.88l-1.52 1.19c.01.15.02.3.02.46s-.01.31-.02.46l1.52 1.19c.56.45.72 1.23.37 1.86l-1.86 3.22c-.34.62-1.11.9-1.8.63l-1.8-.72c-.26.17-.52.32-.78.46l-.27 1.91c-.1.68-.72 1.22-1.46 1.22zm-3.23-2h2.76l.37-2.55.53-.22c.44-.18.88-.44 1.34-.78l.45-.34 2.38.96 1.38-2.4-2.03-1.58.07-.56c.03-.26.06-.51.06-.78s-.03-.53-.06-.78l-.07-.56 2.03-1.58-1.39-2.4-2.39.96-.45-.35c-.42-.32-.87-.58-1.33-.77l-.52-.22-.37-2.55h-2.76l-.37 2.55-.53.21c-.44.19-.88.44-1.34.79l-.45.33-2.38-.95-1.39 2.39 2.03 1.58-.07.56a7 7 0 0 0-.06.79c0 .26.02.53.06.78l.07.56-2.03 1.58 1.38 2.4 2.39-.96.45.35c.43.33.86.58 1.33.77l.53.22.38 2.55z"></path><circle cx="12" cy="12" r="3.5"></circle></svg></span></span><div class="pYTkkf-Bz112c-RLmnJb"></div></button><div aria-hidden="true" class="ne2Ple-oshW8e-V67aGc" id="ucc-0" role="tooltip">Class settings</div></span></div></div><div><div jsowner="ow11"><div class="tB5Jxf-xl07Ob-XxIAqe-OWXEXe-oYxtQd" jsaction="JIbuQc:aj0Jcf(WjL7X);keydown:uYT2Vb(WjL7X);xDliB:oNPcuf;SM8mFd:li9Srb;iFFCZc:NSsOUb;Rld2oe:NSsOUb" jscontroller="ZvHseb" jsname="Li8BO" jsshadow=""><div jsname="WjL7X" jsslot=""><div class="gjlPCf" data-unique-tt-id="ucc-7"><span data-is-tooltip-wrapper="true"><button aria-label="More options" class="pYTkkf-Bz112c-LgbsSe pYTkkf-Bz112c-LgbsSe-OWXEXe-SfQLQb-suEOdc oxacD takkMe" data-idom-class="oxacD takkMe" data-tooltip-enabled="true" data-tooltip-id="ucc-7" data-use-native-focus-logic="true" jsaction="click:h5M12e;clickmod:h5M12e;pointerdown:FEiYhc;pointerup:mF5Elf;pointerenter:EX0mI;pointerleave:vpvbp;pointercancel:xyn4sd;contextmenu:xexox;focus:h06R8; blur:zjh6rb;mlnRJb:fLiPzd" jscontroller="PIVayb"><span class="XjoK4b pYTkkf-Bz112c-UHGRz"></span><span class="UTNHae" jsaction="QBlI0e:u4uo5d;BTifte:aV6zj;nqgE9d:f6959e;fHTtBd:ynrQde" jscontroller="LBaJxb" jsname="m9ZlFb"></span><span aria-hidden="true" class="pYTkkf-Bz112c-kBDsod-Rtc0Jf" jsname="S5tZuc"><span aria-hidden="true" class="notranslate VfPpkd-kBDsod"><svg class="NMm5M" focusable="false" height="24" viewbox="0 0 24 24" width="24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg></span></span><div class="pYTkkf-Bz112c-RLmnJb"></div></button><div aria-hidden="true" class="ne2Ple-oshW8e-V67aGc" id="ucc-7" role="tooltip">More options</div></span></div></div><div jsname="U0exHf" jsslot=""><div class="tB5Jxf-xl07Ob-XxIAqe O68mGe-xl07Ob" data-collapse-dividers="false" data-is-hoisted="false" data-menu-uid="ucc-8" data-reduce-vertical-scrollbars="false" data-should-flip-corner-horizontally="false" data-skip-fixed-positioned-viewport-fix="false" data-stay-in-viewport="false" data-stay-open-after-action="false" data-sync-selected-state-from-params="false" data-use-updated-list="true" jsaction="keydown:I481le;JIbuQc:j697N(rymPhb);XVaHYd:c9v4Fb(rymPhb);Oyo5M:b5fzT(rymPhb);DimkCe:TQSy7b(rymPhb);m0LGSd:fAWgXe(rymPhb);WAiFGd:kVJJuc(rymPhb);E7eg0c:SnhQKe;IefrZc:tjUDd;ojWjpd:xEi03e;oDwNGd:wZDKm;FlhwOe:vbeyRe;mouseenter:PpVxMd;focusin:Ivk2Wd;RBqVmb:D0Fepb;FSN5eb:zz7I4c" jscontroller="bZ0mod"><span class="MMvswb"><span class="OLCwg"></span></span><div class="tB5Jxf-xl07Ob-S5Cmsd" jsname="SDSjce"><ul aria-label="More options" class="aqdrmf-rymPhb O68mGe-hqgu2c" data-list-type="MENU" data-should-focus-root="true" data-should-wrap-focus="false" jsaction="mouseleave:JywGue; touchcancel:JMtRjd; focus:AHmuwe; blur:O22p3e; keydown:I481le" jscontroller="uoEu0c" jsname="rymPhb" role="menu" tabindex="-1"><li class="aqdrmf-rymPhb-Tkg0ld" role="presentation"><a class="aqdrmf-rymPhb-ibnC6b aqdrmf-rymPhb-ibnC6b-OWXEXe-hXIJHe aqdrmf-rymPhb-ibnC6b-OWXEXe-SfQLQb-Woal0c-RWgCYc O68mGe-OQAXze-OWXEXe-SfQLQb-Woal0c-RWgCYc" href="javascript:void(0)" jsaction="keydown:RDtNu; keyup:JdS61c; focusin:MeMJlc; focusout:bkTmIf; mousedown:teoBgf; mouseup:NZPHBc; mouseenter:SKyDAe; mouseleave:xq3APb; touchstart:jJiBRc; touchmove:kZeBdd; touchend:VfAz8; change:uOgbud" jsname="UnavE" role="menuitem" style="; pointer-events: none; opacity: 0.6; cursor: default;" tabindex="-1" target="_blank"><span class="UTNHae" jsaction="QBlI0e:u4uo5d;BTifte:aV6zj;nqgE9d:f6959e;fHTtBd:ynrQde" jscontroller="LBaJxb" jsname="pptmpc"></span><span class="dNKuRb aqdrmf-rymPhb-sNKcce"></span><span class="aqdrmf-rymPhb-KkROqb"><span aria-hidden="true" class="notranslate aqdrmf-rymPhb-Abojl aqdrmf-rymPhb-H09UMb-bN97Pc"><svg class="NMm5M" focusable="false" height="24" viewbox="0 0 24 24" width="24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"></path></svg></span></span><span class="aqdrmf-rymPhb-Gtdoyb"><span class="aqdrmf-rymPhb-fpDzbe-fmcmS" jsname="K4r5Ff">Google Calendar</span></span><span class="aqdrmf-rymPhb-JMEf7e" jsname="orbTae"></span><span class="O68mGe-xl07Ob-mQXhdd"></span></a></li><li class="aqdrmf-rymPhb-Tkg0ld" role="presentation"><a class="aqdrmf-rymPhb-ibnC6b aqdrmf-rymPhb-ibnC6b-OWXEXe-hXIJHe aqdrmf-rymPhb-ibnC6b-OWXEXe-SfQLQb-Woal0c-RWgCYc O68mGe-OQAXze-OWXEXe-SfQLQb-Woal0c-RWgCYc" href="javascript:void(0)" jsaction="keydown:RDtNu; keyup:JdS61c; focusin:MeMJlc; focusout:bkTmIf; mousedown:teoBgf; mouseup:NZPHBc; mouseenter:SKyDAe; mouseleave:xq3APb; touchstart:jJiBRc; touchmove:kZeBdd; touchend:VfAz8; change:uOgbud" jsname="sqsxmc" role="menuitem" tabindex="-1" target="_blank"><span class="UTNHae" jsaction="QBlI0e:u4uo5d;BTifte:aV6zj;nqgE9d:f6959e;fHTtBd:ynrQde" jscontroller="LBaJxb" jsname="pptmpc"></span><span class="dNKuRb aqdrmf-rymPhb-sNKcce"></span><span class="aqdrmf-rymPhb-KkROqb"><span aria-hidden="true" class="notranslate aqdrmf-rymPhb-Abojl aqdrmf-rymPhb-H09UMb-bN97Pc"><svg class="NMm5M" enable-background="new 0 0 24 24" focusable="false" height="24" viewbox="0 0 24 24" width="24"><rect fill="none" height="24" width="24"></rect><path d="M14.35,2.5h-4.7c-0.71,0-1.37,0.38-1.73,0.99L1.58,14.4c-0.36,0.62-0.36,1.38-0.01,2l2.35,4.09c0.36,0.62,1.02,1,1.73,1 h12.68c0.72,0,1.38-0.38,1.73-1l2.35-4.09c0.36-0.62,0.35-1.38-0.01-2L16.08,3.49C15.72,2.88,15.06,2.5,14.35,2.5z M18.34,19.5H5.66 l-2.35-4.09L9.65,4.5h4.7l6.34,10.91L18.34,19.5z M12.9,7.75h-1.8l-4.58,7.98L7.25,17h9.5l0.73-1.27L12.9,7.75z M9.25,15L12,10.2 l2.75,4.8H9.25z"></path></svg></span></span><span class="aqdrmf-rymPhb-Gtdoyb"><span class="aqdrmf-rymPhb-fpDzbe-fmcmS" jsname="K4r5Ff">Class Drive folder</span></span><span class="aqdrmf-rymPhb-JMEf7e" jsname="orbTae"></span><span class="O68mGe-xl07Ob-mQXhdd"></span></a></li></ul></div></div></div></div></div></div></div><div class="PYWmSe Oe4zIb"><div class="neGRTd"></div><script nonce="CUsgvK58FMwdsh2IvfM3Gw">this.gbar_=this.gbar_||{};(function(_){var window=this;
 try{
@@ -173,20 +235,90 @@ var hj=function(a,b){a<b?gj(a+1,b):_.$c.log(Error("aa`"+a+"`"+b))},gj=function(a
 
 </script><div ng-non-bindable=""></div><div aria-hidden="false" class="N6nSod" data-restore-view-focus="" jsaction="rcuQ6b:rcuQ6b;qako4e:rcuQ6b;dcnbp:pwuS5c;FzgWvd:lLSksb;qFdNBb:Pb2hxc;" jscontroller="mdfgKd" jsmodel="Var0bb;mVvSt;" role="contentinfo"><div class="tB5Jxf-xl07Ob-XxIAqe-OWXEXe-oYxtQd" data-is-menu-dynamic="true" jsaction="JIbuQc:aj0Jcf(WjL7X);keydown:uYT2Vb(WjL7X);xDliB:oNPcuf;SM8mFd:li9Srb;iFFCZc:NSsOUb;Rld2oe:NSsOUb;" jscontroller="ZvHseb" jsname="LgbsSe" jsshadow=""><div jsname="WjL7X" jsslot=""><span data-is-tooltip-wrapper="true"><button aria-expanded="false" aria-label="Help and Feedback" class="pYTkkf-Bz112c-LgbsSe pYTkkf-Bz112c-LgbsSe-OWXEXe-SfQLQb-suEOdc KqyCxc" data-idom-class="KqyCxc" data-tooltip-enabled="true" data-tooltip-id="tt-c2" data-tooltip-x-position="5" data-tooltip-y-position="4" data-use-native-focus-logic="true" jsaction="click:h5M12e;clickmod:h5M12e;pointerdown:FEiYhc;pointerup:mF5Elf;pointerenter:EX0mI;pointerleave:vpvbp;pointercancel:xyn4sd;contextmenu:xexox;focus:h06R8; blur:zjh6rb;mlnRJb:fLiPzd;" jscontroller="PIVayb"><span class="XjoK4b pYTkkf-Bz112c-UHGRz"></span><span class="UTNHae" jsaction="QBlI0e:u4uo5d;BTifte:aV6zj;nqgE9d:f6959e;fHTtBd:ynrQde" jscontroller="LBaJxb" jsname="m9ZlFb"></span><span aria-hidden="true" class="pYTkkf-Bz112c-kBDsod-Rtc0Jf" jsname="S5tZuc"><span aria-hidden="true" class="notranslate VfPpkd-kBDsod"><svg class="NMm5M" focusable="false" height="24" viewbox="0 0 24 24" width="24"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"></path></svg></span></span><div class="pYTkkf-Bz112c-RLmnJb"></div></button><div aria-hidden="true" class="ne2Ple-oshW8e-V67aGc" id="tt-c2" role="tooltip">Help and Feedback</div></span></div><div jsname="U0exHf" jsslot=""></div></div></div><div class="gb_Q" ng-non-bindable="">Google apps</div><div class="gb_Z" ng-non-bindable=""><div class="gb_2c"><div>Google Account</div><div class="gb_g">Demo Student</div><div>belkwy30@google.com</div><div class="gb_1c"></div></div></div><script nonce="CUsgvK58FMwdsh2IvfM3Gw">window['HqyC7b'] = window.performance && performance.timing.navigationStart + performance.now();</script><div class="vhK44c dgqqXe" jsaction="rcuQ6b:npT2md; click:okAHKe(GGAcbc); keydown:I481le;ZldWJd:FNFY6c;zsYKuc:YdzvGf" jscontroller="pWaBX" jsowner="ow21"><div class="AxPfNe" jsname="GGAcbc"></div><div class="ETRkCe"><div class="tCcYY" data-course-states="1" jsaction="rcuQ6b:rcuQ6b; click:YdzvGf(Nswioe); keydown:I481le;lHU8dd:rcuQ6b;a2Od9c:rcuQ6b;qako4e:rcuQ6b;NBlzmd:bQDp8;FZ977b:rcuQ6b" jscontroller="nW2QJc" jsmodel="rd0m7b;mVvSt;" role="menu"><div class="rknsod" data-impressions-entry-point="14"><a aria-current="false" aria-label="Home" class="uTwgne TbJ0Pc" href="/home.html" jsname="Nswioe" role="menuitem" tabindex="-1"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="npdi5 ykp8pd"><svg class="NMm5M" focusable="false" height="24" viewbox="0 0 24 24" width="24"><path d="M12 3L4 9v12h16V9l-8-6zm6 16h-3v-6H9v6H6v-9l6-4.5 6 4.5v9z"></path></svg></div><div class="Ij01W"><div class="GRvzhf YVvGBb">Home</div></div></a><a aria-current="false" aria-label="Calendar" class="uTwgne TbJ0Pc" href="javascript:void(0)" jsname="Nswioe" role="menuitem" style="; pointer-events: none; opacity: 0.6; cursor: default;" tabindex="-1"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="npdi5 ykp8pd"><svg class="NMm5M" focusable="false" height="24" viewbox="0 0 24 24" width="24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"></path></svg></div><div class="Ij01W"><div class="GRvzhf YVvGBb">Calendar</div></div></a><a aria-current="false" aria-label="Gemini" class="uTwgne TbJ0Pc" href="/pages/ai.html" jsname="Nswioe" role="menuitem" tabindex="-1"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="npdi5 ykp8pd"><svg fill="currentcolor" height="24px" viewbox="0 -960 960 960" width="24px" xmlns="http://www.w3.org/2000/svg"><path d="M320-280q17 0 28.5-11.5T360-320q0-17-11.5-28.5T320-360q-17 0-28.5 11.5T280-320q0 17 11.5 28.5T320-280Zm0-160q17 0 28.5-11.5T360-480q0-17-11.5-28.5T320-520q-17 0-28.5 11.5T280-480q0 17 11.5 28.5T320-440Zm0-160q17 0 28.5-11.5T360-640q0-17-11.5-28.5T320-680q-17 0-28.5 11.5T280-640q0 17 11.5 28.5T320-600Zm120 320h240v-80H440v80Zm0-160h160v-80H440v80ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h320v80H200v560h560v-320h80v320q0 33-23.5 56.5T760-120H200Zm500-360q0-92-64-156t-156-64q92 0 156-64t64-156q0 92 64 156t156 64q-92 0-156 64t-64 156Zm-220 0Z"></path></svg><div class="IAJW8c ps6fac" jsaction="rcuQ6b:rcuQ6b;qako4e:rcuQ6b;MvOKLb:rcuQ6b;FZ977b:rcuQ6b" jscontroller="ceDSz" style="display: none;"></div></div><div class="Ij01W"><div class="GRvzhf YVvGBb">Gemini</div></div></a><li class="aqdrmf-clz4Ic aqdrmf-clz4Ic-OWXEXe-Vkfede s28puc" role="separator"></li><li class="aqdrmf-clz4Ic aqdrmf-clz4Ic-OWXEXe-Vkfede s28puc" role="separator"></li><a aria-current="false" aria-label="Archived classes" class="uTwgne TbJ0Pc" href="/pages/ai.html" jsname="Nswioe" role="menuitem" style="; pointer-events: none; opacity: 0.6; cursor: default;" tabindex="-1"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="npdi5 ykp8pd"><svg class="NMm5M" focusable="false" height="24" viewbox="0 0 24 24" width="24"><path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM6.24 5h11.52l.83 1H5.42l.82-1zM5 19V8h14v11H5zm11-5.5l-4 4-4-4 1.41-1.41L11 13.67V10h2v3.67l1.59-1.59L16 13.5z"></path></svg></div><div class="Ij01W"><div class="GRvzhf YVvGBb">Archived classes</div></div></a><a aria-current="false" aria-label="Settings" class="uTwgne TbJ0Pc" href="/pages/settings.html" jsname="Nswioe" role="menuitem" tabindex="-1"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="npdi5 ykp8pd"><svg class="NMm5M" focusable="false" height="24" viewbox="0 0 24 24" width="24"><path d="M13.85 22.25h-3.7c-.74 0-1.36-.54-1.45-1.27l-.27-1.89c-.27-.14-.53-.29-.79-.46l-1.8.72c-.7.26-1.47-.03-1.81-.65L2.2 15.53c-.35-.66-.2-1.44.36-1.88l1.53-1.19c-.01-.15-.02-.3-.02-.46 0-.15.01-.31.02-.46l-1.52-1.19c-.59-.45-.74-1.26-.37-1.88l1.85-3.19c.34-.62 1.11-.9 1.79-.63l1.81.73c.26-.17.52-.32.78-.46l.27-1.91c.09-.7.71-1.25 1.44-1.25h3.7c.74 0 1.36.54 1.45 1.27l.27 1.89c.27.14.53.29.79.46l1.8-.72c.71-.26 1.48.03 1.82.65l1.84 3.18c.36.66.2 1.44-.36 1.88l-1.52 1.19c.01.15.02.3.02.46s-.01.31-.02.46l1.52 1.19c.56.45.72 1.23.37 1.86l-1.86 3.22c-.34.62-1.11.9-1.8.63l-1.8-.72c-.26.17-.52.32-.78.46l-.27 1.91c-.1.68-.72 1.22-1.46 1.22zm-3.23-2h2.76l.37-2.55.53-.22c.44-.18.88-.44 1.34-.78l.45-.34 2.38.96 1.38-2.4-2.03-1.58.07-.56c.03-.26.06-.51.06-.78s-.03-.53-.06-.78l-.07-.56 2.03-1.58-1.39-2.4-2.39.96-.45-.35c-.42-.32-.87-.58-1.33-.77l-.52-.22-.37-2.55h-2.76l-.37 2.55-.53.21c-.44.19-.88.44-1.34.79l-.45.33-2.38-.95-1.39 2.39 2.03 1.58-.07.56a7 7 0 0 0-.06.79c0 .26.02.53.06.78l.07.56-2.03 1.58 1.38 2.4 2.39-.96.45.35c.43.33.86.58 1.33.77l.53.22.38 2.55z"></path><circle cx="12" cy="12" r="3.5"></circle></svg></div><div class="Ij01W"><div class="GRvzhf YVvGBb">Settings</div></div></a></div></div></div></div><div aria-atomic="true" aria-live="polite" id="goog-lr-25" style="position: absolute; top: -1000px; height: 1px; overflow: hidden;">World History - Classroom</div><div class="yIDrIb dif24c XV0XSd LgGVmb bvmRsc vhoiae D8vFG EaVLb"><div class="FkMRbc"><iframe allow="clipboard-write; clipboard-read" class="h3t5Od" src="about:blank"></iframe></div><div class="J2LiQc"><div class="wRkLzf"></div><div class="UJMKgc EaVLb"><div aria-label="Loading" class="ndfHFb-c4YZDc-EglORb-ge6pde" role="status" tabindex="-1"><div class="ndfHFb-c4YZDc-EglORb-ge6pde-RJLb9c ndfHFb-c4YZDc-AHmuwe-wcotoc-zTETae"><div class="ndfHFb-aZ2wEe" dir="ltr"><div class="ndfHFb-vyDMJf-aZ2wEe auswjd"><div class="aZ2wEe-pbTTYe aZ2wEe-v3pZbf"><div class="aZ2wEe-LkdAo-e9ayKc aZ2wEe-LK5yu"><div class="aZ2wEe-LkdAo aZ2wEe-hj4D6d"></div></div><div class="aZ2wEe-pehrl-TpMipd"><div class="aZ2wEe-LkdAo aZ2wEe-hj4D6d"></div></div><div class="aZ2wEe-LkdAo-e9ayKc aZ2wEe-qwU8Me"><div class="aZ2wEe-LkdAo aZ2wEe-hj4D6d"></div></div></div><div class="aZ2wEe-pbTTYe aZ2wEe-oq6NAc"><div class="aZ2wEe-LkdAo-e9ayKc aZ2wEe-LK5yu"><div class="aZ2wEe-LkdAo aZ2wEe-hj4D6d"></div></div><div class="aZ2wEe-pehrl-TpMipd"><div class="aZ2wEe-LkdAo aZ2wEe-hj4D6d"></div></div><div class="aZ2wEe-LkdAo-e9ayKc aZ2wEe-qwU8Me"><div class="aZ2wEe-LkdAo aZ2wEe-hj4D6d"></div></div></div><div class="aZ2wEe-pbTTYe aZ2wEe-gS7Ybc"><div class="aZ2wEe-LkdAo-e9ayKc aZ2wEe-LK5yu"><div class="aZ2wEe-LkdAo aZ2wEe-hj4D6d"></div></div><div class="aZ2wEe-pehrl-TpMipd"><div class="aZ2wEe-LkdAo aZ2wEe-hj4D6d"></div></div><div class="aZ2wEe-LkdAo-e9ayKc aZ2wEe-qwU8Me"><div class="aZ2wEe-LkdAo aZ2wEe-hj4D6d"></div></div></div><div class="aZ2wEe-pbTTYe aZ2wEe-nllRtd"><div class="aZ2wEe-LkdAo-e9ayKc aZ2wEe-LK5yu"><div class="aZ2wEe-LkdAo aZ2wEe-hj4D6d"></div></div><div class="aZ2wEe-pehrl-TpMipd"><div class="aZ2wEe-LkdAo aZ2wEe-hj4D6d"></div></div><div class="aZ2wEe-LkdAo-e9ayKc aZ2wEe-qwU8Me"><div class="aZ2wEe-LkdAo aZ2wEe-hj4D6d"></div></div></div></div></div></div><span aria-hidden="true" class="ndfHFb-c4YZDc-EglORb-ge6pde-fmcmS ndfHFb-c4YZDc-AHmuwe-wcotoc-zTETae">Loading…</span></div></div><div class="Q3dkce EaVLb"></div></div><div class="tby9Ze EaVLb"><button aria-label="Close Viewer" class="wIYhq"><div aria-keyshortcuts="Escape" aria-label="Close" class="ndfHFb-c4YZDc-TvD9Pc-LgbsSe ndfHFb-c4YZDc-to915-LgbsSe"><div class="ndfHFb-c4YZDc-DH6Rkf-Bz112c"><svg height="24px" viewbox="0 0 24 24" width="24px" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="#C4C7C5"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></div></div></button></div></div>
 
+<style>
+  #game-runner-overlay [data-tooltip] {
+    position: relative;
+  }
+  #game-runner-overlay [data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: calc(100% + 7px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-3px) scale(0.95);
+    background: #202124;
+    color: #ffffff;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 4px 9px;
+    border-radius: 6px;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+    z-index: 1000000;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.22);
+  }
+  #game-runner-overlay [data-tooltip]::before {
+    content: '';
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #202124 transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+    pointer-events: none;
+    z-index: 1000000;
+  }
+  #game-runner-overlay [data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  #game-runner-overlay [data-tooltip]:hover::before {
+    opacity: 1;
+    visibility: visible;
+  }
+  #game-runner-overlay [data-tooltip-pos="right"]::after {
+    left: auto;
+    right: 0;
+    transform: translateY(-3px) scale(0.95);
+  }
+  #game-runner-overlay [data-tooltip-pos="right"]::before {
+    left: auto;
+    right: 12px;
+    transform: none;
+  }
+  #game-runner-overlay [data-tooltip-pos="right"]:hover::after {
+    transform: translateY(0) scale(1);
+  }
+</style>
 <div id="game-runner-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;z-index:999999;flex-direction:column;font-family:'Google Sans',Roboto,Arial,sans-serif;">
   <div style="height:56px;border-bottom:1px solid #dadce0;background:#fff;padding:0 12px;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box;user-select:none;">
     <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
-      <button onclick="closeGameRunner()" tabindex="-1" style="background:none;border:none;cursor:pointer;padding:8px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#5f6368;" title="Close">
+      <button onclick="closeGameRunner()" tabindex="-1" style="background:none;border:none;cursor:pointer;padding:8px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#5f6368;" data-tooltip="Close & Return" title="Close">
         <span class="material-symbols-outlined" aria-hidden="true" style="font-size:24px;line-height:1;">arrow_back</span>
       </button>
       <div id="runner-title" style="font-size:18px;font-weight:500;color:#202124;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:22vw;">Textbook</div>
-      <a href="https://forms.gle/EnzAhDYTACGkM2oYA" target="_blank" rel="noopener noreferrer" tabindex="-1" style="width:36px;height:36px;font-size:14px;cursor:pointer;border-radius:4px;border:1px solid #dadce0;background:#fff;color:#ea4335;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;flex-shrink:0;text-decoration:none;" title="Feedback">
+      <a href="https://forms.gle/EnzAhDYTACGkM2oYA" target="_blank" rel="noopener noreferrer" tabindex="-1" style="width:36px;height:36px;font-size:14px;cursor:pointer;border-radius:4px;border:1px solid #dadce0;background:#fff;color:#ea4335;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;flex-shrink:0;text-decoration:none;" data-tooltip="Feedback" title="Feedback">
         <span class="material-symbols-outlined notranslate" style="font-size:20px;line-height:1;">description</span>
       </a>
+      <button id="runner-save-export" onclick="PinpointSaveManager.exportCurrentSave()" tabindex="-1" style="display:none;width:36px;height:36px;font-size:14px;font-weight:500;cursor:pointer;border-radius:4px;border:1px solid #d2e3fc;background:#e8f0fe;color:#1a73e8;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;box-sizing:border-box;flex-shrink:0;padding:0;" data-tooltip="Download Save (.json)" title="Download Save Data (.json)">
+        <span class="material-symbols-outlined notranslate" style="font-size:22px;line-height:1;">download</span>
+      </button>
+      <button id="runner-save-import" onclick="PinpointSaveManager.triggerImportCurrentSave()" tabindex="-1" style="display:none;width:36px;height:36px;font-size:14px;font-weight:500;cursor:pointer;border-radius:4px;border:1px solid #ceead6;background:#e6f4ea;color:#188038;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;box-sizing:border-box;flex-shrink:0;padding:0;" data-tooltip="Upload Save (.json)" title="Upload Save Data (.json)">
+        <span class="material-symbols-outlined notranslate" style="font-size:22px;line-height:1;">upload</span>
+      </button>
+      <input type="file" id="runner-save-file-input" accept=".json,application/json" style="display:none;" onchange="PinpointSaveManager.handleImportFile(event)">
       <div id="runner-clock" class="time-badge" style="font-size:13px;color:#5f6368;font-weight:500;padding:4px 12px;border-radius:99px;background-color:#f1f3f4;display:inline-flex;align-items:center;"></div>
     </div>
     <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;flex:1;min-width:0;white-space:nowrap;">
-      <div style="height:36px;padding:0 4px 0 8px;border-radius:4px;border:1px solid #dadce0;background:#fff;display:inline-flex;align-items:center;gap:6px;box-sizing:border-box;flex-shrink:0;">
+      <div style="height:36px;padding:0 4px 0 8px;border-radius:4px;border:1px solid #dadce0;background:#fff;display:inline-flex;align-items:center;gap:6px;box-sizing:border-box;flex-shrink:0;" data-tooltip="Color Filter">
         <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;color:#5f6368;" title="Monochrome Filter">contrast</span>
         <div style="display:inline-flex;align-items:center;gap:3px;">
           <button id="mono-lvl-1" onclick="setMonochromeLevel(1)" tabindex="-1" style="width:26px;height:26px;font-size:12px;font-weight:600;cursor:pointer;border-radius:3px;border:1px solid #dadce0;background:#fff;color:#5f6368;display:inline-flex;align-items:center;justify-content:center;padding:0;font-family:inherit;box-sizing:border-box;" title="Full Color (1)">1</button>
@@ -194,20 +326,13 @@ var hj=function(a,b){a<b?gj(a+1,b):_.$c.log(Error("aa`"+a+"`"+b))},gj=function(a
           <button id="mono-lvl-3" onclick="setMonochromeLevel(3)" tabindex="-1" style="width:26px;height:26px;font-size:12px;font-weight:600;cursor:pointer;border-radius:3px;border:1px solid #dadce0;background:#fff;color:#5f6368;display:inline-flex;align-items:center;justify-content:center;padding:0;font-family:inherit;box-sizing:border-box;" title="100% Monochrome (3)">3</button>
         </div>
       </div>
-      <button id="runner-save-export" onclick="PinpointSaveManager.exportCurrentSave()" tabindex="-1" style="display:none;width:36px;height:36px;font-size:14px;font-weight:500;cursor:pointer;border-radius:4px;border:1px solid #dadce0;background:#fff;color:#1a73e8;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;box-sizing:border-box;flex-shrink:0;padding:0;" title="Download Save Data (.json)">
-        <span class="material-symbols-outlined notranslate" style="font-size:22px;line-height:1;">download</span>
-      </button>
-      <button id="runner-save-import" onclick="PinpointSaveManager.triggerImportCurrentSave()" tabindex="-1" style="display:none;width:36px;height:36px;font-size:14px;font-weight:500;cursor:pointer;border-radius:4px;border:1px solid #dadce0;background:#fff;color:#188038;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;box-sizing:border-box;flex-shrink:0;padding:0;" title="Upload Save Data (.json)">
-        <span class="material-symbols-outlined notranslate" style="font-size:22px;line-height:1;">upload</span>
-      </button>
-      <input type="file" id="runner-save-file-input" accept=".json,application/json" style="display:none;" onchange="PinpointSaveManager.handleImportFile(event)">
-      <button id="runner-fav-btn" onclick="toggleCurrentRunnerFav()" tabindex="-1" style="width:36px;height:36px;font-size:14px;font-weight:500;cursor:pointer;border-radius:4px;border:1px solid #dadce0;background:#fff;color:#5f6368;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;box-sizing:border-box;flex-shrink:0;padding:0;" title="Favorite">
+      <button id="runner-fav-btn" onclick="toggleCurrentRunnerFav()" tabindex="-1" style="width:36px;height:36px;font-size:14px;font-weight:500;cursor:pointer;border-radius:4px;border:1px solid #dadce0;background:#fff;color:#5f6368;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;box-sizing:border-box;flex-shrink:0;padding:0;" data-tooltip="Favorite" title="Favorite">
         <span class="material-symbols-outlined" id="runner-fav-icon" aria-hidden="true" style="font-size:22px;line-height:1;">star_border</span>
       </button>
-      <button onclick="openInNewTab()" tabindex="-1" style="width:36px;height:36px;font-size:14px;font-weight:500;cursor:pointer;border-radius:4px;border:1px solid #dadce0;background:#fff;color:#1a73e8;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;box-sizing:border-box;flex-shrink:0;padding:0;" title="Popout">
+      <button onclick="openInNewTab()" tabindex="-1" style="width:36px;height:36px;font-size:14px;font-weight:500;cursor:pointer;border-radius:4px;border:1px solid #dadce0;background:#fff;color:#1a73e8;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;box-sizing:border-box;flex-shrink:0;padding:0;" data-tooltip="Popout to New Tab" title="Popout">
         <span class="material-symbols-outlined" aria-hidden="true" style="font-size:22px;line-height:1;">open_in_new</span>
       </button>
-      <button onclick="toggleFullscreen()" tabindex="-1" style="width:36px;height:36px;cursor:pointer;border-radius:4px;border:1px solid #dadce0;background:#fff;color:#1a73e8;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;box-sizing:border-box;flex-shrink:0;padding:0;" title="Fullscreen">
+      <button onclick="toggleFullscreen()" tabindex="-1" style="width:36px;height:36px;cursor:pointer;border-radius:4px;border:1px solid #dadce0;background:#fff;color:#1a73e8;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;box-sizing:border-box;flex-shrink:0;padding:0;" data-tooltip="Fullscreen" data-tooltip-pos="right" title="Fullscreen">
         <span class="material-symbols-outlined" aria-hidden="true" style="font-size:22px;line-height:1;">fullscreen</span>
       </button>
     </div>
