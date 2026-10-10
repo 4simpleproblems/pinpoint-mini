@@ -60,6 +60,18 @@ const GAME_CACHE_NAME = 'pinpoint-game-cache';
 const RECOMMENDED_LIMIT_BYTES = 100 * 1024 * 1024; // 100 MB
 
 const GAME_MANIFESTS = {
+    "textbooks/basket-random/index.html": [
+        "/textbooks/basket-random/index.html",
+        "/textbooks/basket-random/",
+        "/textbooks/basket-random/box2d.wasm.js",
+        "/textbooks/basket-random/style.css",
+        "/textbooks/basket-random/scripts/supportcheck.js",
+        "/textbooks/basket-random/scripts/offlineclient.js",
+        "/textbooks/basket-random/scripts/main.js",
+        "/textbooks/basket-random/scripts/register-sw.js",
+        "/textbooks/basket-random/scripts/c3runtime.js",
+        "/textbooks/basket-random/scripts/ignore.txt"
+    ],
     "textbooks/car-soccer/": [
         "/textbooks/car-soccer/",
         "/textbooks/car-soccer/index.html",

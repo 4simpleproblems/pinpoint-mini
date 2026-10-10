@@ -93,6 +93,14 @@
       "destination": "/textbooks/car-soccer/index.html"
     },
     {
+      "source": "/textbooks/basket-random.html",
+      "destination": "/textbooks/basket-random/index.html"
+    },
+    {
+      "source": "/textbooks/basket-random",
+      "destination": "/textbooks/basket-random/index.html"
+    },
+    {
       "source": "/textbooks/people-playground.html",
       "destination": "/textbooks/people-playground/index.html"
     },
