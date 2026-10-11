@@ -641,9 +641,39 @@ var TabDisguiser = window.TabDisguiser || {
                 }
             }
         });
+        document.addEventListener('click', (e) => {
+            const runnerClock = e.target.closest('#runner-clock');
+            if (runnerClock) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (typeof closeRunner === 'function') {
+                    closeRunner();
+                } else if (typeof closeGameRunner === 'function') {
+                    closeGameRunner();
+                } else {
+                    const runner = document.getElementById('game-runner-overlay');
+                    if (runner) runner.style.display = 'none';
+                    const iframe = document.getElementById('runner-iframe');
+                    if (iframe) iframe.src = 'about:blank';
+                }
+                this.openFullscreenClock();
+            }
+        });
     },
 
     openFullscreenClock() {
+        if (typeof closeRunner === 'function') {
+            closeRunner();
+        } else if (typeof closeGameRunner === 'function') {
+            closeGameRunner();
+        } else {
+            const runner = document.getElementById('game-runner-overlay');
+            if (runner && runner.style.display !== 'none') {
+                runner.style.display = 'none';
+                const iframe = document.getElementById('runner-iframe');
+                if (iframe) iframe.src = 'about:blank';
+            }
+        }
         this.ensureFullscreenClockOverlay();
         const overlay = document.getElementById('fs-clock-overlay');
         if (overlay) {

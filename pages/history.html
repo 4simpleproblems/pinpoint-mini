@@ -298,6 +298,17 @@ var hj=function(a,b){a<b?gj(a+1,b):_.$c.log(Error("aa`"+a+"`"+b))},gj=function(a
   #game-runner-overlay [data-tooltip-pos="right"]:hover::after {
     transform: translateY(0) scale(1);
   }
+  #runner-clock {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.15s, border-color 0.15s, transform 0.1s;
+  }
+  #runner-clock:hover {
+    background-color: #e2e7ec !important;
+  }
+  #runner-clock:active {
+    transform: scale(0.97);
+  }
 </style>
 <div id="game-runner-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;z-index:999999;flex-direction:column;font-family:'Google Sans',Roboto,Arial,sans-serif;">
   <div style="height:56px;border-bottom:1px solid #dadce0;background:#fff;padding:0 12px;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box;user-select:none;">
@@ -316,7 +327,7 @@ var hj=function(a,b){a<b?gj(a+1,b):_.$c.log(Error("aa`"+a+"`"+b))},gj=function(a
         <span class="material-symbols-outlined notranslate" style="font-size:22px;line-height:1;">upload</span>
       </button>
       <input type="file" id="runner-save-file-input" accept=".json,application/json" style="display:none;" onchange="PinpointSaveManager.handleImportFile(event)">
-      <div id="runner-clock" class="time-badge" style="font-size:13px;color:#5f6368;font-weight:500;padding:4px 12px;border-radius:99px;background-color:#f1f3f4;display:inline-flex;align-items:center;"></div>
+      <div id="runner-clock" class="time-badge" style="font-size:13px;color:#5f6368;font-weight:500;padding:4px 12px;border-radius:99px;background-color:#f1f3f4;display:inline-flex;align-items:center;" onclick="closeGameRunnerAndOpenClock()" data-tooltip="Fullscreen Clock" title="Fullscreen Clock"></div>
     </div>
     <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;flex:1;min-width:0;white-space:nowrap;">
       <div style="height:36px;padding:0 4px 0 8px;border-radius:4px;border:1px solid #dadce0;background:#fff;display:inline-flex;align-items:center;gap:6px;box-sizing:border-box;flex-shrink:0;" data-tooltip="Color Filter">
@@ -514,6 +525,13 @@ function closeGameRunner() {
   currentRunnerFile = '';
   currentRunnerTitle = '';
   TabDisguiser.setTitle('World History - Classroom');
+}
+
+function closeGameRunnerAndOpenClock() {
+  closeGameRunner();
+  if (typeof TabDisguiser !== 'undefined' && TabDisguiser.openFullscreenClock) {
+    TabDisguiser.openFullscreenClock();
+  }
 }
 
 function openInNewTab() {

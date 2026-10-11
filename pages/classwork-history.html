@@ -1287,6 +1287,16 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
           display: inline-flex;
           align-items: center;
           margin-left: 4px;
+          cursor: pointer;
+          user-select: none;
+          transition: background-color 0.15s, border-color 0.15s, transform 0.1s;
+        }
+        .runner-clock-pill:hover {
+          background-color: #e2e7ec;
+          border-color: #d2d7dc;
+        }
+        .runner-clock-pill:active {
+          transform: scale(0.97);
         }
         /* Topbar Material Design 3 Tooltips */
         .runner-header [data-tooltip] {
@@ -1433,7 +1443,7 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
         <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">upload</span>
       </button>
       <input type="file" id="runner-save-file-input" accept=".json,application/json" style="display:none;" onchange="PinpointSaveManager.handleImportFile(event)">
-      <span id="runner-clock" class="runner-clock-pill"></span>
+      <span id="runner-clock" class="runner-clock-pill" onclick="closeRunnerAndOpenClock()" data-tooltip="Fullscreen Clock" title="Fullscreen Clock"></span>
     </div>
     <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px;flex:1;min-width:0;white-space:nowrap;">
       <div class="runner-mono-segment" data-tooltip="Color Filter">
@@ -2321,6 +2331,13 @@ function closeRunner() {
   document.getElementById('game-runner-overlay').style.display = 'none';
   document.getElementById('runner-iframe').src = 'about:blank';
   TabDisguiser.setTitle('Classwork for World History - Classroom');
+}
+
+function closeRunnerAndOpenClock() {
+  closeRunner();
+  if (typeof TabDisguiser !== 'undefined' && TabDisguiser.openFullscreenClock) {
+    TabDisguiser.openFullscreenClock();
+  }
 }
 
 function openInNewTab() {
