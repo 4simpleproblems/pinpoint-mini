@@ -593,20 +593,111 @@ var TabDisguiser = window.TabDisguiser || {
         update();
     },
 
+    triggerPanicRedirect(targetUrl) {
+        window.__IS_PANIC_TRIGGERED__ = true;
+        try { if (window.top) window.top.__IS_PANIC_TRIGGERED__ = true; } catch(e) {}
+        try { if (window.parent) window.parent.__IS_PANIC_TRIGGERED__ = true; } catch(e) {}
+
+        targetUrl = targetUrl || localStorage.getItem('pinpoint_panic_url') || 'https://classroom.google.com/';
+
+        // 1. Post message to all ancestors & opener so top about:blank window exits
+        const msg = { type: 'panic', url: targetUrl };
+        try {
+            if (window.top && window.top !== window) {
+                window.top.postMessage(msg, '*');
+            }
+        } catch(e) {}
+        try {
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage(msg, '*');
+            }
+        } catch(e) {}
+        try {
+            if (window.opener && !window.opener.closed) {
+                window.opener.postMessage(msg, '*');
+            }
+        } catch(e) {}
+
+        // 2. Identify topmost window
+        let topWin = window;
+        try {
+            if (window.top && window.top.location) {
+                topWin = window.top;
+            }
+        } catch(e) {}
+
+        // 3. Bypass any about-blank-nav.js wrappers if available
+        try {
+            if (topWin.__originalLocationReplace) {
+                topWin.__originalLocationReplace.call(topWin.location, targetUrl);
+                return;
+            }
+        } catch(e) {}
+        try {
+            if (topWin.__origLocationHrefSet) {
+                topWin.__origLocationHrefSet.call(topWin.location, targetUrl);
+                return;
+            }
+        } catch(e) {}
+
+        // 4. Directly redirect top window out of about:blank
+        try {
+            topWin.location.href = targetUrl;
+            return;
+        } catch(e) {}
+        try {
+            topWin.location.replace(targetUrl);
+            return;
+        } catch(e) {}
+
+        // 5. Fallback on current window
+        try {
+            window.location.href = targetUrl;
+            return;
+        } catch(e) {}
+        try {
+            window.location.replace(targetUrl);
+            return;
+        } catch(e) {}
+    },
+
     initPanicKey() {
         if (this._panicBound) return;
         this._panicBound = true;
-        window.addEventListener('keydown', (e) => {
-            const runnerOverlay = document.getElementById('game-runner-overlay');
-            if (runnerOverlay && runnerOverlay.style.display !== 'none') return;
+        window.triggerPanicRedirect = this.triggerPanicRedirect.bind(this);
+
+        const handleKey = (e) => {
             const enabled = localStorage.getItem('pinpoint_panic_enabled') !== 'false';
             if (!enabled) return;
             const targetKey = localStorage.getItem('pinpoint_panic_key') || '`';
             if (e.key === targetKey) {
                 const targetUrl = localStorage.getItem('pinpoint_panic_url') || 'https://classroom.google.com/';
-                window.location.replace(targetUrl);
+                this.triggerPanicRedirect(targetUrl);
+            }
+        };
+
+        window.addEventListener('keydown', handleKey);
+
+        window.addEventListener('message', (e) => {
+            if (e.data === 'panic' || (e.data && e.data.type === 'panic')) {
+                const targetUrl = (e.data && e.data.url) || localStorage.getItem('pinpoint_panic_url') || 'https://classroom.google.com/';
+                this.triggerPanicRedirect(targetUrl);
             }
         });
+
+        // Watch for any iframes on page (e.g. game runner overlay) to capture panic hotkey
+        const attachIframeKeys = () => {
+            document.querySelectorAll('iframe').forEach(iframe => {
+                try {
+                    if (iframe.contentWindow && !iframe.__panicAttached) {
+                        iframe.__panicAttached = true;
+                        iframe.contentWindow.addEventListener('keydown', handleKey);
+                    }
+                } catch(err) {}
+            });
+        };
+        attachIframeKeys();
+        setInterval(attachIframeKeys, 1000);
     },
 
     applyPresetCloak() {
@@ -1370,22 +1461,41 @@ var TabDisguiser = window.TabDisguiser || {
       }
     }
 
-    window.addEventListener('keydown', (e) => {
+    function triggerPopoutPanic(url) {
+      const targetUrl = url || localStorage.getItem('pinpoint_panic_url') || 'https://classroom.google.com/';
+      try { window.location.href = targetUrl; return; } catch(err) {}
+      try { window.location.replace(targetUrl); return; } catch(err) {}
+    }
+
+    function handlePopoutKey(e) {
       const enabled = localStorage.getItem('pinpoint_panic_enabled') !== 'false';
       if (!enabled) return;
       const targetKey = localStorage.getItem('pinpoint_panic_key') || String.fromCharCode(96);
       if (e.key === targetKey) {
-        const targetUrl = localStorage.getItem('pinpoint_panic_url') || 'https://classroom.google.com/';
-        window.location.replace(targetUrl);
+        triggerPopoutPanic();
       }
-    });
+    }
+
+    window.addEventListener('keydown', handlePopoutKey);
 
     window.addEventListener('message', (e) => {
       if (e.data === 'panic' || e.data?.type === 'panic') {
-        const targetUrl = localStorage.getItem('pinpoint_panic_url') || 'https://classroom.google.com/';
-        window.location.replace(targetUrl);
+        triggerPopoutPanic(e.data?.url);
       }
     });
+
+    function attachPopoutGameKey() {
+      const gf = document.getElementById('game-frame');
+      if (gf && gf.contentWindow && !gf.__panicAttached) {
+        try {
+          gf.__panicAttached = true;
+          gf.contentWindow.addEventListener('keydown', handlePopoutKey);
+        } catch(err) {}
+      }
+    }
+    const gf = document.getElementById('game-frame');
+    if (gf) gf.addEventListener('load', attachPopoutGameKey);
+    setInterval(attachPopoutGameKey, 1000);
   <\/script>
 </body>
 </html>`;

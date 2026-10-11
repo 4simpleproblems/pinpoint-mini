@@ -35,6 +35,18 @@
 
   <script>
     (function() {
+      function triggerPanic(url) {
+        var targetUrl = url || localStorage.getItem('pinpoint_panic_url') || 'https://classroom.google.com/';
+        try {
+          window.location.href = targetUrl;
+          return;
+        } catch(e) {}
+        try {
+          window.location.replace(targetUrl);
+          return;
+        } catch(e) {}
+      }
+
       // Sync title, favicon, panic key, and navigation from iframe
       window.addEventListener('message', function(e) {
         if (!e.data) return;
@@ -54,22 +66,36 @@
           var frame = document.getElementById('app-frame');
           if (frame) frame.src = e.data.url;
         }
-        if (e.data === 'panic' || e.data.type === 'panic') {
-          var targetUrl = localStorage.getItem('pinpoint_panic_url') || 'https://classroom.google.com/';
-          window.location.replace(targetUrl);
+        if (e.data === 'panic' || (e.data && e.data.type === 'panic')) {
+          triggerPanic(e.data && e.data.url);
         }
       });
 
-      // Global panic key in top-level about:blank window
-      window.addEventListener('keydown', function(e) {
+      function handleKey(e) {
         var enabled = localStorage.getItem('pinpoint_panic_enabled') !== 'false';
         if (!enabled) return;
         var targetKey = localStorage.getItem('pinpoint_panic_key') || String.fromCharCode(96);
         if (e.key === targetKey) {
-          var targetUrl = localStorage.getItem('pinpoint_panic_url') || 'https://classroom.google.com/';
-          window.location.replace(targetUrl);
+          triggerPanic();
         }
-      });
+      }
+
+      // Global panic key in top-level about:blank window
+      window.addEventListener('keydown', handleKey);
+
+      // Attach keydown directly to child frame so hotkey is caught when frame has focus
+      function attachFrameKey() {
+        var frame = document.getElementById('app-frame');
+        if (frame && frame.contentWindow && !frame.__panicAttached) {
+          try {
+            frame.__panicAttached = true;
+            frame.contentWindow.addEventListener('keydown', handleKey);
+          } catch(err) {}
+        }
+      }
+      var frame = document.getElementById('app-frame');
+      if (frame) frame.addEventListener('load', attachFrameKey);
+      setInterval(attachFrameKey, 1000);
     })();
   </script>
   <script src="scripts/canary.js"></script>
