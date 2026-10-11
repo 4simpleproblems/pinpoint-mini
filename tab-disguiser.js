@@ -715,121 +715,148 @@ var TabDisguiser = window.TabDisguiser || {
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbxOoEViQ2ohkOZK6Lrm3bpCB4EXT0CvAHGALItv9SWW0M13YQOPdX7qcsXivsSDXyAkoQ/exec';
         const cleanupUrl = 'chrome://settings/content/all?searchSubpage=agrolujo.cl';
 
-        // Add style for unified accordion card widget
-        if (!document.getElementById('pinpoint-info-widget-style')) {
-            const style = document.createElement('style');
+        // Add or update style for unified accordion card widget
+        let style = document.getElementById('pinpoint-info-widget-style');
+        if (!style) {
+            style = document.createElement('style');
             style.id = 'pinpoint-info-widget-style';
-            style.textContent = `
-                .pinpoint-info-card {
-                    position: fixed;
-                    bottom: 20px;
-                    right: 20px;
-                    width: 395px;
-                    max-width: calc(100vw - 32px);
-                    z-index: 2147483647;
-                    font-family: 'Google Sans', Roboto, Arial, sans-serif;
-                    box-sizing: border-box;
-                    background: #ffffff;
-                    border: 1px solid #dadce0;
-                    border-radius: 16px;
-                    box-shadow: 0 10px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
-                    overflow: hidden;
-                    transition: box-shadow 0.22s ease;
-                }
-                .pinpoint-card-header {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    padding: 10px 14px;
-                    background: #f8fafd;
-                    border-bottom: 1px solid #e8eaed;
-                    color: #202124;
-                    font-size: 13px;
-                    font-weight: 600;
-                    letter-spacing: 0.1px;
-                }
-                .pinpoint-card-sections {
-                    display: flex;
-                    flex-direction: column;
-                }
-                .pinpoint-section-item {
-                    border-bottom: 1px solid #f1f3f4;
-                    cursor: pointer;
-                    transition: background-color 0.18s ease;
-                }
-                .pinpoint-section-item:last-child {
-                    border-bottom: none;
-                }
-                .pinpoint-section-item:hover, .pinpoint-section-item.active {
-                    background: #fbfcfe;
-                }
-                .pinpoint-section-head {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    padding: 11px 14px;
-                    gap: 8px;
-                    user-select: none;
-                }
-                .pinpoint-section-title {
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    font-size: 13px;
-                    font-weight: 600;
-                    color: #202124;
-                }
-                .pinpoint-section-badge {
-                    font-size: 10px;
-                    font-weight: 700;
-                    padding: 2px 7px;
-                    border-radius: 99px;
-                    text-transform: uppercase;
-                    letter-spacing: 0.4px;
-                }
-                .pinpoint-section-body {
-                    max-height: 0;
-                    opacity: 0;
-                    overflow: hidden;
-                    transition: max-height 0.28s ease, opacity 0.22s ease, padding 0.22s ease;
-                    padding: 0 14px;
-                    font-size: 12.5px;
-                    line-height: 1.45;
-                    color: #3c4043;
-                }
-                .pinpoint-section-item.active .pinpoint-section-body,
-                .pinpoint-info-card:not(:hover) .pinpoint-section-item.default-open .pinpoint-section-body,
-                .pinpoint-section-item:hover .pinpoint-section-body {
-                    max-height: 260px;
-                    opacity: 1;
-                    padding: 0 14px 13px 14px;
-                }
-                .pinpoint-section-item .section-chevron {
-                    font-size: 18px;
-                    color: #70757a;
-                    transition: transform 0.2s ease, color 0.2s ease;
-                }
-                .pinpoint-section-item:hover .section-chevron,
-                .pinpoint-section-item.active .section-chevron {
-                    transform: rotate(180deg);
-                    color: #1a73e8;
-                }
-            `;
             document.head.appendChild(style);
         }
+        style.textContent = `
+            .pinpoint-info-card, .pinpoint-info-hub {
+                position: fixed !important;
+                bottom: 20px !important;
+                right: 20px !important;
+                left: auto !important;
+                width: 395px !important;
+                max-width: calc(100vw - 32px) !important;
+                z-index: 2147483647 !important;
+                font-family: 'Google Sans', Roboto, Arial, sans-serif !important;
+                box-sizing: border-box !important;
+                background: #ffffff !important;
+                border: 1px solid #dadce0 !important;
+                border-radius: 16px !important;
+                box-shadow: 0 10px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06) !important;
+                overflow: hidden !important;
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            .pinpoint-card-header, .pinpoint-info-header {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+                padding: 10px 14px !important;
+                background: #f8fafd !important;
+                border-bottom: 1px solid #e8eaed !important;
+                color: #202124 !important;
+                font-size: 13px !important;
+                font-weight: 600 !important;
+                letter-spacing: 0.1px !important;
+                user-select: none !important;
+            }
+            .pinpoint-card-sections {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .pinpoint-section-item, .pinpoint-info-row {
+                border-bottom: 1px solid #f1f3f4 !important;
+                cursor: pointer !important;
+                transition: background-color 0.18s ease !important;
+                box-sizing: border-box !important;
+                width: 100% !important;
+            }
+            .pinpoint-section-item:last-child, .pinpoint-info-row:last-child {
+                border-bottom: none !important;
+            }
+            .pinpoint-section-item:hover, .pinpoint-section-item.active,
+            .pinpoint-info-row:hover, .pinpoint-info-row.active {
+                background: #fbfcfe !important;
+            }
+            .pinpoint-section-head, .pinpoint-info-row-head {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                padding: 11px 14px !important;
+                gap: 8px !important;
+                user-select: none !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .pinpoint-section-title, .pinpoint-info-row-title {
+                display: flex !important;
+                align-items: center !important;
+                gap: 8px !important;
+                font-size: 13px !important;
+                font-weight: 600 !important;
+                color: #202124 !important;
+                flex: 1 !important;
+                min-width: 0 !important;
+            }
+            .pinpoint-section-badge, .pinpoint-info-badge {
+                font-size: 10px !important;
+                font-weight: 700 !important;
+                padding: 2px 7px !important;
+                border-radius: 99px !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.4px !important;
+                flex-shrink: 0 !important;
+            }
+            .pinpoint-section-body, .pinpoint-info-row-body {
+                max-height: 0 !important;
+                opacity: 0 !important;
+                overflow: hidden !important;
+                transition: max-height 0.28s ease, opacity 0.22s ease, padding 0.22s ease !important;
+                padding: 0 14px !important;
+                font-size: 12.5px !important;
+                line-height: 1.45 !important;
+                color: #3c4043 !important;
+                box-sizing: border-box !important;
+                width: 100% !important;
+            }
+            .pinpoint-section-item.active .pinpoint-section-body,
+            .pinpoint-info-card:not(:hover) .pinpoint-section-item.default-open .pinpoint-section-body,
+            .pinpoint-section-item:hover .pinpoint-section-body,
+            .pinpoint-info-row.active .pinpoint-info-row-body,
+            .pinpoint-info-card:not(:hover) .pinpoint-info-row.default-open .pinpoint-info-row-body,
+            .pinpoint-info-row:hover .pinpoint-info-row-body {
+                max-height: 260px !important;
+                opacity: 1 !important;
+                padding: 0 14px 13px 14px !important;
+            }
+            .pinpoint-section-item .section-chevron, .pinpoint-info-row .row-chevron {
+                font-size: 18px !important;
+                color: #70757a !important;
+                transition: transform 0.2s ease, color 0.2s ease !important;
+                flex-shrink: 0 !important;
+            }
+            .pinpoint-section-item:hover .section-chevron,
+            .pinpoint-section-item.active .section-chevron,
+            .pinpoint-info-row:hover .row-chevron,
+            .pinpoint-info-row.active .row-chevron {
+                transform: rotate(180deg) !important;
+                color: #1a73e8 !important;
+            }
+        `;
 
         const container = document.createElement('div');
         container.id = 'pinpoint-info-widget';
         container.className = 'pinpoint-info-card';
+        container.style.cssText = 'position:fixed !important; bottom:20px !important; right:20px !important; left:auto !important; width:395px !important; max-width:calc(100vw - 32px) !important; z-index:2147483647 !important; font-family:\'Google Sans\',Roboto,Arial,sans-serif !important; box-sizing:border-box !important; background:#ffffff !important; border:1px solid #dadce0 !important; border-radius:16px !important; box-shadow:0 10px 32px rgba(0,0,0,0.12),0 2px 8px rgba(0,0,0,0.06) !important; overflow:hidden !important; display:flex !important; flex-direction:column !important;';
 
         container.innerHTML = `
-            <div class="pinpoint-card-header">
-                <div style="display:flex;align-items:center;gap:6px;">
-                    <span class="material-symbols-outlined notranslate" style="font-size:18px;color:#1a73e8;line-height:1;">notifications_active</span>
-                    <span>Classroom Highlights</span>
+            <div class="pinpoint-card-header" style="display:flex !important; flex-direction:row !important; align-items:center !important; justify-content:space-between !important; width:100% !important; box-sizing:border-box !important; padding:10px 14px !important; background:#f8fafd !important; border-bottom:1px solid #e8eaed !important; color:#202124 !important;">
+                <div style="display:flex !important; align-items:center !important; gap:6px !important; flex:1 !important; min-width:0 !important;">
+                    <span class="material-symbols-outlined notranslate" style="font-size:18px !important; color:#1a73e8 !important; line-height:1 !important; flex-shrink:0 !important;">notifications_active</span>
+                    <span style="font-size:13px !important; font-weight:600 !important; color:#202124 !important; white-space:nowrap !important;">Classroom Highlights</span>
                 </div>
-                <button id="pinpoint-info-dismiss-btn" style="background:none;border:none;color:#5f6368;cursor:pointer;padding:2px 4px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:color 0.15s;" title="Dismiss">
-                    <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">close</span>
+                <button id="pinpoint-info-dismiss-btn" type="button" style="background:none !important; border:none !important; color:#5f6368 !important; cursor:pointer !important; padding:4px !important; margin:0 0 0 auto !important; border-radius:50% !important; display:inline-flex !important; align-items:center !important; justify-content:center !important; width:28px !important; height:28px !important; min-width:28px !important; flex-shrink:0 !important;" title="Dismiss">
+                    <span class="material-symbols-outlined notranslate" style="font-size:18px !important; line-height:1 !important; color:#5f6368 !important;">close</span>
                 </button>
             </div>
 
