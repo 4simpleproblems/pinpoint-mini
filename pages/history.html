@@ -691,13 +691,23 @@ function saveCustomization() {
 
   // 1. Update injected style element so background-image !important rules match immediately
   const fastStyle = document.getElementById('pinpoint-fast-cache-style');
+  const bannerColors = (typeof window.getBannerColor === 'function')
+    ? window.getBannerColor(bannerFile)
+    : ((typeof TabDisguiser !== 'undefined' && TabDisguiser.getBannerColor)
+        ? TabDisguiser.getBannerColor(bannerFile)
+        : { dominant: '#e06050', sidebarBg: '#f5ecea', sidebarHover: '#f0d9d6', circleBg: '#f0d5d1', circleText: '#792115' });
+
   const themeColor = (typeof TabDisguiser !== 'undefined' && TabDisguiser.getClassThemeColor)
-    ? TabDisguiser.getClassThemeColor(nameVal)
-    : { bg: '#d0e4ff', text: '#04409f' };
+    ? TabDisguiser.getClassThemeColor(nameVal, bannerFile)
+    : { bg: bannerColors.circleBg, text: bannerColors.circleText, sidebarBg: bannerColors.sidebarBg, sidebarHover: bannerColors.sidebarHover };
   const letter = (nameVal[0] || 'W').toUpperCase();
 
   const newCss = '.PFLqgc.KFl4Z, .OjOEXb { background-image: url("' + bannerUrl + '") !important; } ' +
-                 'nav.STek2d .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh { background-color: ' + themeColor.bg + ' !important; color: ' + themeColor.text + ' !important; } ';
+                 '.Tc9hUd .ZizeYd, .Tc9hUd .ZizeYd.ml1ZL, .Tc9hUd .lmPo4 { display: none !important; opacity: 0 !important; } ' +
+                 'nav.STek2d, nav.STek2d .tCcYY, .tCcYY.yWU57c { background-color: ' + bannerColors.sidebarBg + ' !important; } ' +
+                 '.OkLq5b, .g0zrjc { fill: ' + bannerColors.sidebarBg + ' !important; } ' +
+                 'nav.STek2d .uTwgne:hover { background-color: ' + bannerColors.sidebarHover + ' !important; } ' +
+                 'nav.STek2d .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh { background-color: ' + bannerColors.circleBg + ' !important; color: ' + bannerColors.circleText + ' !important; } ';
   if (fastStyle) {
     fastStyle.textContent = newCss;
   } else {
@@ -719,11 +729,17 @@ function saveCustomization() {
   if (ugb) ugb.textContent = nameVal;
   document.title = nameVal + ' - Classroom';
 
-  // 4. Update sidebar circular icons & class link
+  // 4. Update sidebar background & circular icons & class link
+  document.querySelectorAll('nav.STek2d, nav.STek2d .tCcYY, .tCcYY.yWU57c').forEach(s => {
+    s.style.setProperty('background-color', bannerColors.sidebarBg, 'important');
+  });
+  document.querySelectorAll('.OkLq5b, .g0zrjc').forEach(svg => {
+    svg.style.setProperty('fill', bannerColors.sidebarBg, 'important');
+  });
   document.querySelectorAll('nav.STek2d a[data-id="854642477833"] .JShLh, nav.STek2d .CNpREd .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh').forEach(c => {
     c.textContent = letter;
-    c.style.setProperty('background-color', themeColor.bg, 'important');
-    c.style.setProperty('color', themeColor.text, 'important');
+    c.style.setProperty('background-color', bannerColors.circleBg, 'important');
+    c.style.setProperty('color', bannerColors.circleText, 'important');
   });
   document.querySelectorAll('nav.STek2d a[data-id="854642477833"] .YVvGBb').forEach(el => {
     el.textContent = nameVal;

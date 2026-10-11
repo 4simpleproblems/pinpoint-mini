@@ -255,20 +255,28 @@ var TabDisguiser = window.TabDisguiser || {
         };
     },
 
-    getClassThemeColor(name) {
-        if (window.getPinpointClassThemeColor) return window.getPinpointClassThemeColor(name);
-        const colors = [
-            { bg: '#d0e4ff', text: '#04409f', theme: 'Ag4wUb' },
-            { bg: '#ffdcc3', text: '#9a4600', theme: 'g2MItd' },
-            { bg: '#beefbb', text: '#006c35', theme: 'WFUiUb' },
-            { bg: '#eedcfe', text: '#5629a4', theme: 'Mupove' },
-            { bg: '#ffd8ef', text: '#b60d6e', theme: 'zvzLKc' },
-            { bg: '#acedff', text: '#004f6e', theme: 'S3aLQd' }
-        ];
-        let hash = 0;
-        const key = name || 'World History';
-        for (let i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
-        return colors[hash % colors.length];
+    getBannerColor(bannerFileName) {
+        if (window.getBannerColor) return window.getBannerColor(bannerFileName);
+        const map = window.BANNER_COLOR_MAP || {};
+        const key = (bannerFileName || 'WorldHistory.jpg').replace(/^(\.\.\/|\.\/)?images\//, '');
+        return map[key] || {
+            dominant: '#e06050',
+            sidebarBg: '#f5ecea',
+            sidebarHover: '#f0d9d6',
+            circleBg: '#f0d5d1',
+            circleText: '#792115'
+        };
+    },
+
+    getClassThemeColor(name, bannerFileName) {
+        const bColors = this.getBannerColor(bannerFileName);
+        return {
+            bg: bColors.circleBg,
+            text: bColors.circleText,
+            sidebarBg: bColors.sidebarBg,
+            sidebarHover: bColors.sidebarHover,
+            dominant: bColors.dominant
+        };
     },
 
     applyClassConfig() {
@@ -345,9 +353,24 @@ var TabDisguiser = window.TabDisguiser || {
             b.style.backgroundImage = 'url("' + bannerUrl + '")';
         });
 
+        // Remove tint overlay on home card
+        document.querySelectorAll('.Tc9hUd .ZizeYd, .Tc9hUd .ZizeYd.ml1ZL, .Tc9hUd .lmPo4').forEach(el => {
+            el.style.setProperty('display', 'none', 'important');
+            el.style.setProperty('opacity', '0', 'important');
+        });
+
         const activeTitle = (historyCfg.name || 'World History').trim();
         const letter = (activeTitle[0] || 'W').toUpperCase();
-        const themeColor = this.getClassThemeColor(activeTitle);
+        const themeColor = this.getClassThemeColor(activeTitle, bannerFile);
+
+        // Sidebar background based on banner color
+        document.querySelectorAll('nav.STek2d, nav.STek2d .tCcYY, .tCcYY.yWU57c').forEach(s => {
+            s.style.setProperty('background-color', themeColor.sidebarBg, 'important');
+        });
+        document.querySelectorAll('.OkLq5b, .g0zrjc').forEach(svg => {
+            svg.style.setProperty('fill', themeColor.sidebarBg, 'important');
+        });
+
         document.querySelectorAll('nav.STek2d a[data-id="854642477833"] .JShLh, nav.STek2d .CNpREd .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh').forEach(c => {
             c.textContent = letter;
             c.style.setProperty('background-color', themeColor.bg, 'important');
@@ -443,8 +466,9 @@ var TabDisguiser = window.TabDisguiser || {
             const settingsNavUrl = isAboutBlank ? '#pages/settings.html' : (pagesPrefix + '/settings.html');
 
                 const circleLetter = (hisTitle.trim()[0] || 'W').toUpperCase();
-                const circleTheme = this.getClassThemeColor(hisTitle);
-                const classItemHtml = '<a aria-current="' + (activePage === 'history' || activePage === 'english' ? 'page' : 'false') + '" aria-label="' + hisTitle + '" class="uTwgne ' + (activePage === 'history' || activePage === 'english' ? 'selected' : '') + '" data-id="854642477833" href="' + historyNavUrl + '" role="menuitem" tabindex="0"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="kWQ5wd"><div class="CNpREd ' + circleTheme.theme + '"><div aria-hidden="true" class="JShLh TGnLfc VjRxGc FeltXd uUMf4c" style="background-color:' + circleTheme.bg + ' !important; color:' + circleTheme.text + ' !important;">' + circleLetter + '</div></div></div><div class="Ij01W"><div class="' + (activePage === 'history' || activePage === 'english' ? 'XL4gNd' : 'GRvzhf') + ' YVvGBb">' + hisTitle + '</div></div></a>';
+                const hisBanner = (cfg.history && cfg.history.banner) || 'WorldHistory.jpg';
+                const circleTheme = this.getClassThemeColor(hisTitle, hisBanner);
+                const classItemHtml = '<a aria-current="' + (activePage === 'history' || activePage === 'english' ? 'page' : 'false') + '" aria-label="' + hisTitle + '" class="uTwgne ' + (activePage === 'history' || activePage === 'english' ? 'selected' : '') + '" data-id="854642477833" href="' + historyNavUrl + '" role="menuitem" tabindex="0"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="kWQ5wd"><div class="CNpREd"><div aria-hidden="true" class="JShLh TGnLfc VjRxGc FeltXd uUMf4c" style="background-color:' + circleTheme.bg + ' !important; color:' + circleTheme.text + ' !important;">' + circleLetter + '</div></div></div><div class="Ij01W"><div class="' + (activePage === 'history' || activePage === 'english' ? 'XL4gNd' : 'GRvzhf') + ' YVvGBb">' + hisTitle + '</div></div></a>';
 
             const baseNavHtml = '<a aria-current="' + (activePage === 'home' ? 'page' : 'false') + '" aria-label="Home" class="uTwgne TbJ0Pc ' + (activePage === 'home' ? 'selected' : '') + '" href="' + homeUrl + '" role="menuitem" tabindex="0"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="npdi5 ykp8pd"><svg class="NMm5M" focusable="false" height="24" viewBox="0 0 24 24" width="24"><path d="M12 3L4 9v12h16V9l-8-6zm6 16h-3v-6H9v6H6v-9l6-4.5 6 4.5v9z"></path></svg></div><div class="Ij01W"><div class="' + (activePage === 'home' ? 'XL4gNd' : 'GRvzhf') + ' YVvGBb">Home</div></div></a>' +
                 '<a aria-current="false" aria-label="Calendar" class="uTwgne TbJ0Pc nav-decorative" href="javascript:void(0)" role="menuitem" style="pointer-events:none;opacity:0.5;cursor:default;" tabindex="-1"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="npdi5 ykp8pd"><svg class="NMm5M" focusable="false" height="24" viewBox="0 0 24 24" width="24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"></path></svg></div><div class="Ij01W"><div class="GRvzhf YVvGBb">Calendar</div></div></a>' +

@@ -4,23 +4,31 @@
  * Synchronously applies cached class name, teacher, banner, and circle icon.
  */
 (function() {
-  function getThemeColor(name) {
-    var colors = [
-      { bg: '#d0e4ff', text: '#04409f', theme: 'Ag4wUb' }, // Blue
-      { bg: '#ffdcc3', text: '#9a4600', theme: 'g2MItd' }, // Orange
-      { bg: '#beefbb', text: '#006c35', theme: 'WFUiUb' }, // Green
-      { bg: '#eedcfe', text: '#5629a4', theme: 'Mupove' }, // Purple
-      { bg: '#ffd8ef', text: '#b60d6e', theme: 'zvzLKc' }, // Pink
-      { bg: '#acedff', text: '#004f6e', theme: 'S3aLQd' }  // Cyan
-    ];
-    var hash = 0;
-    var key = name || 'World History';
-    for (var i = 0; i < key.length; i++) {
-      hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
-    }
-    return colors[hash % colors.length];
+  var BANNER_COLOR_MAP = {
+    "WorldHistory.jpg": { "dominant": "#e06050", "sidebarBg": "#f5ecea", "sidebarHover": "#f0d9d6", "circleBg": "#f0d5d1", "circleText": "#792115" },
+    "english.jpg": { "dominant": "#507080", "sidebarBg": "#ecf1f3", "sidebarHover": "#dce5e9", "circleBg": "#d9e3e7", "circleText": "#1d5672" },
+    "Math.jpg": { "dominant": "#e02060", "sidebarBg": "#f5eaee", "sidebarHover": "#f0d6df", "circleBg": "#f0d1db", "circleText": "#7e1135" },
+    "Chemistry.jpg": { "dominant": "#804090", "sidebarBg": "#f3eaf5", "sidebarHover": "#e9d8ee", "circleBg": "#e7d5ec", "circleText": "#611d72" },
+    "Geometry.jpg": { "dominant": "#406060", "sidebarBg": "#edf3f3", "sidebarHover": "#dde9e9", "circleBg": "#dae7e7", "circleText": "#1d7272" },
+    "SocialStudies.jpg": { "dominant": "#ffa020", "sidebarBg": "#f5f0ea", "sidebarHover": "#f0e5d6", "circleBg": "#f0e2d1", "circleText": "#8f5100" },
+    "Design.jpg": { "dominant": "#808080", "sidebarBg": "#f0f0f0", "sidebarHover": "#e3e3e3", "circleBg": "#e0e0e0", "circleText": "#721d1d" },
+    "music.jpg": { "dominant": "#e0d070", "sidebarBg": "#f5f3ea", "sidebarHover": "#f0ecd6", "circleBg": "#f0ebd1", "circleText": "#75671a" },
+    "img_backtoschool.jpg": { "dominant": "#0070c0", "sidebarBg": "#eaf1f5", "sidebarHover": "#d6e5f0", "circleBg": "#d1e3f0", "circleText": "#00538f" },
+    "img_bookclub.jpg": { "dominant": "#30b070", "sidebarBg": "#eaf5f0", "sidebarHover": "#d6f0e3", "circleBg": "#d1f0e0", "circleText": "#1d7247" },
+    "img_breakfast.jpg": { "dominant": "#ff9060", "sidebarBg": "#f5eeea", "sidebarHover": "#f0ded6", "circleBg": "#f0dad1", "circleText": "#8f2b00" },
+    "img_code.jpg": { "dominant": "#507080", "sidebarBg": "#ecf1f3", "sidebarHover": "#dce5e9", "circleBg": "#d9e3e7", "circleText": "#1d5672" },
+    "img_gamenight.jpg": { "dominant": "#3060d0", "sidebarBg": "#eaeef5", "sidebarHover": "#d6def0", "circleBg": "#d1daf0", "circleText": "#1a3574" },
+    "img_learninstrument.jpg": { "dominant": "#6040b0", "sidebarBg": "#edeaf5", "sidebarHover": "#ddd6f0", "circleBg": "#dad2ef", "circleText": "#351d72" },
+    "img_learnlanguage.jpg": { "dominant": "#3060d0", "sidebarBg": "#eaeef5", "sidebarHover": "#d6def0", "circleBg": "#d1daf0", "circleText": "#1a3574" },
+    "img_read.jpg": { "dominant": "#507080", "sidebarBg": "#ecf1f3", "sidebarHover": "#dce5e9", "circleBg": "#d9e3e7", "circleText": "#1d5672" }
+  };
+  window.BANNER_COLOR_MAP = BANNER_COLOR_MAP;
+
+  function getBannerColor(bannerFileName) {
+    var key = (bannerFileName || 'WorldHistory.jpg').replace(/^(\.\.\/|\.\/)?images\//, '');
+    return BANNER_COLOR_MAP[key] || BANNER_COLOR_MAP['WorldHistory.jpg'];
   }
-  window.getPinpointClassThemeColor = getThemeColor;
+  window.getBannerColor = getBannerColor;
 
   try {
     var raw = localStorage.getItem('pinpoint_classroom_config');
@@ -36,7 +44,7 @@
     var isHome = !isPages && (window.location.pathname === '' || window.location.pathname === '/' || window.location.pathname.includes('home') || window.location.pathname.endsWith('home.html') || window.location.pathname.endsWith('index.html'));
     var bannerUrl = (isPages ? '../images/' : './images/') + banner;
 
-    var themeColor = getThemeColor(name);
+    var bannerColors = getBannerColor(banner);
     var letter = (name[0] || 'W').toUpperCase();
 
     // 1. Immediately sync document.title if on class/classwork page
@@ -44,10 +52,18 @@
       document.title = name + ' - Classroom';
     }
 
-    // 2. Inject early CSS rules so layout paints with custom styles immediately
+    // 2. Inject early CSS rules: remove home banner tint, dynamically tint sidebar background from banner
     var css = '';
+    // Remove dark/color tint overlay from home card banner
+    css += '.Tc9hUd .ZizeYd, .Tc9hUd .ZizeYd.ml1ZL, .Tc9hUd .lmPo4 { display: none !important; opacity: 0 !important; } ';
+    // Banner background
     css += '.PFLqgc.KFl4Z, .OjOEXb { background-image: url("' + bannerUrl + '") !important; } ';
-    css += 'nav.STek2d .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh { background-color: ' + themeColor.bg + ' !important; color: ' + themeColor.text + ' !important; } ';
+    // Sidebar background based on banner dominant color
+    css += 'nav.STek2d, nav.STek2d .tCcYY, .tCcYY.yWU57c { background-color: ' + bannerColors.sidebarBg + ' !important; } ';
+    css += '.OkLq5b, .g0zrjc { fill: ' + bannerColors.sidebarBg + ' !important; } ';
+    css += 'nav.STek2d .uTwgne:hover { background-color: ' + bannerColors.sidebarHover + ' !important; } ';
+    // Sidebar circular icon
+    css += 'nav.STek2d .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh { background-color: ' + bannerColors.circleBg + ' !important; color: ' + bannerColors.circleText + ' !important; } ';
     
     var head = document.head || document.getElementsByTagName('head')[0];
     if (head) {
@@ -83,8 +99,8 @@
       // Sidebar circular icon
       if (cl && cl.contains('JShLh')) {
         if (node.textContent !== letter) node.textContent = letter;
-        node.style.setProperty('background-color', themeColor.bg, 'important');
-        node.style.setProperty('color', themeColor.text, 'important');
+        node.style.setProperty('background-color', bannerColors.circleBg, 'important');
+        node.style.setProperty('color', bannerColors.circleText, 'important');
       }
 
       // Banner background
