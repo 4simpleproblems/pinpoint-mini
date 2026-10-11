@@ -1,5 +1,5 @@
 <html class="pJAEVb LQzn7d hy5nu So8nPc l6x6M QTigq eAcXqe" dir="ltr" lang="en"><head><script src="../scripts/cors-interceptor.js"></script><script src="../scripts/fast-cache.js"></script><link rel="icon" type="image/png" href="../favicons/google-classroom.png"/><link rel="shortcut icon" type="image/png" href="../favicons/google-classroom.png"/><script defer src="https://cloud.umami.is/script.js" data-website-id="aa9f6a9e-fe62-4b22-a716-f161605dadfc"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0..200" /><meta content="belkwy30@google.com" name="og-profile-acct"/><link href="//www.gstatic.com" rel="preconnect"/><meta content="origin" name="referrer"/><script nonce="tN5U8H-6f2-z6BblkjThVg">window['ppConfig'] = {productName: 'ClassroomUi', deleteIsEnforced:  true , sealIsEnforced:  true , heartbeatRate:  0.5 , periodicReportingRateMillis:  60000.0 , disableAllReporting:  true };(function(){'use strict';function k(a){var b=0;return function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}}}function l(a){var b=typeof Symbol!="undefined"&&Symbol.iterator&&a[Symbol.iterator];if(b)return b.call(a);if(typeof a.length=="number")return{next:k(a)};throw Error(String(a)+" is not an iterable or ArrayLike");}var m=typeof Object.defineProperties=="function"?Object.defineProperty:function(a,b,c){if(a==Array.prototype||a==Object.prototype)return a;a[b]=c.value;return a};
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" /><meta content="belkwy30@google.com" name="og-profile-acct"/><link href="//www.gstatic.com" rel="preconnect"/><meta content="origin" name="referrer"/><script nonce="tN5U8H-6f2-z6BblkjThVg">window['ppConfig'] = {productName: 'ClassroomUi', deleteIsEnforced:  true , sealIsEnforced:  true , heartbeatRate:  0.5 , periodicReportingRateMillis:  60000.0 , disableAllReporting:  true };(function(){'use strict';function k(a){var b=0;return function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}}}function l(a){var b=typeof Symbol!="undefined"&&Symbol.iterator&&a[Symbol.iterator];if(b)return b.call(a);if(typeof a.length=="number")return{next:k(a)};throw Error(String(a)+" is not an iterable or ArrayLike");}var m=typeof Object.defineProperties=="function"?Object.defineProperty:function(a,b,c){if(a==Array.prototype||a==Object.prototype)return a;a[b]=c.value;return a};
 function n(a){a=["object"==typeof globalThis&&globalThis,a,"object"==typeof window&&window,"object"==typeof self&&self,"object"==typeof global&&global];for(var b=0;b<a.length;++b){var c=a[b];if(c&&c.Math==Math)return c}throw Error("Cannot find global object");}var p=n(this);function q(a,b){if(b)a:{var c=p;a=a.split(".");for(var d=0;d<a.length-1;d++){var e=a[d];if(!(e in c))break a;c=c[e]}a=a[a.length-1];d=c[a];b=b(d);b!=d&&b!=null&&m(c,a,{configurable:!0,writable:!0,value:b})}}
 q("Object.is",function(a){return a?a:function(b,c){return b===c?b!==0||1/b===1/c:b!==b&&c!==c}});q("Array.prototype.includes",function(a){return a?a:function(b,c){var d=this;d instanceof String&&(d=String(d));var e=d.length;c=c||0;for(c<0&&(c=Math.max(c+e,0));c<e;c++){var f=d[c];if(f===b||Object.is(f,b))return!0}return!1}});
 q("String.prototype.includes",function(a){return a?a:function(b,c){if(this==null)throw new TypeError("The 'this' value for String.prototype.includes must not be null or undefined");if(b instanceof RegExp)throw new TypeError("First argument to String.prototype.includes must not be a regular expression");return this.indexOf(b,c||0)!==-1}});function r(a,b,c){a("about:blank/csp/proto/"+encodeURIComponent(b),JSON.stringify(c))}function t(){var a;if((a=window.ppConfig)==null?0:a.disableAllReporting)return function(){};var b,c,d,e;return(e=(b=window)==null?void 0:(c=b.navigator)==null?void 0:(d=c.sendBeacon)==null?void 0:d.bind(navigator))!=null?e:u}function u(a,b){var c=new XMLHttpRequest;c.open("POST",a);c.send(b)}
@@ -131,30 +131,29 @@ var Vi=document.querySelector(`.${_.Ui.Bf} .gb_C`),Wi=document.querySelector("#g
     </div>
 
     <!-- Panic Key Row -->
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px;gap:16px;flex-wrap:wrap;">
+    <div id="row-panic" style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px;gap:16px;flex-wrap:wrap;transition:all 0.25s ease;">
       <div style="display:flex;align-items:center;gap:14px;min-width:0;">
-        <span class="material-symbols-outlined" style="color:#d93025;font-size:24px;flex-shrink:0;">bolt</span>
+        <span id="icon-panic-bolt" class="material-symbols-outlined" style="color:#d93025;font-size:24px;flex-shrink:0;transition:color 0.25s ease;">bolt</span>
         <div>
-          <div style="font-size:14px;font-weight:500;color:#202124;">Panic Escape</div>
-          <div style="font-size:12px;color:#5f6368;">Quick hotkey redirect to safe page</div>
+          <div id="label-panic-title" style="font-size:14px;font-weight:500;color:#202124;transition:color 0.25s ease;">Panic Escape</div>
+          <div id="label-panic-desc" style="font-size:12px;color:#5f6368;transition:color 0.25s ease;">Quick hotkey redirect to safe page</div>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
-        <select id="cfg-panic-key" onchange="saveConfig()" title="Panic Hotkey" style="padding:7px 10px;border:1px solid #dadce0;border-radius:8px;font-family:inherit;font-size:13px;background:#fff;color:#3c4043;cursor:pointer;outline:none;">
+      <div style="display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <select id="cfg-panic-key" onchange="saveConfig()" title="Panic Hotkey" style="padding:7px 10px;border:1px solid #dadce0;border-radius:8px;font-family:inherit;font-size:13px;background:#fff;color:#3c4043;cursor:pointer;outline:none;transition:all 0.25s ease;">
           <option value="`">` (Backtick)</option>
           <option value="Escape">Esc</option>
           <option value="]">] (Right Bracket)</option>
           <option value="\">\\ (Backslash)</option>
         </select>
-        <select id="cfg-panic-url" onchange="saveConfig()" title="Destination" style="padding:7px 10px;border:1px solid #dadce0;border-radius:8px;font-family:inherit;font-size:13px;background:#fff;color:#3c4043;cursor:pointer;outline:none;max-width:180px;">
+        <select id="cfg-panic-url" onchange="saveConfig()" title="Destination" style="padding:7px 10px;border:1px solid #dadce0;border-radius:8px;font-family:inherit;font-size:13px;background:#fff;color:#3c4043;cursor:pointer;outline:none;max-width:180px;transition:all 0.25s ease;">
           <option value="https://classroom.google.com/">Google Classroom</option>
           <option value="https://google.com/">Google Search</option>
           <option value="about:blank">about:blank</option>
         </select>
-        <label style="position:relative;display:inline-block;width:38px;height:22px;margin:0;cursor:pointer;" title="Enable/Disable Panic Key">
-          <input type="checkbox" id="cfg-panic-enabled" onchange="saveConfig()" style="opacity:0;width:0;height:0;">
-          <span style="position:absolute;top:0;left:0;right:0;bottom:0;background-color:#ccc;border-radius:22px;transition:0.2s;" id="panic-slider"></span>
-        </label>
+        <button id="btn-panic-toggle" type="button" onclick="togglePanicEnabled()" title="Toggle Panic Key" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;outline:none;transition:all 0.25s ease;padding:0;box-sizing:border-box;">
+          <span class="material-symbols-outlined" style="font-size:20px;">power_settings_new</span>
+        </button>
       </div>
     </div>
   </div>
@@ -200,6 +199,7 @@ var hj=function(a,b){a<b?gj(a+1,b):_.$c.log(Error("aa`"+a+"`"+b))},gj=function(a
 <script>
 let currentClockFormat = '12';
 let currentClockAmPm = true;
+let currentPanicEnabled = true;
 
 function updateClockButtonsUI() {
   const btnFormat = document.getElementById('btn-clock-format');
@@ -220,18 +220,74 @@ function updateClockButtonsUI() {
   }
 }
 
-function updatePanicSliderUI() {
-  const chk = document.getElementById('cfg-panic-enabled');
-  const slider = document.getElementById('panic-slider');
-  if (chk && slider) {
-    if (chk.checked) {
-      slider.style.backgroundColor = '#1a73e8';
-      slider.innerHTML = '<span style="position:absolute;content:\'\';height:16px;width:16px;left:18px;bottom:3px;background-color:white;border-radius:50%;transition:0.2s;"></span>';
-    } else {
-      slider.backgroundColor = '#ccc';
-      slider.innerHTML = '<span style="position:absolute;content:\'\';height:16px;width:16px;left:4px;bottom:3px;background-color:white;border-radius:50%;transition:0.2s;"></span>';
+function updatePanicUI() {
+  const btnToggle = document.getElementById('btn-panic-toggle');
+  const row = document.getElementById('row-panic');
+  const boltIcon = document.getElementById('icon-panic-bolt');
+  const labelTitle = document.getElementById('label-panic-title');
+  const labelDesc = document.getElementById('label-panic-desc');
+  const keySelect = document.getElementById('cfg-panic-key');
+  const urlSelect = document.getElementById('cfg-panic-url');
+
+  if (currentPanicEnabled) {
+    // ON: White icon on light green background
+    if (btnToggle) {
+      btnToggle.style.backgroundColor = '#e6f4ea';
+      btnToggle.style.color = '#137333';
+      btnToggle.title = 'Panic key is enabled (Click to turn off)';
+      const icon = btnToggle.querySelector('.material-symbols-outlined');
+      if (icon) icon.style.color = '#137333';
+    }
+    if (row) {
+      row.style.backgroundColor = 'transparent';
+      row.style.opacity = '1';
+    }
+    if (boltIcon) boltIcon.style.color = '#d93025';
+    if (labelTitle) labelTitle.style.color = '#202124';
+    if (labelDesc) labelDesc.style.color = '#5f6368';
+    if (keySelect) {
+      keySelect.disabled = false;
+      keySelect.style.opacity = '1';
+      keySelect.style.cursor = 'pointer';
+    }
+    if (urlSelect) {
+      urlSelect.disabled = false;
+      urlSelect.style.opacity = '1';
+      urlSelect.style.cursor = 'pointer';
+    }
+  } else {
+    // OFF: Light grey icon on dark grey background, darkens out the entire UI
+    if (btnToggle) {
+      btnToggle.style.backgroundColor = '#5f6368';
+      btnToggle.style.color = '#e8eaed';
+      btnToggle.title = 'Panic key is disabled (Click to turn on)';
+      const icon = btnToggle.querySelector('.material-symbols-outlined');
+      if (icon) icon.style.color = '#e8eaed';
+    }
+    if (row) {
+      row.style.backgroundColor = '#f1f3f4';
+      row.style.opacity = '0.65';
+    }
+    if (boltIcon) boltIcon.style.color = '#80868b';
+    if (labelTitle) labelTitle.style.color = '#5f6368';
+    if (labelDesc) labelDesc.style.color = '#80868b';
+    if (keySelect) {
+      keySelect.disabled = true;
+      keySelect.style.opacity = '0.6';
+      keySelect.style.cursor = 'not-allowed';
+    }
+    if (urlSelect) {
+      urlSelect.disabled = true;
+      urlSelect.style.opacity = '0.6';
+      urlSelect.style.cursor = 'not-allowed';
     }
   }
+}
+
+function togglePanicEnabled() {
+  currentPanicEnabled = !currentPanicEnabled;
+  updatePanicUI();
+  saveConfig();
 }
 
 function toggleClockFormat() {
@@ -256,9 +312,8 @@ function loadConfig() {
     const cloakSel = document.getElementById('cfg-tab-cloak');
     if (cloakSel) cloakSel.value = tabCloak;
 
-    const panicEnabled = localStorage.getItem('pinpoint_panic_enabled') !== 'false';
-    const panicChk = document.getElementById('cfg-panic-enabled');
-    if (panicChk) panicChk.checked = panicEnabled;
+    currentPanicEnabled = localStorage.getItem('pinpoint_panic_enabled') !== 'false';
+    updatePanicUI();
 
     const panicKey = localStorage.getItem('pinpoint_panic_key') || '`';
     const keySel = document.getElementById('cfg-panic-key');
@@ -267,8 +322,6 @@ function loadConfig() {
     const panicUrl = localStorage.getItem('pinpoint_panic_url') || 'https://classroom.google.com/';
     const urlSel = document.getElementById('cfg-panic-url');
     if (urlSel) urlSel.value = panicUrl;
-
-    updatePanicSliderUI();
   } catch(e) {}
 }
 
@@ -285,11 +338,7 @@ function saveConfig() {
     const cloakSel = document.getElementById('cfg-tab-cloak');
     if (cloakSel) localStorage.setItem('pinpoint_tab_cloak', cloakSel.value);
 
-    const panicChk = document.getElementById('cfg-panic-enabled');
-    if (panicChk) {
-      localStorage.setItem('pinpoint_panic_enabled', panicChk.checked ? 'true' : 'false');
-      updatePanicSliderUI();
-    }
+    localStorage.setItem('pinpoint_panic_enabled', currentPanicEnabled ? 'true' : 'false');
 
     const keySel = document.getElementById('cfg-panic-key');
     if (keySel) localStorage.setItem('pinpoint_panic_key', keySel.value);
@@ -320,8 +369,8 @@ function resetDefaults() {
   const cloakSel = document.getElementById('cfg-tab-cloak');
   if (cloakSel) cloakSel.value = 'classroom';
 
-  const panicChk = document.getElementById('cfg-panic-enabled');
-  if (panicChk) panicChk.checked = true;
+  currentPanicEnabled = true;
+  updatePanicUI();
 
   const keySel = document.getElementById('cfg-panic-key');
   if (keySel) keySel.value = '`';
