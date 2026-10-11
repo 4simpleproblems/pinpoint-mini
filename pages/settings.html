@@ -151,8 +151,8 @@ var Vi=document.querySelector(`.${_.Ui.Bf} .gb_C`),Wi=document.querySelector("#g
           <option value="https://google.com/">Google Search</option>
           <option value="about:blank">about:blank</option>
         </select>
-        <button id="btn-panic-toggle" type="button" onclick="togglePanicEnabled()" title="Toggle Panic Key" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;outline:none;transition:all 0.25s ease;padding:0;box-sizing:border-box;">
-          <span class="material-symbols-outlined" style="font-size:20px;">power_settings_new</span>
+        <button id="btn-panic-toggle" type="button" onclick="togglePanicEnabled()" title="Toggle Panic Key" style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;outline:none;transition:all 0.25s ease;padding:0;box-sizing:border-box;">
+          <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">check</span>
         </button>
       </div>
     </div>
@@ -232,11 +232,13 @@ function updatePanicUI() {
   if (currentPanicEnabled) {
     // ON: White icon on light green background
     if (btnToggle) {
-      btnToggle.style.backgroundColor = '#e6f4ea';
-      btnToggle.style.color = '#137333';
+      btnToggle.style.backgroundColor = '#188038';
       btnToggle.title = 'Panic key is enabled (Click to turn off)';
       const icon = btnToggle.querySelector('.material-symbols-outlined');
-      if (icon) icon.style.color = '#137333';
+      if (icon) {
+        icon.textContent = 'check';
+        icon.style.color = '#ffffff';
+      }
     }
     if (row) {
       row.style.backgroundColor = 'transparent';
@@ -259,10 +261,12 @@ function updatePanicUI() {
     // OFF: Light grey icon on dark grey background, darkens out the entire UI
     if (btnToggle) {
       btnToggle.style.backgroundColor = '#5f6368';
-      btnToggle.style.color = '#e8eaed';
       btnToggle.title = 'Panic key is disabled (Click to turn on)';
       const icon = btnToggle.querySelector('.material-symbols-outlined');
-      if (icon) icon.style.color = '#e8eaed';
+      if (icon) {
+        icon.textContent = 'close';
+        icon.style.color = '#e8eaed';
+      }
     }
     if (row) {
       row.style.backgroundColor = '#f1f3f4';

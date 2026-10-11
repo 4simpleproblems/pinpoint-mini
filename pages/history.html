@@ -627,9 +627,7 @@ const CLASSROOM_BANNERS = [
   { id: 'img_gamenight.jpg', name: 'Game Night' },
   { id: 'img_learninstrument.jpg', name: 'Instruments' },
   { id: 'img_learnlanguage.jpg', name: 'Languages' },
-  { id: 'img_read.jpg', name: 'Reading' },
-  { id: 'img_videogaming.jpg', name: 'Gaming' },
-  { id: 'media-marketing.jpg', name: 'Media' }
+  { id: 'img_read.jpg', name: 'Reading' }
 ];
 
 let selectedBannerId = 'WorldHistory.jpg';
@@ -687,16 +685,48 @@ function saveCustomization() {
 
   localStorage.setItem('pinpoint_classroom_config', JSON.stringify(cfg));
 
-  // Live in-place update without refresh
+  // Live in-place DOM updates immediately upon closing
+  const bannerFile = (selectedBannerId || 'WorldHistory.jpg').replace(/^(\.\.\/|\.\/)?images\//, '');
+  const bannerUrl = '../images/' + bannerFile;
+
+  // 1. Update injected style element so background-image !important rules match immediately
+  const fastStyle = document.getElementById('pinpoint-fast-cache-style');
+  const themeColor = (typeof TabDisguiser !== 'undefined' && TabDisguiser.getClassThemeColor)
+    ? TabDisguiser.getClassThemeColor(nameVal)
+    : { bg: '#d0e4ff', text: '#04409f' };
+  const letter = (nameVal[0] || 'W').toUpperCase();
+
+  const newCss = '.PFLqgc.KFl4Z, .OjOEXb { background-image: url("' + bannerUrl + '") !important; } ' +
+                 'nav.STek2d .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh { background-color: ' + themeColor.bg + ' !important; color: ' + themeColor.text + ' !important; } ';
+  if (fastStyle) {
+    fastStyle.textContent = newCss;
+  } else {
+    const s = document.createElement('style');
+    s.id = 'pinpoint-fast-cache-style';
+    s.textContent = newCss;
+    document.head.appendChild(s);
+  }
+
+  // 2. Direct inline style updates on banner elements
+  document.querySelectorAll('.PFLqgc.KFl4Z, .OjOEXb, .qyN25 [style*="WorldHistory.jpg"], .qyN25 [style*="img_"]').forEach(b => {
+    b.style.setProperty('background-image', 'url("' + bannerUrl + '")', 'important');
+  });
+
+  // 3. Update titles & breadcrumbs
   const h1 = document.querySelector('h1.tNGpbb');
   if (h1) h1.textContent = nameVal;
   const ugb = document.getElementById('UGb2Qe');
   if (ugb) ugb.textContent = nameVal;
   document.title = nameVal + ' - Classroom';
 
-  const bannerUrl = '../images/' + selectedBannerId;
-  document.querySelectorAll('.PFLqgc.KFl4Z, .OjOEXb').forEach(b => {
-    b.style.backgroundImage = 'url("' + bannerUrl + '")';
+  // 4. Update sidebar circular icons & class link
+  document.querySelectorAll('nav.STek2d a[data-id="854642477833"] .JShLh, nav.STek2d .CNpREd .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh').forEach(c => {
+    c.textContent = letter;
+    c.style.setProperty('background-color', themeColor.bg, 'important');
+    c.style.setProperty('color', themeColor.text, 'important');
+  });
+  document.querySelectorAll('nav.STek2d a[data-id="854642477833"] .YVvGBb').forEach(el => {
+    el.textContent = nameVal;
   });
 
   if (typeof TabDisguiser !== 'undefined' && TabDisguiser.applyClassConfig) {
