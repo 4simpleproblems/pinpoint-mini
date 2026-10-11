@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'Heebo';
+  font-style: normal;
+  font-weight: 200 500;
+  font-display: swap;
+  src: url('heebo.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'MuseoModerno';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('museomoderno.woff2') format('woff2');
+}

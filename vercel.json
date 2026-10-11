@@ -121,12 +121,12 @@
       "destination": "/textbooks/escape-road-3/StreamingAssets/:path*"
     },
     {
-      "source": "/textbooks/pixel-gun-apocalypse-2.html",
-      "destination": "/textbooks/pixel-gun-apocalypse-2/index.html"
+      "source": "/textbooks/crazy-pixel-apocalypse-9.html",
+      "destination": "/textbooks/crazy-pixel-apocalypse-9/index.html"
     },
     {
-      "source": "/textbooks/pixel-gun-apocalypse-2",
-      "destination": "/textbooks/pixel-gun-apocalypse-2/index.html"
+      "source": "/textbooks/crazy-pixel-apocalypse-9",
+      "destination": "/textbooks/crazy-pixel-apocalypse-9/index.html"
     }
   ],
   "headers": [
