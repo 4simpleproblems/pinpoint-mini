@@ -248,11 +248,27 @@ var TabDisguiser = window.TabDisguiser || {
             }
         } catch (e) {}
         return {
-            english: { name: 'World History', sec: '', teacher: '', room: '' },
-            history: { name: 'World History', sec: '', teacher: '', room: '' },
+            english: { name: 'World History', sec: '', teacher: '', room: '', banner: 'WorldHistory.jpg' },
+            history: { name: 'World History', sec: '', teacher: '', room: '', banner: 'WorldHistory.jpg' },
             music: { name: 'Music Production', sec: '', teacher: '', room: '' },
             navbarClock: true
         };
+    },
+
+    getClassThemeColor(name) {
+        if (window.getPinpointClassThemeColor) return window.getPinpointClassThemeColor(name);
+        const colors = [
+            { bg: '#d0e4ff', text: '#04409f', theme: 'Ag4wUb' },
+            { bg: '#ffdcc3', text: '#9a4600', theme: 'g2MItd' },
+            { bg: '#beefbb', text: '#006c35', theme: 'WFUiUb' },
+            { bg: '#eedcfe', text: '#5629a4', theme: 'Mupove' },
+            { bg: '#ffd8ef', text: '#b60d6e', theme: 'zvzLKc' },
+            { bg: '#acedff', text: '#004f6e', theme: 'S3aLQd' }
+        ];
+        let hash = 0;
+        const key = name || 'World History';
+        for (let i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
+        return colors[hash % colors.length];
     },
 
     applyClassConfig() {
@@ -267,8 +283,8 @@ var TabDisguiser = window.TabDisguiser || {
         }
 
         const cardTeachers = document.querySelectorAll('.z07MGc.Vu2fZd.jJIbcc.T30lh');
-        if (cardTeachers.length >= 1 && historyCfg.teacher !== undefined) {
-            cardTeachers[0].textContent = historyCfg.teacher;
+        if (cardTeachers.length >= 1) {
+            cardTeachers[0].textContent = historyCfg.teacher || '';
         }
         if (cardTeachers.length >= 2 && cfg.music && cfg.music.teacher !== undefined) {
             cardTeachers[1].textContent = cfg.music.teacher;
@@ -321,6 +337,22 @@ var TabDisguiser = window.TabDisguiser || {
         } else if (isMediaMarketing) {
             this.setTitle('Media Marketing - Classroom');
         }
+
+        const bannerFile = (historyCfg.banner || 'WorldHistory.jpg').replace(/^(\.\.\/|\.\/)?images\//, '');
+        const isPagesPath = path.includes('/pages/') || path.includes('\\pages\\');
+        const bannerUrl = (isPagesPath ? '../images/' : './images/') + bannerFile;
+        document.querySelectorAll('.PFLqgc.KFl4Z, .OjOEXb').forEach(b => {
+            b.style.backgroundImage = 'url("' + bannerUrl + '")';
+        });
+
+        const activeTitle = (historyCfg.name || 'World History').trim();
+        const letter = (activeTitle[0] || 'W').toUpperCase();
+        const themeColor = this.getClassThemeColor(activeTitle);
+        document.querySelectorAll('nav.STek2d a[data-id="854642477833"] .JShLh, nav.STek2d .CNpREd .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh').forEach(c => {
+            c.textContent = letter;
+            c.style.setProperty('background-color', themeColor.bg, 'important');
+            c.style.setProperty('color', themeColor.text, 'important');
+        });
     },
 
     injectNavigation() {
@@ -410,6 +442,10 @@ var TabDisguiser = window.TabDisguiser || {
             const historyNavUrl = isAboutBlank ? '#pages/history.html' : (pagesPrefix + '/history.html');
             const settingsNavUrl = isAboutBlank ? '#pages/settings.html' : (pagesPrefix + '/settings.html');
 
+                const circleLetter = (hisTitle.trim()[0] || 'W').toUpperCase();
+                const circleTheme = this.getClassThemeColor(hisTitle);
+                const classItemHtml = '<a aria-current="' + (activePage === 'history' || activePage === 'english' ? 'page' : 'false') + '" aria-label="' + hisTitle + '" class="uTwgne ' + (activePage === 'history' || activePage === 'english' ? 'selected' : '') + '" data-id="854642477833" href="' + historyNavUrl + '" role="menuitem" tabindex="0"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="kWQ5wd"><div class="CNpREd ' + circleTheme.theme + '"><div aria-hidden="true" class="JShLh TGnLfc VjRxGc FeltXd uUMf4c" style="background-color:' + circleTheme.bg + ' !important; color:' + circleTheme.text + ' !important;">' + circleLetter + '</div></div></div><div class="Ij01W"><div class="' + (activePage === 'history' || activePage === 'english' ? 'XL4gNd' : 'GRvzhf') + ' YVvGBb">' + hisTitle + '</div></div></a>';
+
             const baseNavHtml = '<a aria-current="' + (activePage === 'home' ? 'page' : 'false') + '" aria-label="Home" class="uTwgne TbJ0Pc ' + (activePage === 'home' ? 'selected' : '') + '" href="' + homeUrl + '" role="menuitem" tabindex="0"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="npdi5 ykp8pd"><svg class="NMm5M" focusable="false" height="24" viewBox="0 0 24 24" width="24"><path d="M12 3L4 9v12h16V9l-8-6zm6 16h-3v-6H9v6H6v-9l6-4.5 6 4.5v9z"></path></svg></div><div class="Ij01W"><div class="' + (activePage === 'home' ? 'XL4gNd' : 'GRvzhf') + ' YVvGBb">Home</div></div></a>' +
                 '<a aria-current="false" aria-label="Calendar" class="uTwgne TbJ0Pc nav-decorative" href="javascript:void(0)" role="menuitem" style="pointer-events:none;opacity:0.5;cursor:default;" tabindex="-1"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="npdi5 ykp8pd"><svg class="NMm5M" focusable="false" height="24" viewBox="0 0 24 24" width="24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"></path></svg></div><div class="Ij01W"><div class="GRvzhf YVvGBb">Calendar</div></div></a>' +
                 '<a aria-current="' + (activePage === 'ai' ? 'page' : 'false') + '" aria-label="Gemini" class="uTwgne TbJ0Pc ' + (activePage === 'ai' ? 'selected' : '') + '" href="' + aiNavUrl + '" role="menuitem" tabindex="-1"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="npdi5 ykp8pd"><svg fill="currentColor" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M320-280q17 0 28.5-11.5T360-320q0-17-11.5-28.5T320-360q-17 0-28.5 11.5T280-320q0 17 11.5 28.5T320-280Zm0-160q17 0 28.5-11.5T360-480q0-17-11.5-28.5T320-520q-17 0-28.5 11.5T280-480q0 17 11.5 28.5T320-440Zm0-160q17 0 28.5-11.5T360-640q0-17-11.5-28.5T320-680q-17 0-28.5 11.5T280-640q0 17 11.5 28.5T320-600Zm120 320h240v-80H440v80Zm0-160h160v-80H440v80ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h320v80H200v560h560v-320h80v320q0 33-23.5 56.5T760-120H200Zm500-360q0-92-64-156t-156-64q92 0 156-64t64-156q0 92 64 156t156 64q-92 0-156 64t-64 156Zm-220 0Z"></path></svg></div><div class="Ij01W"><div class="' + (activePage === 'ai' ? 'XL4gNd' : 'GRvzhf') + ' YVvGBb">Gemini</div></div></a>' +
@@ -417,7 +453,7 @@ var TabDisguiser = window.TabDisguiser || {
                 '<div aria-expanded="true" aria-label="Enrolled" class="ug8OTc" data-nav-menu-group="2" role="menuitem" tabindex="-1"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="x0wLEd ykp8pd"><svg class="NMm5M" focusable="false" height="24" viewBox="0 0 24 24" width="24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"></path></svg></div><div class="gfEyof YVvGBb HqpJve">Enrolled</div><div class="fPqOAb"></div><div class="YPT36c ykp8pd XnKFHd"><svg class="NMm5M" focusable="false" height="24" viewBox="0 0 24 24" width="24"><path d="M12 16.41l-6.71-6.7 1.42-1.42 5.29 5.3 5.29-5.3 1.42 1.42z"></path></svg></div></div>' +
                 '<div aria-label="Enrolled" role="group">' +
                 '<a aria-current="false" aria-label="To-do" class="uTwgne nav-decorative" href="javascript:void(0)" role="menuitem" style="pointer-events:none;opacity:0.5;cursor:default;" tabindex="-1"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="npdi5 ykp8pd"><svg class="NMm5M" enable-background="new 0 0 24 24" focusable="false" height="24" viewBox="0 0 24 24" width="24"><g><rect fill="none" height="24" width="24"></rect></g><g><g><path d="M20,3H4C2.9,3,2,3.9,2,5v14c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V5 C22,3.9,21.1,3,20,3z M20,19H4V5h16V19z" fill-rule="evenodd"></path><polygon fill-rule="evenodd" points="19.41,10.42 17.99,9 14.82,12.17 13.41,10.75 12,12.16 14.82,15"></polygon><rect fill-rule="evenodd" height="2" width="5" x="5" y="7"></rect><rect fill-rule="evenodd" height="2" width="5" x="5" y="15"></rect><rect fill-rule="evenodd" height="2" width="5" x="5" y="15"></rect></g></g></svg></div><div class="Ij01W"><div class="GRvzhf YVvGBb">To-do</div></div></a>' +
-                '<a aria-current="' + (activePage === 'history' || activePage === 'english' ? 'page' : 'false') + '" aria-label="' + hisTitle + '" class="uTwgne ' + (activePage === 'history' || activePage === 'english' ? 'selected' : '') + '" data-id="854642477833" href="' + historyNavUrl + '" role="menuitem" tabindex="0"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="kWQ5wd"><div class="CNpREd g2MItd"><div aria-hidden="true" class="JShLh TGnLfc VjRxGc FeltXd uUMf4c">W</div></div></div><div class="Ij01W"><div class="' + (activePage === 'history' || activePage === 'english' ? 'XL4gNd' : 'GRvzhf') + ' YVvGBb">' + hisTitle + '</div></div></a>' +
+                classItemHtml +
                 '</div>' +
                 '<li class="aqdrmf-clz4Ic aqdrmf-clz4Ic-OWXEXe-Vkfede s28puc" role="separator"></li>' +
                 '<a aria-current="false" aria-label="Archived classes" class="uTwgne TbJ0Pc nav-decorative" href="javascript:void(0)" role="menuitem" style="pointer-events:none;opacity:0.5;cursor:default;" tabindex="-1"><div class="pzaVke"><span class="dNKuRb NJyEeb"></span><div class="NsMoi"></div></div><div class="npdi5 ykp8pd"><svg class="NMm5M" focusable="false" height="24" viewBox="0 0 24 24" width="24"><path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM6.24 5h11.52l.83 1H5.42l.82-1zM5 19V8h14v11H5zm11-5.5l-4 4-4-4 1.41-1.41L11 13.67V10h2v3.67l1.59-1.59L16 13.5z"></path></svg></div><div class="Ij01W"><div class="GRvzhf YVvGBb">Archived classes</div></div></a>' +

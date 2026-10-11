@@ -1,4 +1,4 @@
-<html class="pJAEVb LQzn7d hy5nu So8nPc l6x6M QTigq eAcXqe mwJvDe" dir="ltr" lang="en"><head><script src="../scripts/cors-interceptor.js"></script><link rel="icon" type="image/png" href="../favicons/google-classroom.png"/><link rel="shortcut icon" type="image/png" href="../favicons/google-classroom.png"/><script defer src="https://cloud.umami.is/script.js" data-website-id="aa9f6a9e-fe62-4b22-a716-f161605dadfc"></script>
+<html class="pJAEVb LQzn7d hy5nu So8nPc l6x6M QTigq eAcXqe mwJvDe" dir="ltr" lang="en"><head><script src="../scripts/cors-interceptor.js"></script><script src="../scripts/fast-cache.js"></script><link rel="icon" type="image/png" href="../favicons/google-classroom.png"/><link rel="shortcut icon" type="image/png" href="../favicons/google-classroom.png"/><script defer src="https://cloud.umami.is/script.js" data-website-id="aa9f6a9e-fe62-4b22-a716-f161605dadfc"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0..200" /><meta content="belkwy30@google.com" name="og-profile-acct"/><link href="//www.gstatic.com" rel="preconnect"/><meta content="origin" name="referrer"/><script nonce="CUsgvK58FMwdsh2IvfM3Gw">window['ppConfig'] = {productName: 'ClassroomUi', deleteIsEnforced:  true , sealIsEnforced:  true , heartbeatRate:  0.5 , periodicReportingRateMillis:  60000.0 , disableAllReporting:  true };(function(){'use strict';function k(a){var b=0;return function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}}}function l(a){var b=typeof Symbol!="undefined"&&Symbol.iterator&&a[Symbol.iterator];if(b)return b.call(a);if(typeof a.length=="number")return{next:k(a)};throw Error(String(a)+" is not an iterable or ArrayLike");}var m=typeof Object.defineProperties=="function"?Object.defineProperty:function(a,b,c){if(a==Array.prototype||a==Object.prototype)return a;a[b]=c.value;return a};
 function n(a){a=["object"==typeof globalThis&&globalThis,a,"object"==typeof window&&window,"object"==typeof self&&self,"object"==typeof global&&global];for(var b=0;b<a.length;++b){var c=a[b];if(c&&c.Math==Math)return c}throw Error("Cannot find global object");}var p=n(this);function q(a,b){if(b)a:{var c=p;a=a.split(".");for(var d=0;d<a.length-1;d++){var e=a[d];if(!(e in c))break a;c=c[e]}a=a[a.length-1];d=c[a];b=b(d);b!=d&&b!=null&&m(c,a,{configurable:!0,writable:!0,value:b})}}
 q("Object.is",function(a){return a?a:function(b,c){return b===c?b!==0||1/b===1/c:b!==b&&c!==c}});q("Array.prototype.includes",function(a){return a?a:function(b,c){var d=this;d instanceof String&&(d=String(d));var e=d.length;c=c||0;for(c<0&&(c=Math.max(c+e,0));c<e;c++){var f=d[c];if(f===b||Object.is(f,b))return!0}return!1}});
@@ -581,129 +581,191 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<div id="customize-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:9999999;align-items:center;justify-content:center;">
-  <div style="background:#fff;padding:24px;border-radius:8px;width:400px;max-width:90%;font-family:Roboto,Arial,sans-serif;">
-    <h2 style="margin-top:0;">Customize Class</h2>
-    <div style="margin-bottom:12px;">
-      <label style="display:block;font-size:12px;color:#5f6368;margin-bottom:4px;">Class Name</label>
-      <input id="cust-name" type="text" style="width:100%;padding:8px;box-sizing:border-box;border:1px solid #dadce0;border-radius:4px;"/>
+<div id="customize-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:9999999;align-items:center;justify-content:center;font-family:'Google Sans',Roboto,Arial,sans-serif;">
+  <div style="background:#fff;border-radius:12px;width:580px;max-width:92%;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 12px 36px rgba(0,0,0,0.28);overflow:hidden;">
+    <div style="padding:18px 24px 14px;border-bottom:1px solid #dadce0;display:flex;align-items:center;justify-content:space-between;">
+      <h2 style="margin:0;font-size:18px;font-weight:500;color:#202124;">Customize Class</h2>
+      <button onclick="closeCustomizeModal()" type="button" aria-label="Close" style="background:none;border:none;cursor:pointer;padding:6px;border-radius:50%;color:#5f6368;display:flex;align-items:center;justify-content:center;transition:background 0.15s;" onmouseover="this.style.background='#f1f3f4'" onmouseout="this.style.background='transparent'">
+        <span class="material-symbols-outlined notranslate" style="font-size:20px;line-height:1;">close</span>
+      </button>
     </div>
-    <div style="margin-bottom:12px;">
-      <label style="display:block;font-size:12px;color:#5f6368;margin-bottom:4px;">Section</label>
-      <input id="cust-sec" type="text" style="width:100%;padding:8px;box-sizing:border-box;border:1px solid #dadce0;border-radius:4px;"/>
+    <div style="padding:20px 24px;overflow-y:auto;flex:1;">
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:12px;font-weight:500;color:#5f6368;margin-bottom:6px;">Class Name</label>
+        <input id="cust-name" type="text" placeholder="e.g. World History" style="width:100%;padding:10px 12px;box-sizing:border-box;border:1px solid #dadce0;border-radius:6px;font-family:inherit;font-size:14px;outline:none;" onfocus="this.style.borderColor='#1a73e8'" onblur="this.style.borderColor='#dadce0'"/>
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-size:12px;font-weight:500;color:#5f6368;margin-bottom:6px;">Teacher Name <span style="font-weight:400;color:#80868b;">(leave blank to remove)</span></label>
+        <input id="cust-teacher" type="text" placeholder="e.g. Mr. Johnson" style="width:100%;padding:10px 12px;box-sizing:border-box;border:1px solid #dadce0;border-radius:6px;font-family:inherit;font-size:14px;outline:none;" onfocus="this.style.borderColor='#1a73e8'" onblur="this.style.borderColor='#dadce0'"/>
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;font-weight:500;color:#5f6368;margin-bottom:8px;">Header Theme Banner</label>
+        <div id="cust-banners-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(115px, 1fr));gap:10px;max-height:260px;overflow-y:auto;padding:2px;"></div>
+      </div>
     </div>
-    <div style="margin-bottom:12px;">
-      <label style="display:block;font-size:12px;color:#5f6368;margin-bottom:4px;">Teacher</label>
-      <input id="cust-teacher" type="text" style="width:100%;padding:8px;box-sizing:border-box;border:1px solid #dadce0;border-radius:4px;"/>
-    </div>
-    <div style="margin-bottom:24px;">
-      <label style="display:block;font-size:12px;color:#5f6368;margin-bottom:4px;">Room</label>
-      <input id="cust-room" type="text" style="width:100%;padding:8px;box-sizing:border-box;border:1px solid #dadce0;border-radius:4px;"/>
-    </div>
-    <div style="display:flex;justify-content:flex-end;gap:12px;">
-      <button onclick="document.getElementById('customize-modal').style.display='none'" style="background:none;border:none;color:#5f6368;cursor:pointer;font-weight:500;padding:8px 16px;">Cancel</button>
-      <button onclick="saveCustomization()" style="background:#1a73e8;border:none;color:#fff;border-radius:4px;cursor:pointer;font-weight:500;padding:8px 16px;">Save</button>
+    <div style="padding:14px 24px;border-top:1px solid #dadce0;display:flex;justify-content:flex-end;gap:12px;background:#f8f9fa;">
+      <button onclick="closeCustomizeModal()" type="button" style="background:none;border:none;color:#5f6368;cursor:pointer;font-weight:500;padding:8px 16px;border-radius:4px;font-family:inherit;font-size:14px;">Cancel</button>
+      <button onclick="saveCustomization()" type="button" style="background:#1a73e8;border:none;color:#fff;border-radius:4px;cursor:pointer;font-weight:500;padding:8px 20px;font-family:inherit;font-size:14px;transition:background 0.15s;" onmouseover="this.style.background='#1557b0'" onmouseout="this.style.background='#1a73e8'">Save</button>
     </div>
   </div>
 </div>
 
 <script>
+const CLASSROOM_BANNERS = [
+  { id: 'WorldHistory.jpg', name: 'World History' },
+  { id: 'english.jpg', name: 'English' },
+  { id: 'Math.jpg', name: 'Math' },
+  { id: 'Chemistry.jpg', name: 'Chemistry' },
+  { id: 'Geometry.jpg', name: 'Geometry' },
+  { id: 'SocialStudies.jpg', name: 'Social Studies' },
+  { id: 'Design.jpg', name: 'Design' },
+  { id: 'music.jpg', name: 'Music' },
+  { id: 'img_backtoschool.jpg', name: 'Back to School' },
+  { id: 'img_bookclub.jpg', name: 'Book Club' },
+  { id: 'img_breakfast.jpg', name: 'Cooking' },
+  { id: 'img_code.jpg', name: 'Coding' },
+  { id: 'img_gamenight.jpg', name: 'Game Night' },
+  { id: 'img_learninstrument.jpg', name: 'Instruments' },
+  { id: 'img_learnlanguage.jpg', name: 'Languages' },
+  { id: 'img_read.jpg', name: 'Reading' },
+  { id: 'img_videogaming.jpg', name: 'Gaming' },
+  { id: 'media-marketing.jpg', name: 'Media' }
+];
+
+let selectedBannerId = 'WorldHistory.jpg';
+
+function renderBannersGrid() {
+  const container = document.getElementById('cust-banners-grid');
+  if (!container) return;
+  container.innerHTML = '';
+  CLASSROOM_BANNERS.forEach(b => {
+    const isSelected = (b.id === selectedBannerId);
+    const card = document.createElement('div');
+    card.style.cssText = 'height:68px;border-radius:8px;cursor:pointer;position:relative;background-image:url("../images/' + b.id + '");background-size:cover;background-position:center;transition:all 0.15s ease;box-shadow:0 1px 3px rgba(0,0,0,0.15);' + (isSelected ? 'outline:3px solid #1a73e8;outline-offset:1px;' : 'outline:2px solid transparent;');
+    
+    card.innerHTML = `
+      <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);border-radius:8px;pointer-events:none;"></div>
+      <div style="position:absolute;bottom:4px;left:6px;right:6px;font-size:11px;font-weight:500;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 2px rgba(0,0,0,0.8);">${b.name}</div>
+      ${isSelected ? '<span class="material-symbols-outlined notranslate" style="position:absolute;top:4px;right:4px;font-size:14px;background:#1a73e8;color:#fff;border-radius:50%;padding:2px;">check</span>' : ''}
+    `;
+    card.onclick = () => {
+      selectedBannerId = b.id;
+      renderBannersGrid();
+    };
+    container.appendChild(card);
+  });
+}
+
 function openCustomizeModal() {
   const cfg = getClassConfig();
   const c = cfg.history || cfg.english || {};
-  document.getElementById('cust-name').value = c.name || '';
-  document.getElementById('cust-sec').value = c.sec || '';
+  document.getElementById('cust-name').value = c.name || 'World History';
   document.getElementById('cust-teacher').value = c.teacher || '';
-  document.getElementById('cust-room').value = c.room || '';
+  selectedBannerId = (c.banner || 'WorldHistory.jpg').replace(/^(\.\.\/|\.\/)?images\//, '');
+  renderBannersGrid();
   document.getElementById('customize-modal').style.display = 'flex';
+}
+
+function closeCustomizeModal() {
+  document.getElementById('customize-modal').style.display = 'none';
 }
 
 function saveCustomization() {
   const cfg = getClassConfig();
   if (!cfg.history) cfg.history = {};
-  cfg.history.name = document.getElementById('cust-name').value;
-  cfg.history.sec = document.getElementById('cust-sec').value;
-  cfg.history.teacher = document.getElementById('cust-teacher').value;
-  cfg.history.room = document.getElementById('cust-room').value;
+  if (!cfg.english) cfg.english = {};
+  const nameVal = document.getElementById('cust-name').value.trim() || 'World History';
+  const teacherVal = document.getElementById('cust-teacher').value.trim();
+
+  cfg.history.name = nameVal;
+  cfg.history.teacher = teacherVal;
+  cfg.history.banner = selectedBannerId || 'WorldHistory.jpg';
+
+  cfg.english.name = nameVal;
+  cfg.english.teacher = teacherVal;
+  cfg.english.banner = cfg.history.banner;
+
   localStorage.setItem('pinpoint_classroom_config', JSON.stringify(cfg));
-  location.reload();
+
+  // Live in-place update without refresh
+  const h1 = document.querySelector('h1.tNGpbb');
+  if (h1) h1.textContent = nameVal;
+  const ugb = document.getElementById('UGb2Qe');
+  if (ugb) ugb.textContent = nameVal;
+  document.title = nameVal + ' - Classroom';
+
+  const bannerUrl = '../images/' + selectedBannerId;
+  document.querySelectorAll('.PFLqgc.KFl4Z, .OjOEXb').forEach(b => {
+    b.style.backgroundImage = 'url("' + bannerUrl + '")';
+  });
+
+  if (typeof TabDisguiser !== 'undefined' && TabDisguiser.applyClassConfig) {
+    TabDisguiser.applyClassConfig();
+  }
+  renderHistoryStream();
+  closeCustomizeModal();
 }
 
 function injectCustomizeBtn() {
-  
-  let header = null;
-  const divs = document.querySelectorAll('div');
-  for (let d of divs) {
-    if (d.style.backgroundImage && (d.style.backgroundImage.includes('WorldHistory.jpg') || d.style.backgroundImage.includes('img_backtoschool.jpg'))) {
-      header = d; break;
-    }
-  }
-  if (!header) {
-    
+  if (document.getElementById('class-customize-btn')) return;
+
+  let container = document.querySelector('.qyN25');
+  if (!container) {
+    const divs = document.querySelectorAll('div');
     for (let d of divs) {
-      if (d.style.backgroundImage && d.style.backgroundImage.includes('img_')) {
-        header = d; break;
+      if (d.style.backgroundImage && (d.style.backgroundImage.includes('WorldHistory.jpg') || d.style.backgroundImage.includes('img_') || d.classList.contains('PFLqgc'))) {
+        container = d.parentElement || d;
+        break;
       }
     }
   }
-  
-  if (header) {
-    header.style.position = 'relative';
+
+  if (container) {
+    container.style.position = 'relative';
     const btn = document.createElement('button');
-    btn.innerText = 'Customize';
-    btn.style.position = 'absolute';
-    btn.style.top = '16px';
-    btn.style.right = '16px';
-    btn.style.background = 'rgba(255,255,255,0.9)';
-    btn.style.color = '#1a73e8';
-    btn.style.border = 'none';
-    btn.style.padding = '8px 16px';
-    btn.style.borderRadius = '4px';
-    btn.style.fontWeight = '500';
-    btn.style.cursor = 'pointer';
-    btn.style.boxShadow = '0 1px 3px rgba(0,0,0,0.2)';
+    btn.id = 'class-customize-btn';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Customize class');
+    btn.setAttribute('data-tooltip', 'Customize class');
+    btn.style.cssText = 'position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.24);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.45);box-shadow:0 4px 14px rgba(0,0,0,0.18);color:#ffffff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;z-index:25;transition:all 0.2s cubic-bezier(0.4,0,0.2,1);outline:none;';
+    btn.onmouseover = () => {
+      btn.style.background = 'rgba(255,255,255,0.38)';
+      btn.style.transform = 'scale(1.06)';
+      btn.style.boxShadow = '0 6px 18px rgba(0,0,0,0.26)';
+    };
+    btn.onmouseout = () => {
+      btn.style.background = 'rgba(255,255,255,0.24)';
+      btn.style.transform = 'scale(1)';
+      btn.style.boxShadow = '0 4px 14px rgba(0,0,0,0.18)';
+    };
+    btn.onmousedown = () => {
+      btn.style.transform = 'scale(0.96)';
+    };
+    btn.innerHTML = '<span class="material-symbols-outlined notranslate" style="font-size:22px;line-height:1;color:#ffffff;">brush</span>';
     btn.onclick = openCustomizeModal;
-    header.appendChild(btn);
-  } else {
-    
-    const btn = document.createElement('button');
-    btn.innerText = 'Customize Class';
-    btn.style.position = 'fixed';
-    btn.style.top = '70px';
-    btn.style.right = '20px';
-    btn.style.background = '#fff';
-    btn.style.color = '#1a73e8';
-    btn.style.border = '1px solid #dadce0';
-    btn.style.padding = '8px 16px';
-    btn.style.borderRadius = '4px';
-    btn.style.fontWeight = '500';
-    btn.style.cursor = 'pointer';
-    btn.style.zIndex = '9999';
-    btn.onclick = openCustomizeModal;
-    document.body.appendChild(btn);
+    container.appendChild(btn);
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(injectCustomizeBtn, 500);
+  injectCustomizeBtn();
+  setTimeout(injectCustomizeBtn, 200);
+  setTimeout(injectCustomizeBtn, 800);
 });
-</script>
 
-
-<script>
 function ensureStreamTitle() {
   const h1 = document.querySelector('h1.tNGpbb');
   if (h1) {
     const cfg = typeof getClassConfig === 'function' ? getClassConfig() : {};
     const title = (cfg.history && cfg.history.name) || (cfg.english && cfg.english.name) || 'World History';
-    if (!h1.textContent || !h1.textContent.trim()) {
+    if (h1.textContent !== title) {
       h1.textContent = title;
     }
   }
 }
 document.addEventListener('DOMContentLoaded', ensureStreamTitle);
 window.addEventListener('load', ensureStreamTitle);
-setInterval(ensureStreamTitle, 300);
+setInterval(ensureStreamTitle, 400);
 </script>
 </body></html>
 
