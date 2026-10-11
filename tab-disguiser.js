@@ -738,9 +738,10 @@ var TabDisguiser = window.TabDisguiser || {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    background: #202124;
-                    color: #ffffff;
+                    background: #f8fafd;
+                    color: #1f1f1f;
                     padding: 8px 14px;
+                    border: 1px solid #d3e3fd;
                     border-radius: 12px;
                     font-size: 13px;
                     font-weight: 600;
@@ -821,10 +822,10 @@ var TabDisguiser = window.TabDisguiser || {
         container.innerHTML = `
             <div class="pinpoint-info-header">
                 <div style="display:flex;align-items:center;gap:6px;">
-                    <span class="material-symbols-outlined notranslate" style="font-size:18px;color:#8ab4f8;line-height:1;">notifications_active</span>
+                    <span class="material-symbols-outlined notranslate" style="font-size:18px;color:#1a73e8;line-height:1;">notifications_active</span>
                     <span>Classroom Highlights</span>
                 </div>
-                <button id="pinpoint-info-dismiss-btn" style="background:none;border:none;color:#9aa0a6;cursor:pointer;padding:2px 4px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:color 0.15s;" title="Dismiss">
+                <button id="pinpoint-info-dismiss-btn" style="background:none;border:none;color:#5f6368;cursor:pointer;padding:2px 4px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:color 0.15s;" title="Dismiss">
                     <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">close</span>
                 </button>
             </div>
@@ -1203,6 +1204,62 @@ var TabDisguiser = window.TabDisguiser || {
 };
 
 if (typeof window !== 'undefined') {
+    if (typeof window.showPinpointToast !== 'function') {
+        window.showPinpointToast = function(message, type = 'info', duration = 3500) {
+            let container = document.getElementById('pinpoint-toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'pinpoint-toast-container';
+                container.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:99999999;display:flex;flex-direction:column;gap:8px;pointer-events:none;font-family:\'Google Sans\',Roboto,Arial,sans-serif;';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.style.cssText = 'pointer-events:auto;min-width:280px;max-width:440px;background:#ffffff;color:#202124;padding:6px 12px 6px 8px;border-radius:28px;border:1px solid #dadce0;font-size:13.5px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 4px 18px rgba(0,0,0,0.14),0 1px 4px rgba(0,0,0,0.08);transition:opacity 0.22s ease,transform 0.22s ease;box-sizing:border-box;';
+
+            let badgeBg = '#e8f0fe';
+            let badgeColor = '#1a73e8';
+            let iconName = 'info';
+            if (type === 'success') {
+                badgeBg = '#e6f4ea';
+                badgeColor = '#137333';
+                iconName = 'check_circle';
+            } else if (type === 'error') {
+                badgeBg = '#fce8e6';
+                badgeColor = '#c5221f';
+                iconName = 'error';
+            } else if (type === 'warning') {
+                badgeBg = '#fef7e0';
+                badgeColor = '#b06000';
+                iconName = 'warning';
+            }
+
+            toast.innerHTML = `
+                <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0;">
+                    <div style="width:32px;height:32px;border-radius:50%;background:${badgeBg};color:${badgeColor};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">${iconName}</span>
+                    </div>
+                    <span style="line-height:1.4;word-break:break-word;color:#202124;">${message}</span>
+                </div>
+                <button style="background:none;border:none;color:#5f6368;cursor:pointer;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;flex-shrink:0;padding:0;" title="Dismiss">
+                    <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">close</span>
+                </button>
+            `;
+
+            let dismissed = false;
+            const remove = () => {
+                if (dismissed) return;
+                dismissed = true;
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(16px) scale(0.92)';
+                setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 220);
+            };
+            toast.querySelector('button').onclick = remove;
+            container.appendChild(toast);
+            if (duration > 0) setTimeout(remove, duration);
+        };
+    }
+
     window.TabDisguiser = TabDisguiser;
     window.openFullscreenClock = () => TabDisguiser.openFullscreenClock();
     window.closeFullscreenClock = () => TabDisguiser.closeFullscreenClock();

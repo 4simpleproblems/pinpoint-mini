@@ -942,7 +942,7 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
           line-height: 1.4;
         }
 
-        /* Material Design 3 Toast Notifications */
+        /* Material Design 3 Toast Notifications (Light Mode) */
         .pinpoint-toast-container {
           position: fixed;
           bottom: 24px;
@@ -957,11 +957,11 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
           pointer-events: auto;
           min-width: 280px;
           max-width: 440px;
-          background: #2b2930;
-          color: #f5eff7;
+          background: #ffffff;
+          color: #202124;
           padding: 6px 12px 6px 8px;
           border-radius: 28px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          border: 1px solid #dadce0;
           font-family: 'Google Sans', Roboto, Arial, sans-serif;
           font-size: 13.5px;
           font-weight: 500;
@@ -969,7 +969,7 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
           align-items: center;
           justify-content: space-between;
           gap: 10px;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.32), 0 1px 4px rgba(0, 0, 0, 0.18);
+          box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14), 0 1px 4px rgba(0, 0, 0, 0.08);
           animation: m3ToastIn 0.28s cubic-bezier(0.05, 0.7, 0.1, 1.0);
           transition: opacity 0.22s cubic-bezier(0.3, 0, 0.8, 0.15), transform 0.22s cubic-bezier(0.3, 0, 0.8, 0.15);
           box-sizing: border-box;
@@ -991,31 +991,31 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
           flex-shrink: 0;
         }
         .pinpoint-toast.toast-success .pinpoint-toast-badge {
-          background: rgba(109, 213, 140, 0.18);
-          color: #6dd58c;
+          background: #e6f4ea;
+          color: #137333;
         }
         .pinpoint-toast.toast-error .pinpoint-toast-badge {
-          background: rgba(242, 184, 181, 0.18);
-          color: #f2b8b5;
+          background: #fce8e6;
+          color: #c5221f;
         }
         .pinpoint-toast.toast-warning .pinpoint-toast-badge {
-          background: rgba(246, 196, 69, 0.18);
-          color: #f6c445;
+          background: #fef7e0;
+          color: #b06000;
         }
         .pinpoint-toast.toast-info .pinpoint-toast-badge {
-          background: rgba(168, 199, 250, 0.18);
-          color: #a8c7fa;
+          background: #e8f0fe;
+          color: #1a73e8;
         }
         .pinpoint-toast-text {
           line-height: 1.4;
           word-break: break-word;
-          color: #f5eff7;
+          color: #202124;
           letter-spacing: 0.15px;
         }
         .pinpoint-toast-close {
           background: transparent;
           border: none;
-          color: #cac4d0;
+          color: #5f6368;
           cursor: pointer;
           width: 28px;
           height: 28px;
@@ -1028,8 +1028,8 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
           padding: 0;
         }
         .pinpoint-toast-close:hover {
-          background: rgba(255, 255, 255, 0.12);
-          color: #ffffff;
+          background: rgba(0, 0, 0, 0.06);
+          color: #202124;
         }
         @keyframes m3ToastIn {
           from {
@@ -1298,20 +1298,21 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
           top: calc(100% + 7px);
           left: 50%;
           transform: translateX(-50%) translateY(-3px) scale(0.95);
-          background: #202124;
-          color: #ffffff;
+          background: #ffffff;
+          color: #202124;
           font-family: 'Google Sans', Roboto, Arial, sans-serif;
-          font-size: 11px;
+          font-size: 11.5px;
           font-weight: 500;
           white-space: nowrap;
           padding: 4px 9px;
           border-radius: 6px;
+          border: 1px solid #dadce0;
           pointer-events: none;
           opacity: 0;
           visibility: hidden;
           transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
           z-index: 1000000;
-          box-shadow: 0 3px 10px rgba(0,0,0,0.22);
+          box-shadow: 0 4px 14px rgba(0,0,0,0.14);
         }
         .runner-header [data-tooltip]::before {
           content: '';
@@ -1321,7 +1322,7 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
           transform: translateX(-50%);
           border-width: 5px;
           border-style: solid;
-          border-color: transparent transparent #202124 transparent;
+          border-color: transparent transparent #ffffff transparent;
           opacity: 0;
           visibility: hidden;
           transition: opacity 0.15s ease, visibility 0.15s ease;
