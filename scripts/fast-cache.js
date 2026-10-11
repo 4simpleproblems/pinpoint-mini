@@ -52,17 +52,13 @@
       document.title = name + ' - Classroom';
     }
 
-    // 2. Inject early CSS rules: remove home banner tint, dynamically tint sidebar background from banner
+    // 2. Inject early CSS rules: remove home banner tint, dynamically color letter icon from banner
     var css = '';
     // Remove dark/color tint overlay from home card banner
     css += '.Tc9hUd .ZizeYd, .Tc9hUd .ZizeYd.ml1ZL, .Tc9hUd .lmPo4 { display: none !important; opacity: 0 !important; } ';
     // Banner background
     css += '.PFLqgc.KFl4Z, .OjOEXb { background-image: url("' + bannerUrl + '") !important; } ';
-    // Sidebar background based on banner dominant color
-    css += 'nav.STek2d, nav.STek2d .tCcYY, .tCcYY.yWU57c { background-color: ' + bannerColors.sidebarBg + ' !important; } ';
-    css += '.OkLq5b, .g0zrjc { fill: ' + bannerColors.sidebarBg + ' !important; } ';
-    css += 'nav.STek2d .uTwgne:hover { background-color: ' + bannerColors.sidebarHover + ' !important; } ';
-    // Sidebar circular icon
+    // Sidebar circular icon background behind letter
     css += 'nav.STek2d .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh { background-color: ' + bannerColors.circleBg + ' !important; color: ' + bannerColors.circleText + ' !important; } ';
     
     var head = document.head || document.getElementsByTagName('head')[0];

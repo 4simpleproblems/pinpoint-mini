@@ -363,14 +363,6 @@ var TabDisguiser = window.TabDisguiser || {
         const letter = (activeTitle[0] || 'W').toUpperCase();
         const themeColor = this.getClassThemeColor(activeTitle, bannerFile);
 
-        // Sidebar background based on banner color
-        document.querySelectorAll('nav.STek2d, nav.STek2d .tCcYY, .tCcYY.yWU57c').forEach(s => {
-            s.style.setProperty('background-color', themeColor.sidebarBg, 'important');
-        });
-        document.querySelectorAll('.OkLq5b, .g0zrjc').forEach(svg => {
-            svg.style.setProperty('fill', themeColor.sidebarBg, 'important');
-        });
-
         document.querySelectorAll('nav.STek2d a[data-id="854642477833"] .JShLh, nav.STek2d .CNpREd .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh').forEach(c => {
             c.textContent = letter;
             c.style.setProperty('background-color', themeColor.bg, 'important');

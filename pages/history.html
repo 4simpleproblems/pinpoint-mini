@@ -704,9 +704,6 @@ function saveCustomization() {
 
   const newCss = '.PFLqgc.KFl4Z, .OjOEXb { background-image: url("' + bannerUrl + '") !important; } ' +
                  '.Tc9hUd .ZizeYd, .Tc9hUd .ZizeYd.ml1ZL, .Tc9hUd .lmPo4 { display: none !important; opacity: 0 !important; } ' +
-                 'nav.STek2d, nav.STek2d .tCcYY, .tCcYY.yWU57c { background-color: ' + bannerColors.sidebarBg + ' !important; } ' +
-                 '.OkLq5b, .g0zrjc { fill: ' + bannerColors.sidebarBg + ' !important; } ' +
-                 'nav.STek2d .uTwgne:hover { background-color: ' + bannerColors.sidebarHover + ' !important; } ' +
                  'nav.STek2d .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh { background-color: ' + bannerColors.circleBg + ' !important; color: ' + bannerColors.circleText + ' !important; } ';
   if (fastStyle) {
     fastStyle.textContent = newCss;
@@ -729,13 +726,7 @@ function saveCustomization() {
   if (ugb) ugb.textContent = nameVal;
   document.title = nameVal + ' - Classroom';
 
-  // 4. Update sidebar background & circular icons & class link
-  document.querySelectorAll('nav.STek2d, nav.STek2d .tCcYY, .tCcYY.yWU57c').forEach(s => {
-    s.style.setProperty('background-color', bannerColors.sidebarBg, 'important');
-  });
-  document.querySelectorAll('.OkLq5b, .g0zrjc').forEach(svg => {
-    svg.style.setProperty('fill', bannerColors.sidebarBg, 'important');
-  });
+  // 4. Update circular icons & class link
   document.querySelectorAll('nav.STek2d a[data-id="854642477833"] .JShLh, nav.STek2d .CNpREd .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh').forEach(c => {
     c.textContent = letter;
     c.style.setProperty('background-color', bannerColors.circleBg, 'important');
