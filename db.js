@@ -175,6 +175,18 @@ const GAME_MANIFESTS = {
         "/textbooks/ruffle/core.ruffle.e1ab5671fe9d69a41e55.js",
         "/textbooks/ruffle/f9db7455c2c80fac021b.wasm"
     ],
+    "textbooks/bloonsTD2.html": [
+        "/textbooks/bloonsTD2.html"
+    ],
+    "textbooks/bloonsTD3.html": [
+        "/textbooks/bloonsTD3.html"
+    ],
+    "textbooks/bloonsTD4.html": [
+        "/textbooks/bloonsTD4.html"
+    ],
+    "textbooks/bloonsTD5.html": [
+        "/textbooks/bloonsTD5.html"
+    ],
     "textbooks/escape-road-3/index.html": [
         "/textbooks/escape-road-3/index.html",
         "/textbooks/escape-road-3/",
