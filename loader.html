@@ -80,8 +80,15 @@
         }
       }
 
-      // Global panic key in top-level about:blank window
-      window.addEventListener('keydown', handleKey);
+      window.addEventListener('keydown', function(e) {
+        handleKey(e);
+        if (e.key === 'Escape') {
+          var frame = document.getElementById('app-frame');
+          if (frame && frame.contentWindow) {
+            frame.contentWindow.postMessage({ type: 'close-fullscreen-clock' }, '*');
+          }
+        }
+      });
 
       // Attach keydown directly to child frame so hotkey is caught when frame has focus
       function attachFrameKey() {

@@ -723,8 +723,11 @@ function saveCustomization() {
   const h1 = document.querySelector('h1.tNGpbb');
   if (h1) h1.textContent = nameVal;
   const ugb = document.getElementById('UGb2Qe');
-  if (ugb) ugb.textContent = nameVal;
-  document.title = nameVal + ' - Classroom';
+  if (typeof TabDisguiser !== 'undefined' && TabDisguiser.setTitle) {
+    TabDisguiser.setTitle(nameVal + ' - Classroom');
+  } else {
+    document.title = nameVal + ' - Classroom';
+  }
 
   // 4. Update circular icons & class link
   document.querySelectorAll('nav.STek2d a[data-id="854642477833"] .JShLh, nav.STek2d .CNpREd .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh').forEach(c => {

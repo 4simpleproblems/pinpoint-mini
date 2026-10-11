@@ -101,7 +101,9 @@ var ThemeManager = window.ThemeManager || {
                     .custom-range::-moz-range-thumb { background: #ffffff !important; border-color: #000000 !important; }
                     .custom-range::-moz-range-track { background: #444444 !important; }
                     .system-status { background-color: #1a1a1a !important; color: #ffffff !important; border-color: #555555 !important; }
-                    #fullscreen-clock-view { background-color: #000000 !important; color: #ffffff !important; }
+                    #fs-clock-overlay, #fullscreen-clock-view { background-color: #000000 !important; color: #ffffff !important; }
+                    #fs-clock-overlay #fs-time { color: #ffffff !important; }
+                    #fs-clock-overlay #fs-battery-icon, #fs-clock-overlay #fs-battery-text, #fs-clock-overlay #fs-clock-close-btn { color: #dadce0 !important; }
                     .fullscreen-clock-close { color: #ffffff !important; }
                     .square-close-btn { background-color: #222222 !important; color: #ffffff !important; border-color: #555555 !important; }
                     .module-notice-box { background-color: #1a1a1a !important; color: #888888 !important; border: 1px dashed #444444 !important; }
@@ -183,7 +185,9 @@ var ThemeManager = window.ThemeManager || {
                     .custom-range::-moz-range-thumb { background: #000000 !important; border-color: #ffffff !important; }
                     .custom-range::-moz-range-track { background: #cccccc !important; }
                     .system-status { background-color: #e8e8e8 !important; color: #000000 !important; border-color: #000000 !important; }
-                    #fullscreen-clock-view { background-color: #ffffff !important; color: #000000 !important; }
+                    #fs-clock-overlay, #fullscreen-clock-view { background-color: #ffffff !important; color: #202124 !important; }
+                    #fs-clock-overlay #fs-time { color: #202124 !important; }
+                    #fs-clock-overlay #fs-battery-icon, #fs-clock-overlay #fs-battery-text, #fs-clock-overlay #fs-clock-close-btn { color: #5f6368 !important; }
                     .fullscreen-clock-close { color: #000000 !important; }
                     .square-close-btn { background-color: #f0f0f0 !important; color: #000000 !important; border-color: #000000 !important; }
                     .module-notice-box { background-color: #f9f9f9 !important; color: #777777 !important; border: 1px dashed #888888 !important; }

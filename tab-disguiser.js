@@ -160,8 +160,7 @@ var TabDisguiser = window.TabDisguiser || {
         return `${rootPrefix}/${cleanPath}`;
     },
 
-    setTitle(customTitle) {
-        const titleToUse = customTitle || this.defaultTitle;
+    _setActualTitle(titleToUse) {
         const docs = this.getDocs();
         docs.forEach(d => { d.title = titleToUse; });
         try {
@@ -169,6 +168,15 @@ var TabDisguiser = window.TabDisguiser || {
                 window.top.postMessage({ type: 'set-title', title: titleToUse }, '*');
             }
         } catch (e) {}
+    },
+
+    setTitle(customTitle) {
+        const titleToUse = customTitle || this.defaultTitle;
+        if (this._isFullscreenClockActive) {
+            this._savedTitleBeforeClock = titleToUse;
+            return;
+        }
+        this._setActualTitle(titleToUse);
     },
 
     apply(customTitle) {
@@ -761,6 +769,23 @@ var TabDisguiser = window.TabDisguiser || {
         }
     },
 
+    getClockTitleTime() {
+        const is24 = localStorage.getItem('pinpoint_clock_format') === '24';
+        const showAmPm = localStorage.getItem('pinpoint_clock_ampm') !== 'false';
+        const now = new Date();
+        const options = {
+            hour: 'numeric',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: !is24
+        };
+        let timeStr = now.toLocaleTimeString([], options);
+        if (!is24 && !showAmPm) {
+            timeStr = timeStr.replace(/\s*(AM|PM)/i, '').trim();
+        }
+        return timeStr;
+    },
+
     initFullscreenClock() {
         if (this._fsClockBound) return;
         this._fsClockBound = true;
@@ -776,12 +801,9 @@ var TabDisguiser = window.TabDisguiser || {
                 }
             }
         }, true);
-        document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) {
-                const overlay = document.getElementById('fs-clock-overlay');
-                if (overlay && overlay.style.display !== 'none') {
-                    overlay.style.display = 'none';
-                }
+        window.addEventListener('message', (e) => {
+            if (e.data && e.data.type === 'close-fullscreen-clock') {
+                this.closeFullscreenClock();
             }
         });
         document.addEventListener('click', (e) => {
@@ -822,12 +844,36 @@ var TabDisguiser = window.TabDisguiser || {
         if (overlay) {
             overlay.style.display = 'flex';
             this.updateBattery();
-            try {
-                if (document.documentElement.requestFullscreen) {
-                    document.documentElement.requestFullscreen();
-                }
-            } catch (e) {}
+            const fsTime = document.getElementById('fs-time');
+            if (fsTime) {
+                fsTime.textContent = this.getClockTitleTime();
+            }
         }
+
+        this._isFullscreenClockActive = true;
+        let saved = '';
+        try {
+            if (window.top && window.top.document && window.top.document.title) {
+                saved = window.top.document.title;
+            }
+        } catch (e) {}
+        if (!saved) saved = document.title || this.defaultTitle;
+        this._savedTitleBeforeClock = saved;
+
+        if (this._clockTitleInterval) {
+            clearInterval(this._clockTitleInterval);
+        }
+        const updateTitle = () => {
+            if (!this._isFullscreenClockActive) return;
+            const timeStr = this.getClockTitleTime();
+            this._setActualTitle(timeStr);
+            const fsTime = document.getElementById('fs-time');
+            if (fsTime) {
+                fsTime.textContent = timeStr;
+            }
+        };
+        updateTitle();
+        this._clockTitleInterval = setInterval(updateTitle, 1000);
     },
 
     closeFullscreenClock() {
@@ -835,11 +881,15 @@ var TabDisguiser = window.TabDisguiser || {
         if (overlay) {
             overlay.style.display = 'none';
         }
-        try {
-            if (document.fullscreenElement) {
-                document.exitFullscreen();
-            }
-        } catch (e) {}
+
+        this._isFullscreenClockActive = false;
+        if (this._clockTitleInterval) {
+            clearInterval(this._clockTitleInterval);
+            this._clockTitleInterval = null;
+        }
+
+        const restoreTitle = this._savedTitleBeforeClock || this.defaultTitle || 'Classes';
+        this._setActualTitle(restoreTitle);
     },
 
     initCleanupReminder() {
