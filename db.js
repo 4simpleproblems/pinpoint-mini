@@ -207,6 +207,26 @@ const GAME_MANIFESTS = {
         "/textbooks/escape-road-3/Build/webgl/sharedassets2.resource",
         "/textbooks/escape-road-3/Build/webgl/sharedassets4.resource",
         "/textbooks/escape-road-3/StreamingAssets/UnityServicesProjectConfiguration.json"
+    ],
+    "textbooks/pixel-gun-apocalypse-2/index.html": [
+        "/textbooks/pixel-gun-apocalypse-2/index.html",
+        "/textbooks/pixel-gun-apocalypse-2/",
+        "/textbooks/pixel-gun-apocalypse-2/Build/PGA2.data.unityweb",
+        "/textbooks/pixel-gun-apocalypse-2/Build/PGA2.json",
+        "/textbooks/pixel-gun-apocalypse-2/Build/PGA2.wasm.code.unityweb",
+        "/textbooks/pixel-gun-apocalypse-2/Build/PGA2.wasm.framework.unityweb",
+        "/textbooks/pixel-gun-apocalypse-2/Build/UnityLoader.js",
+        "/textbooks/pixel-gun-apocalypse-2/TemplateData/bestcrazygames.png",
+        "/textbooks/pixel-gun-apocalypse-2/TemplateData/favicon.ico",
+        "/textbooks/pixel-gun-apocalypse-2/TemplateData/moregames.png",
+        "/textbooks/pixel-gun-apocalypse-2/TemplateData/style.css",
+        "/textbooks/pixel-gun-apocalypse-2/TemplateData/UnityProgress.js",
+        "/textbooks/pixel-gun-apocalypse-2/patch/_cloner-monitor-v1-15.js",
+        "/textbooks/pixel-gun-apocalypse-2/patch/_cloner-v3-39.js",
+        "/textbooks/pixel-gun-apocalypse-2/patch/gamedistribution/_cloner.js",
+        "/textbooks/pixel-gun-apocalypse-2/patch/gamedistribution/main.min.js",
+        "/textbooks/pixel-gun-apocalypse-2/patch/unity/config.json",
+        "/textbooks/pixel-gun-apocalypse-2/patch/unity/v1/events"
     ]
 };
 

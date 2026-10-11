@@ -119,6 +119,14 @@
     {
       "source": "/textbooks/StreamingAssets/:path*",
       "destination": "/textbooks/escape-road-3/StreamingAssets/:path*"
+    },
+    {
+      "source": "/textbooks/pixel-gun-apocalypse-2.html",
+      "destination": "/textbooks/pixel-gun-apocalypse-2/index.html"
+    },
+    {
+      "source": "/textbooks/pixel-gun-apocalypse-2",
+      "destination": "/textbooks/pixel-gun-apocalypse-2/index.html"
     }
   ],
   "headers": [

@@ -882,7 +882,7 @@ var TabDisguiser = window.TabDisguiser || {
                         </div>
                         <div style="font-size:11.5px;color:#5f6368;display:flex;align-items:center;gap:5px;">
                             <span class="material-symbols-outlined notranslate" style="font-size:15px;color:#188038;">sports_basketball</span>
-                            <span>Also added to library: <strong>Basket Random</strong> & <strong>Escape Road 3</strong>!</span>
+                            <span>Also added to library: <strong>Basket Random</strong>, <strong>Escape Road 3</strong> & <strong>Pixel Gun Apocalypse 2</strong>!</span>
                         </div>
                     </div>
                 </div>
