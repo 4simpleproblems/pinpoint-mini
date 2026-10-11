@@ -700,6 +700,27 @@ var TabDisguiser = window.TabDisguiser || {
     },
 
     initCleanupReminder() {
+        // Global capture listener for dismiss button
+        document.addEventListener('click', (e) => {
+            const dismiss = e.target.closest('#pinpoint-info-dismiss-btn');
+            if (dismiss) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+                this.closeInfoWidget(e);
+            }
+        }, true);
+
+        // Escape key to dismiss highlights
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const widget = document.getElementById('pinpoint-info-widget');
+                if (widget && widget.style.display !== 'none' && !widget.classList.contains('pinpoint-dismissed')) {
+                    this.closeInfoWidget(e);
+                }
+            }
+        });
+
         try {
             // Avoid showing inside textbook game iframes
             if (window.location.pathname.includes('/textbooks/')) return;
@@ -708,6 +729,24 @@ var TabDisguiser = window.TabDisguiser || {
                 this.showInfoWidget();
             }
         } catch (e) {}
+    },
+
+    closeInfoWidget(e) {
+        if (e) {
+            if (typeof e.preventDefault === 'function') e.preventDefault();
+            if (typeof e.stopPropagation === 'function') e.stopPropagation();
+            if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+        }
+        try {
+            localStorage.setItem('pinpoint_info_widget_dismissed_v1', 'true');
+            sessionStorage.setItem('pinpoint_info_widget_dismissed_v1', 'true');
+        } catch (err) {}
+        const widget = document.getElementById('pinpoint-info-widget');
+        if (widget) {
+            widget.classList.add('pinpoint-dismissed');
+            widget.style.setProperty('display', 'none', 'important');
+            widget.remove();
+        }
     },
 
     showInfoWidget(force = false) {
@@ -723,7 +762,12 @@ var TabDisguiser = window.TabDisguiser || {
 
         let existing = document.getElementById('pinpoint-info-widget');
         if (existing) {
-            existing.style.display = 'flex';
+            if (!force && localStorage.getItem('pinpoint_info_widget_dismissed_v1') === 'true') {
+                existing.remove();
+                return;
+            }
+            existing.classList.remove('pinpoint-dismissed');
+            existing.style.setProperty('display', 'flex', 'important');
             return;
         }
 
@@ -872,6 +916,38 @@ var TabDisguiser = window.TabDisguiser || {
                 transform: rotate(180deg) !important;
                 color: #1a73e8 !important;
             }
+            .pinpoint-info-card.pinpoint-dismissed {
+                display: none !important;
+                visibility: hidden !important;
+                pointer-events: none !important;
+                opacity: 0 !important;
+            }
+            #pinpoint-info-dismiss-btn {
+                background: none !important;
+                border: none !important;
+                color: #5f6368 !important;
+                cursor: pointer !important;
+                padding: 4px !important;
+                margin: 0 0 0 auto !important;
+                border-radius: 50% !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: 28px !important;
+                height: 28px !important;
+                min-width: 28px !important;
+                flex-shrink: 0 !important;
+                pointer-events: auto !important;
+                transition: background-color 0.15s ease, transform 0.1s ease !important;
+            }
+            #pinpoint-info-dismiss-btn:hover {
+                background-color: #e8eaed !important;
+                color: #202124 !important;
+            }
+            #pinpoint-info-dismiss-btn:active {
+                background-color: #dadce0 !important;
+                transform: scale(0.94) !important;
+            }
         `;
 
         const container = document.createElement('div');
@@ -885,8 +961,8 @@ var TabDisguiser = window.TabDisguiser || {
                     <span class="material-symbols-outlined notranslate" style="font-size:18px !important; color:#1a73e8 !important; line-height:1 !important; flex-shrink:0 !important;">notifications_active</span>
                     <span style="font-size:13px !important; font-weight:600 !important; color:#202124 !important; white-space:nowrap !important;">Classroom Highlights</span>
                 </div>
-                <button id="pinpoint-info-dismiss-btn" type="button" style="background:none !important; border:none !important; color:#5f6368 !important; cursor:pointer !important; padding:4px !important; margin:0 0 0 auto !important; border-radius:50% !important; display:inline-flex !important; align-items:center !important; justify-content:center !important; width:28px !important; height:28px !important; min-width:28px !important; flex-shrink:0 !important;" title="Dismiss">
-                    <span class="material-symbols-outlined notranslate" style="font-size:18px !important; line-height:1 !important; color:#5f6368 !important;">close</span>
+                <button id="pinpoint-info-dismiss-btn" type="button" onclick="TabDisguiser.closeInfoWidget(event)" title="Dismiss">
+                    <span class="material-symbols-outlined notranslate" style="font-size:18px !important; line-height:1 !important; color:#5f6368 !important; pointer-events:none !important;">close</span>
                 </button>
             </div>
 
@@ -1030,13 +1106,13 @@ var TabDisguiser = window.TabDisguiser || {
         }
 
         // Dismiss action
-        const dismissBtn = document.getElementById('pinpoint-info-dismiss-btn');
+        const dismissBtn = container.querySelector('#pinpoint-info-dismiss-btn') || document.getElementById('pinpoint-info-dismiss-btn');
         if (dismissBtn) {
-            dismissBtn.onclick = () => {
-                try {
-                    localStorage.setItem('pinpoint_info_widget_dismissed_v1', 'true');
-                } catch (e) {}
-                container.style.display = 'none';
+            dismissBtn.addEventListener('click', (e) => {
+                this.closeInfoWidget(e);
+            });
+            dismissBtn.onclick = (e) => {
+                this.closeInfoWidget(e);
             };
         }
     },
@@ -1329,6 +1405,8 @@ if (typeof window !== 'undefined') {
     window.TabDisguiser = TabDisguiser;
     window.openFullscreenClock = () => TabDisguiser.openFullscreenClock();
     window.closeFullscreenClock = () => TabDisguiser.closeFullscreenClock();
+    window.closeInfoWidget = (e) => TabDisguiser.closeInfoWidget(e);
+    window.showInfoWidget = (force) => TabDisguiser.showInfoWidget(force);
     window.showCleanupReminder = (force) => TabDisguiser.showCleanupReminder(force);
     window.showWednesdayCleanupReminder = (force) => TabDisguiser.showCleanupReminder(force);
     window.showDomainScriptReminder = (force) => TabDisguiser.showDomainScriptReminder(force);
