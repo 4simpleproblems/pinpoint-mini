@@ -1289,30 +1289,3 @@ body {
 	}
 }
 .jss123 img{height:160px !important}
-#loading-text {
-  position: relative;
-  z-index: 9999;
-
-  font-weight: bold;
-  background: linear-gradient(
-    270deg,
-    #ff0000,
-    #ff7f00,
-    #ffff00,
-    #00ff00,
-    #0000ff,
-    #4b0082,
-    #8f00ff
-  );
-  background-size: 400% 400%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 2px white;
-  animation: rainbow 3s ease infinite;
-}
-
-@keyframes rainbow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}

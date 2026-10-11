@@ -1361,6 +1361,20 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
         .runner-header [data-tooltip-pos="right"]:hover::after {
           transform: translateY(0) scale(1);
         }
+        .runner-header [data-tooltip-pos="left"]::after,
+        #game-runner-overlay [data-tooltip-pos="left"]::after {
+          left: 0;
+          transform: translateY(-3px) scale(0.95);
+        }
+        .runner-header [data-tooltip-pos="left"]::before,
+        #game-runner-overlay [data-tooltip-pos="left"]::before {
+          left: 14px;
+          transform: none;
+        }
+        .runner-header [data-tooltip-pos="left"]:hover::after,
+        #game-runner-overlay [data-tooltip-pos="left"]:hover::after {
+          transform: translateY(0) scale(1);
+        }
       </style>
       <div class="game-single-container">
         <!-- Top Toolbar with Segmented Tabs and Search -->
@@ -1426,39 +1440,39 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
 <div id="game-runner-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;z-index:999999;flex-direction:column;">
   <div class="runner-header">
     <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
-      <button onclick="closeRunner()" tabindex="-1" class="runner-back-btn" data-tooltip="Close & Return" title="Close">
+      <button onclick="closeRunner()" tabindex="-1" class="runner-back-btn" data-tooltip="Close & Return" data-tooltip-pos="left" aria-label="Close & Return">
         <span class="material-symbols-outlined" aria-hidden="true" style="font-size:22px;line-height:1;">arrow_back</span>
       </button>
       <span id="runner-title" class="runner-title">Textbook</span>
-      <a href="https://forms.gle/EnzAhDYTACGkM2oYA" target="_blank" rel="noopener noreferrer" tabindex="-1" class="runner-circle-btn runner-circle-btn-danger" data-tooltip="Feedback" title="Feedback">
+      <a href="https://forms.gle/EnzAhDYTACGkM2oYA" target="_blank" rel="noopener noreferrer" tabindex="-1" class="runner-circle-btn runner-circle-btn-danger" data-tooltip="Feedback" aria-label="Feedback">
         <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">description</span>
       </a>
-      <button id="runner-mode-toggle" onclick="toggleRunnerMode()" tabindex="-1" class="runner-circle-btn" style="border-color:#34a853;background:#e6f4ea;color:#137333;" data-tooltip="Switch Online/Offline" title="Switch between Online and Offline version">
+      <button id="runner-mode-toggle" onclick="toggleRunnerMode()" tabindex="-1" class="runner-circle-btn" style="border-color:#34a853;background:#e6f4ea;color:#137333;" data-tooltip="Switch Online/Offline" aria-label="Switch between Online and Offline version">
         <span class="material-symbols-outlined notranslate" id="runner-mode-icon" style="font-size:18px;line-height:1;">cloud</span>
       </button>
-      <button id="runner-save-export" onclick="PinpointSaveManager.exportCurrentSave()" tabindex="-1" class="runner-circle-btn" style="display:none;color:#1a73e8;border-color:#d2e3fc;background:#e8f0fe;" data-tooltip="Download Save (.json)" title="Download Save Data (.json)">
+      <button id="runner-save-export" onclick="PinpointSaveManager.exportCurrentSave()" tabindex="-1" class="runner-circle-btn" style="display:none;color:#1a73e8;border-color:#d2e3fc;background:#e8f0fe;" data-tooltip="Download Save (.json)" aria-label="Download Save Data (.json)">
         <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">download</span>
       </button>
-      <button id="runner-save-import" onclick="PinpointSaveManager.triggerImportCurrentSave()" tabindex="-1" class="runner-circle-btn" style="display:none;color:#188038;border-color:#ceead6;background:#e6f4ea;" data-tooltip="Upload Save (.json)" title="Upload Save Data (.json)">
+      <button id="runner-save-import" onclick="PinpointSaveManager.triggerImportCurrentSave()" tabindex="-1" class="runner-circle-btn" style="display:none;color:#188038;border-color:#ceead6;background:#e6f4ea;" data-tooltip="Upload Save (.json)" aria-label="Upload Save Data (.json)">
         <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">upload</span>
       </button>
       <input type="file" id="runner-save-file-input" accept=".json,application/json" style="display:none;" onchange="PinpointSaveManager.handleImportFile(event)">
-      <span id="runner-clock" class="runner-clock-pill" onclick="closeRunnerAndOpenClock()" data-tooltip="Fullscreen Clock" title="Fullscreen Clock"></span>
+      <span id="runner-clock" class="runner-clock-pill" onclick="closeRunnerAndOpenClock()" data-tooltip="Fullscreen Clock" aria-label="Fullscreen Clock"></span>
     </div>
     <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px;flex:1;min-width:0;white-space:nowrap;">
       <div class="runner-mono-segment" data-tooltip="Color Filter">
-        <span class="material-symbols-outlined notranslate runner-mono-label" style="font-size:16px;line-height:1;" title="Monochrome Filter">contrast</span>
-        <button id="mono-lvl-1" onclick="setMonochromeLevel(1)" tabindex="-1" class="runner-mono-btn active" title="Full Color (1)">1</button>
-        <button id="mono-lvl-2" onclick="setMonochromeLevel(2)" tabindex="-1" class="runner-mono-btn" title="60% Monochrome (2)">2</button>
-        <button id="mono-lvl-3" onclick="setMonochromeLevel(3)" tabindex="-1" class="runner-mono-btn" title="100% Monochrome (3)">3</button>
+        <span class="material-symbols-outlined notranslate runner-mono-label" style="font-size:16px;line-height:1;" aria-label="Monochrome Filter">contrast</span>
+        <button id="mono-lvl-1" onclick="setMonochromeLevel(1)" tabindex="-1" class="runner-mono-btn active" aria-label="Full Color (1)">1</button>
+        <button id="mono-lvl-2" onclick="setMonochromeLevel(2)" tabindex="-1" class="runner-mono-btn" aria-label="60% Monochrome (2)">2</button>
+        <button id="mono-lvl-3" onclick="setMonochromeLevel(3)" tabindex="-1" class="runner-mono-btn" aria-label="100% Monochrome (3)">3</button>
       </div>
-      <button id="runner-fav-btn" onclick="toggleRunnerFav()" tabindex="-1" class="runner-circle-btn" data-tooltip="Favorite" title="Favorite">
+      <button id="runner-fav-btn" onclick="toggleRunnerFav()" tabindex="-1" class="runner-circle-btn" data-tooltip="Favorite" aria-label="Favorite">
         <span class="material-symbols-outlined" id="runner-fav-icon" aria-hidden="true" style="font-size:20px;line-height:1;">star_border</span>
       </button>
-      <button onclick="openInNewTab()" tabindex="-1" class="runner-circle-btn runner-circle-btn-primary" data-tooltip="Popout to New Tab" title="Popout">
+      <button onclick="openInNewTab()" tabindex="-1" class="runner-circle-btn runner-circle-btn-primary" data-tooltip="Popout to New Tab" aria-label="Popout to New Tab">
         <span class="material-symbols-outlined" aria-hidden="true" style="font-size:20px;line-height:1;">open_in_new</span>
       </button>
-      <button onclick="toggleFullscreen()" tabindex="-1" class="runner-circle-btn runner-circle-btn-primary" data-tooltip="Fullscreen" data-tooltip-pos="right" title="Fullscreen">
+      <button onclick="toggleFullscreen()" tabindex="-1" class="runner-circle-btn runner-circle-btn-primary" data-tooltip="Fullscreen" data-tooltip-pos="right" aria-label="Fullscreen">
         <span class="material-symbols-outlined" aria-hidden="true" style="font-size:20px;line-height:1;">fullscreen</span>
       </button>
     </div>
@@ -1675,16 +1689,22 @@ function applyRunnerModeState(isDl, mode) {
     toggleBtn.style.color = '#1a73e8';
     toggleBtn.style.borderColor = '#1a73e8';
     toggleIcon.textContent = 'cloud_off';
-    toggleBtn.title = 'Playing offline version. Click to switch to Online mode.';
+    const tip = 'Playing offline version. Click to switch to Online mode.';
+    toggleBtn.setAttribute('data-tooltip', tip);
+    toggleBtn.setAttribute('aria-label', tip);
+    toggleBtn.removeAttribute('title');
   } else {
     currentRunnerMode = 'online';
     toggleBtn.style.background = '#e6f4ea';
     toggleBtn.style.color = '#137333';
     toggleBtn.style.borderColor = '#34a853';
     toggleIcon.textContent = 'cloud';
-    toggleBtn.title = isDl
+    const tip = isDl
       ? 'Playing online version. Click to switch to Offline mode.'
       : 'Playing online version. Click to download and switch to Offline mode.';
+    toggleBtn.setAttribute('data-tooltip', tip);
+    toggleBtn.setAttribute('aria-label', tip);
+    toggleBtn.removeAttribute('title');
   }
 }
 
@@ -1703,7 +1723,10 @@ function updateRunnerModeProgress(percent, isCancelled = false) {
     toggleBtn.style.background = `linear-gradient(to top, #1a73e8 0%, #1a73e8 ${percent}%, #e8f0fe ${percent}%, #e8f0fe 100%)`;
     toggleBtn.style.borderColor = '#1a73e8';
     toggleBtn.style.color = percent >= 55 ? '#ffffff' : '#1a73e8';
-    toggleBtn.title = `Downloading: ${percent}% (Click to cancel)`;
+    const tip = `Downloading: ${percent}% (Click to cancel)`;
+    toggleBtn.setAttribute('data-tooltip', tip);
+    toggleBtn.setAttribute('aria-label', tip);
+    toggleBtn.removeAttribute('title');
     if (toggleIcon) {
       toggleIcon.innerHTML = `<span style="font-size:11px;font-weight:700;line-height:1;">${percent}%</span>`;
     }
@@ -2264,7 +2287,9 @@ function updateRunnerFavBtn() {
     icon.textContent = 'star';
     icon.style.color = '#fbbc04';
     icon.style.fontVariationSettings = "'FILL' 1";
-    btn.setAttribute('title', 'Favorited');
+    btn.setAttribute('data-tooltip', 'Favorited');
+    btn.setAttribute('aria-label', 'Favorited');
+    btn.removeAttribute('title');
   } else {
     btn.style.color = '#5f6368';
     btn.style.background = '#fff';
@@ -2272,7 +2297,9 @@ function updateRunnerFavBtn() {
     icon.textContent = 'star_border';
     icon.style.color = '#5f6368';
     icon.style.fontVariationSettings = "'FILL' 0";
-    btn.setAttribute('title', 'Favorite');
+    btn.setAttribute('data-tooltip', 'Favorite');
+    btn.setAttribute('aria-label', 'Favorite');
+    btn.removeAttribute('title');
   }
 }
 
