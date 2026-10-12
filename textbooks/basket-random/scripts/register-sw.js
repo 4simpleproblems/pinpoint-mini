@@ -1,13 +1,3 @@
-"use strict";
-window.C3_RegisterSW = async function() {
-    if (navigator.serviceWorker && 1== 0)
-        try {
-            const a = await navigator.serviceWorker.register("sw.js", {
-                scope: "./"
-            });
-            console.info("Registered service worker on " + a.scope)
-        } catch (a) {
-            console.warn("Failed to register service worker: ", a)
-        }
-}
-;
+version https://git-lfs.github.com/spec/v1
+oid sha256:44ad6669d4e5e27ca6a288deef8118b132709a8ddbbbe657b6844a783891927e
+size 399
