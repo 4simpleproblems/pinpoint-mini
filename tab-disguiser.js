@@ -551,6 +551,19 @@ var TabDisguiser = window.TabDisguiser || {
             c.style.setProperty('background-color', themeColor.bg, 'important');
             c.style.setProperty('color', themeColor.text, 'important');
         });
+
+        document.querySelectorAll('#stream-announcement-avatar, .JZicYb .Cxyznd.MwOlIe').forEach(c => {
+            c.style.setProperty('background-color', themeColor.bg, 'important');
+            const ico = c.querySelector('.material-symbols-outlined') || c.querySelector('#stream-announcement-icon');
+            if (ico) {
+                ico.style.setProperty('color', themeColor.text, 'important');
+                ico.style.setProperty('fill', themeColor.text, 'important');
+            }
+        });
+        document.querySelectorAll('#stream-announcement-icon').forEach(ico => {
+            ico.style.setProperty('color', themeColor.text, 'important');
+            ico.style.setProperty('fill', themeColor.text, 'important');
+        });
     },
 
     injectNavigation() {

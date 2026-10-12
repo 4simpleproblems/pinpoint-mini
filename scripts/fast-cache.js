@@ -73,6 +73,17 @@
               window.top.postMessage({ type: 'set-title', title: updatedTitle }, '*');
             }
           }
+          var updatedBanner = (updatedCfg.history || updatedCfg.english || {}).banner;
+          if (updatedBanner) {
+            var updatedColors = getBannerColor(updatedBanner);
+            var av = document.getElementById('stream-announcement-avatar') || document.querySelector('.JZicYb .Cxyznd.MwOlIe');
+            if (av) av.style.setProperty('background-color', updatedColors.circleBg, 'important');
+            var ic = document.getElementById('stream-announcement-icon') || document.querySelector('.JZicYb .Cxyznd.MwOlIe .material-symbols-outlined');
+            if (ic) {
+              ic.style.setProperty('color', updatedColors.circleText, 'important');
+              ic.style.setProperty('fill', updatedColors.circleText, 'important');
+            }
+          }
         } catch(err) {}
       }
     });
@@ -85,6 +96,9 @@
     css += '.PFLqgc.KFl4Z, .OjOEXb { background-image: url("' + bannerUrl + '") !important; } ';
     // Sidebar circular icon background behind letter
     css += 'nav.STek2d .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh { background-color: ' + bannerColors.circleBg + ' !important; color: ' + bannerColors.circleText + ' !important; } ';
+    // Stream announcement megaphone icon & background
+    css += '#stream-announcement-avatar, .JZicYb .Cxyznd.MwOlIe { background-color: ' + bannerColors.circleBg + ' !important; } ';
+    css += '#stream-announcement-icon, .JZicYb .Cxyznd.MwOlIe .material-symbols-outlined { color: ' + bannerColors.circleText + ' !important; fill: ' + bannerColors.circleText + ' !important; } ';
     
     var head = document.head || document.getElementsByTagName('head')[0];
     if (head) {
@@ -122,6 +136,20 @@
         if (node.textContent !== letter) node.textContent = letter;
         node.style.setProperty('background-color', bannerColors.circleBg, 'important');
         node.style.setProperty('color', bannerColors.circleText, 'important');
+      }
+
+      // Stream announcement megaphone icon & background
+      if ((cl && cl.contains('Cxyznd') && cl.contains('MwOlIe')) || node.id === 'stream-announcement-avatar') {
+        node.style.setProperty('background-color', bannerColors.circleBg, 'important');
+        var ico = node.querySelector('.material-symbols-outlined') || node.querySelector('#stream-announcement-icon');
+        if (ico) {
+          ico.style.setProperty('color', bannerColors.circleText, 'important');
+          ico.style.setProperty('fill', bannerColors.circleText, 'important');
+        }
+      }
+      if (node.id === 'stream-announcement-icon') {
+        node.style.setProperty('color', bannerColors.circleText, 'important');
+        node.style.setProperty('fill', bannerColors.circleText, 'important');
       }
 
       // Banner background
