@@ -127,8 +127,14 @@ const GAME_MANIFESTS = {
     "textbooks/bloonsTD3.html": [
         "/textbooks/bloonsTD3.html"
     ],
+    "textbooks/awesometanks2.html": [
+        "/textbooks/awesometanks2.html"
+    ],
     "textbooks/bloonsTD4.html": [
         "/textbooks/bloonsTD4.html"
+    ],
+    "textbooks/bloxorz.html": [
+        "/textbooks/bloxorz.html"
     ],
     "textbooks/escape-road-3/index.html": [
         "/textbooks/escape-road-3/index.html",
