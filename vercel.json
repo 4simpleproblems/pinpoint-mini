@@ -127,6 +127,14 @@
     {
       "source": "/textbooks/crazy-pixel-apocalypse-9",
       "destination": "/textbooks/crazy-pixel-apocalypse-9/index.html"
+    },
+    {
+      "source": "/textbooks/monspin.html",
+      "destination": "/textbooks/monspin/index.html"
+    },
+    {
+      "source": "/textbooks/monspin",
+      "destination": "/textbooks/monspin/index.html"
     }
   ],
   "headers": [

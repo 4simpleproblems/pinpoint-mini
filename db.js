@@ -130,9 +130,6 @@ const GAME_MANIFESTS = {
     "textbooks/bloonsTD4.html": [
         "/textbooks/bloonsTD4.html"
     ],
-    "textbooks/bloonsTD5.html": [
-        "/textbooks/bloonsTD5.html"
-    ],
     "textbooks/escape-road-3/index.html": [
         "/textbooks/escape-road-3/index.html",
         "/textbooks/escape-road-3/",
@@ -178,6 +175,26 @@ const GAME_MANIFESTS = {
         "/textbooks/crazy-pixel-apocalypse-9/fonts/museomoderno.woff2",
         "/textbooks/crazy-pixel-apocalypse-9/TemplateData/favicon.ico",
         "/textbooks/crazy-pixel-apocalypse-9/TemplateData/style.css"
+    ],
+    "textbooks/monspin/index.html": [
+        "/textbooks/monspin/index.html",
+        "/textbooks/monspin/",
+        "/textbooks/monspin/Build/UnityLoader.js",
+        "/textbooks/monspin/Build/GunSpin%20WebGL%20FinalVersion.json",
+        "/textbooks/monspin/Build/GunSpin%20WebGL%20FinalVersion.data.unityweb",
+        "/textbooks/monspin/Build/GunSpin%20WebGL%20FinalVersion.wasm.code.unityweb",
+        "/textbooks/monspin/Build/GunSpin%20WebGL%20FinalVersion.wasm.framework.unityweb",
+        "/textbooks/monspin/TemplateData/favicon.ico",
+        "/textbooks/monspin/TemplateData/style.css",
+        "/textbooks/monspin/TemplateData/UnityProgress.js",
+        "/textbooks/monspin/TemplateData/progressLogo.Light.png",
+        "/textbooks/monspin/TemplateData/progressEmpty.Light.png",
+        "/textbooks/monspin/TemplateData/progressFull.Light.png",
+        "/textbooks/monspin/TemplateData/progressLogo.Dark.png",
+        "/textbooks/monspin/TemplateData/progressEmpty.Dark.png",
+        "/textbooks/monspin/TemplateData/progressFull.Dark.png",
+        "/textbooks/monspin/TemplateData/webgl-logo.png",
+        "/textbooks/monspin/TemplateData/fullscreen.png"
     ]
 };
 
