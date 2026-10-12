@@ -51,7 +51,10 @@
       window.addEventListener('message', function(e) {
         if (!e.data) return;
         if (e.data.type === 'set-title' && e.data.title) {
-          document.title = e.data.title;
+          var t = e.data.title;
+          if (t.includes('Classroom') || t.includes(':') || t === 'Classes') {
+            document.title = t;
+          }
         }
         if (e.data.type === 'set-favicon' && e.data.favicon) {
           var link = document.querySelector("link[rel*='icon']");
@@ -68,6 +71,22 @@
         }
         if (e.data === 'panic' || (e.data && e.data.type === 'panic')) {
           triggerPanic(e.data && e.data.url);
+        }
+      });
+
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'pinpoint_classroom_config') {
+          try {
+            var cfg = JSON.parse(e.newValue || '{}');
+            var cName = (cfg.history || cfg.english || {}).name;
+            if (cName && document.title && document.title.includes(' - Classroom')) {
+              if (document.title.startsWith('Classwork for ')) {
+                document.title = 'Classwork for ' + cName + ' - Classroom';
+              } else if (!document.title.startsWith('Home') && !document.title.startsWith('Settings') && !document.title.startsWith('Gemini')) {
+                document.title = cName + ' - Classroom';
+              }
+            }
+          } catch(err) {}
         }
       });
 

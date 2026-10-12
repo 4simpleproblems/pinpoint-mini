@@ -2239,9 +2239,20 @@ async function launchGame(file, title, forceOffline = null) {
   const overlay = document.getElementById('game-runner-overlay');
   if (overlay) overlay.style.display = 'flex';
   const iframe = document.getElementById('runner-iframe');
-  if (iframe) iframe.src = targetSrc;
-  if (typeof TabDisguiser !== 'undefined' && TabDisguiser.setTitle) {
-    TabDisguiser.setTitle(title + ' - Classroom');
+  if (iframe) {
+    iframe.src = targetSrc;
+    iframe.onload = () => {
+      try {
+        if (iframe.contentWindow && iframe.contentWindow.document) {
+          if (typeof TabDisguiser !== 'undefined' && TabDisguiser.protectDoc) {
+            TabDisguiser.protectDoc(iframe.contentWindow.document);
+          }
+        }
+      } catch(e) {}
+    };
+  }
+  if (typeof TabDisguiser !== 'undefined') {
+    TabDisguiser.setTitle(TabDisguiser.getCanonicalPageTitle());
   }
 }
 
@@ -2361,7 +2372,9 @@ updateRunnerClock();
 function closeRunner() {
   document.getElementById('game-runner-overlay').style.display = 'none';
   document.getElementById('runner-iframe').src = 'about:blank';
-  TabDisguiser.setTitle('Classwork for World History - Classroom');
+  if (typeof TabDisguiser !== 'undefined') {
+    TabDisguiser.setTitle(TabDisguiser.getCanonicalPageTitle());
+  }
 }
 
 function closeRunnerAndOpenClock() {

@@ -48,9 +48,34 @@
     var letter = (name[0] || 'W').toUpperCase();
 
     // 1. Immediately sync document.title if on class/classwork page
+    var isClasswork = window.location.pathname.includes('classwork');
     if (!isHome && name) {
-      document.title = name + ' - Classroom';
+      var initialTitle = (isClasswork ? ('Classwork for ' + name) : name) + ' - Classroom';
+      document.title = initialTitle;
+      try {
+        if (window.top && window.top !== window.self) {
+          window.top.postMessage({ type: 'set-title', title: initialTitle }, '*');
+        }
+      } catch(e) {}
     }
+
+    // Storage listener to immediately rename tab title if class name changes in another tab
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'pinpoint_classroom_config') {
+        try {
+          var updatedCfg = JSON.parse(e.newValue || '{}');
+          var updated = (updatedCfg.history || updatedCfg.english || {}).name;
+          if (updated && !isHome) {
+            var isCw = window.location.pathname.includes('classwork');
+            var updatedTitle = (isCw ? ('Classwork for ' + updated) : updated) + ' - Classroom';
+            document.title = updatedTitle;
+            if (window.top && window.top !== window.self) {
+              window.top.postMessage({ type: 'set-title', title: updatedTitle }, '*');
+            }
+          }
+        } catch(err) {}
+      }
+    });
 
     // 2. Inject early CSS rules: remove home banner tint, dynamically color letter icon from banner
     var css = '';

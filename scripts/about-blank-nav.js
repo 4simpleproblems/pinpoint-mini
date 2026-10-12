@@ -93,10 +93,39 @@
             const navFn = window.navigateToAboutBlankPage.toString();
             const pageScript = '<script>window.__CURRENT_PAGE__ = ' + JSON.stringify(targetUrl) + ';window.navigateToAboutBlankPage = ' + navFn + ';<' + '/script>';
 
+            // If navigating to a game/textbook, guarantee the tab title stays disguised
+            let titleGuard = '';
+            if (targetUrl.includes('textbooks/') || targetUrl.includes('.html')) {
+                try {
+                    const cfgRaw = localStorage.getItem('pinpoint_classroom_config');
+                    const cfgObj = cfgRaw ? JSON.parse(cfgRaw) : {};
+                    const curName = (cfgObj.history || cfgObj.english || {}).name || 'World History';
+                    const isHistoryStream = targetUrl.includes('history.html') && !targetUrl.includes('classwork');
+                    const disguiseTitle = isHistoryStream ? (curName + ' - Classroom') : ('Classwork for ' + curName + ' - Classroom');
+                    if (html.includes('<title>')) {
+                        html = html.replace(/<title>[\s\S]*?<\/title>/i, '<title>' + disguiseTitle + '</title>');
+                    }
+                    titleGuard = '<script>(function(){' +
+                        'var locked = ' + JSON.stringify(disguiseTitle) + ';' +
+                        'try {' +
+                        '  var nd = Object.getOwnPropertyDescriptor(Document.prototype, "title");' +
+                        '  Object.defineProperty(document, "title", {' +
+                        '    configurable: true, enumerable: true,' +
+                        '    get: function() { return locked; },' +
+                        '    set: function() { if (nd && nd.set) nd.set.call(document, locked); }' +
+                        '  });' +
+                        '} catch(e){}' +
+                        'var tg = document.querySelector("title");' +
+                        'if (tg) { new MutationObserver(function() { if (tg.textContent !== locked) tg.textContent = locked; }).observe(tg, { childList: true, characterData: true, subtree: true }); }' +
+                        'setInterval(function() { if (document.title !== locked) document.title = locked; }, 150);' +
+                    '})();<' + '/script>';
+                } catch(e) {}
+            }
+
             if (html.includes('<head>')) {
-                html = html.replace('<head>', '<head>' + baseTag + pageScript);
+                html = html.replace('<head>', '<head>' + baseTag + titleGuard + pageScript);
             } else {
-                html = baseTag + pageScript + html;
+                html = baseTag + titleGuard + pageScript + html;
             }
 
             window.__CURRENT_PAGE__ = targetUrl;

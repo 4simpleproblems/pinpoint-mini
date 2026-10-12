@@ -461,7 +461,19 @@ async function launchGame(file, title) {
       PinpointSaveManager.updateUI(file);
     }
     document.getElementById('game-runner-overlay').style.display = 'flex';
-    document.getElementById('runner-iframe').src = targetSrc;
+    const iframe = document.getElementById('runner-iframe');
+    if (iframe) {
+      iframe.src = targetSrc;
+      iframe.onload = () => {
+        try {
+          if (iframe.contentWindow && iframe.contentWindow.document) {
+            if (typeof TabDisguiser !== 'undefined' && TabDisguiser.protectDoc) {
+              TabDisguiser.protectDoc(iframe.contentWindow.document);
+            }
+          }
+        } catch(e) {}
+      };
+    }
   }
 }
 
@@ -539,7 +551,9 @@ function closeGameRunner() {
   document.getElementById('runner-iframe').src = 'about:blank';
   currentRunnerFile = '';
   currentRunnerTitle = '';
-  TabDisguiser.setTitle('World History - Classroom');
+  if (typeof TabDisguiser !== 'undefined') {
+    TabDisguiser.setTitle(TabDisguiser.getCanonicalPageTitle());
+  }
 }
 
 function closeGameRunnerAndOpenClock() {
@@ -577,7 +591,9 @@ function getClassConfig() {
 
 document.addEventListener('DOMContentLoaded', () => {
   renderHistoryStream();
-  TabDisguiser.setTitle('World History - Classroom');
+  if (typeof TabDisguiser !== 'undefined') {
+    TabDisguiser.setTitle(TabDisguiser.getCanonicalPageTitle());
+  }
 });
 </script>
 
@@ -728,6 +744,11 @@ function saveCustomization() {
   } else {
     document.title = nameVal + ' - Classroom';
   }
+  try {
+    if (window.top && window.top !== window.self) {
+      window.top.postMessage({ type: 'set-title', title: nameVal + ' - Classroom' }, '*');
+    }
+  } catch(e) {}
 
   // 4. Update circular icons & class link
   document.querySelectorAll('nav.STek2d a[data-id="854642477833"] .JShLh, nav.STek2d .CNpREd .JShLh, .sidebar .JShLh, .kWQ5wd .JShLh').forEach(c => {

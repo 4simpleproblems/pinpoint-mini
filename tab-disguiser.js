@@ -25,6 +25,7 @@ var TabDisguiser = window.TabDisguiser || {
 
         // Walkthrough is opt-in, not a gate — never force-redirect to home
 
+        this.initTitleProtection();
         this.apply();
         this.injectNavigation();
         this.applyClassConfig();
@@ -160,18 +161,90 @@ var TabDisguiser = window.TabDisguiser || {
         return `${rootPrefix}/${cleanPath}`;
     },
 
-    _setActualTitle(titleToUse) {
-        const docs = this.getDocs();
-        docs.forEach(d => { d.title = titleToUse; });
-        try {
-            if (window.top && window.top !== window.self) {
-                window.top.postMessage({ type: 'set-title', title: titleToUse }, '*');
+    getCanonicalPageTitle() {
+        const rawPath = window.__CURRENT_PAGE__ || window.location.pathname || '';
+        const path = rawPath.toLowerCase();
+        const cfg = this.getClassConfig();
+        const historyCfg = cfg.history || cfg.english || {};
+        const className = (historyCfg.name || 'World History').trim();
+
+        const isMusic = path.includes('music');
+        const isClasswork = path.includes('classwork');
+        const isHistoryOrEnglish = (path.includes('history') || path.includes('english'));
+        const isAI = path.includes('ai');
+        const isSettings = path.includes('settings');
+        const isMediaMarketing = path.includes('media-marketing');
+
+        if (isClasswork) {
+            if (isMusic && cfg.music && cfg.music.name) {
+                return `Classwork for ${cfg.music.name} - Classroom`;
             }
-        } catch (e) {}
+            return `Classwork for ${className} - Classroom`;
+        }
+
+        if (isHistoryOrEnglish) {
+            return `${className} - Classroom`;
+        }
+
+        if (isMusic) {
+            const musicName = (cfg.music && cfg.music.name) || 'Music Production';
+            return `${musicName} - Classroom`;
+        }
+
+        if (isMediaMarketing) {
+            return 'Media Marketing - Classroom';
+        }
+
+        if (isAI) {
+            return 'Gemini - Classroom';
+        }
+
+        if (isSettings) {
+            return 'Settings - Classroom';
+        }
+
+        return this.defaultTitle || 'Home - Classroom';
+    },
+
+    _authorizedTitle: '',
+    _isSettingAuthorizedTitle: false,
+
+    _setActualTitle(titleToUse) {
+        this._authorizedTitle = titleToUse;
+        const docs = this.getDocs();
+        this._isSettingAuthorizedTitle = true;
+        try {
+            docs.forEach(d => {
+                if (d) {
+                    try { d.title = titleToUse; } catch(e) {}
+                    try {
+                        const tEl = d.querySelector && d.querySelector('title');
+                        if (tEl && tEl.textContent !== titleToUse) {
+                            tEl.textContent = titleToUse;
+                        }
+                    } catch(e) {}
+                }
+            });
+            try {
+                if (window.top && window.top !== window.self) {
+                    window.top.postMessage({ type: 'set-title', title: titleToUse }, '*');
+                }
+            } catch (e) {}
+        } finally {
+            this._isSettingAuthorizedTitle = false;
+        }
     },
 
     setTitle(customTitle) {
-        const titleToUse = customTitle || this.defaultTitle;
+        const canonical = this.getCanonicalPageTitle();
+        let titleToUse = customTitle || canonical || this.defaultTitle;
+
+        // Never allow game titles or non-disguise titles (unless it's the live clock)
+        if (!titleToUse.includes('Classroom') && !this._isFullscreenClockActive) {
+            titleToUse = canonical;
+        }
+        this._authorizedTitle = titleToUse;
+
         if (this._isFullscreenClockActive) {
             this._savedTitleBeforeClock = titleToUse;
             return;
@@ -180,10 +253,118 @@ var TabDisguiser = window.TabDisguiser || {
     },
 
     apply(customTitle) {
-        this.setTitle(customTitle);
+        const titleToUse = customTitle || this.getCanonicalPageTitle();
+        this.setTitle(titleToUse);
         const docs = this.getDocs();
         const icon = this.resolveUrl(this.defaultFavicon);
         docs.forEach(d => this.setFavicon(icon, d));
+    },
+
+    protectDoc(doc) {
+        if (!doc || doc.__titleLockInstalled) return;
+        doc.__titleLockInstalled = true;
+
+        const proto = Object.getPrototypeOf(doc);
+        const nativeDesc = Object.getOwnPropertyDescriptor(proto, 'title') ||
+                           Object.getOwnPropertyDescriptor(Document.prototype, 'title');
+
+        try {
+            Object.defineProperty(doc, 'title', {
+                configurable: true,
+                enumerable: true,
+                get: () => {
+                    if (nativeDesc && nativeDesc.get) {
+                        return nativeDesc.get.call(doc);
+                    }
+                    return this._authorizedTitle || this.getCanonicalPageTitle();
+                },
+                set: (newVal) => {
+                    if (this._isSettingAuthorizedTitle) {
+                        if (nativeDesc && nativeDesc.set) {
+                            nativeDesc.set.call(doc, newVal);
+                        }
+                        return;
+                    }
+                    // Unauthorized change attempt (e.g. game engine) - silently block and keep authorized disguise title
+                    const auth = this._authorizedTitle || this.getCanonicalPageTitle();
+                    if (nativeDesc && nativeDesc.set) {
+                        nativeDesc.set.call(doc, auth);
+                    }
+                }
+            });
+        } catch(e) {}
+
+        const enforceTag = () => {
+            if (this._isSettingAuthorizedTitle) return;
+            const auth = this._authorizedTitle || this.getCanonicalPageTitle();
+            const titleEl = doc.querySelector && doc.querySelector('title');
+            if (titleEl && titleEl.textContent !== auth) {
+                this._isSettingAuthorizedTitle = true;
+                try {
+                    titleEl.textContent = auth;
+                    if (nativeDesc && nativeDesc.set) {
+                        nativeDesc.set.call(doc, auth);
+                    }
+                } finally {
+                    this._isSettingAuthorizedTitle = false;
+                }
+            }
+        };
+
+        const existingTitle = doc.querySelector && doc.querySelector('title');
+        if (existingTitle) {
+            try {
+                const obs = new MutationObserver(enforceTag);
+                obs.observe(existingTitle, { childList: true, characterData: true, subtree: true });
+            } catch(e) {}
+        }
+        if (doc.head) {
+            try {
+                const headObs = new MutationObserver(enforceTag);
+                headObs.observe(doc.head, { childList: true });
+            } catch(e) {}
+        }
+    },
+
+    initTitleProtection() {
+        this.protectDoc(document);
+        try {
+            if (window.top && window.top.document && window.top.document !== document) {
+                this.protectDoc(window.top.document);
+            }
+        } catch(e) {}
+
+        // Listen for storage events so that when the class name is renamed, all open tabs update immediately
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'pinpoint_classroom_config') {
+                this.applyClassConfig();
+            }
+        });
+
+        // Fast watchdog (every 150ms) to ensure title instantly reverts back to page name
+        setInterval(() => {
+            if (this._isFullscreenClockActive) return;
+            const auth = this._authorizedTitle || this.getCanonicalPageTitle();
+            if (document.title !== auth) {
+                this._setActualTitle(auth);
+            }
+        }, 150);
+
+        document.addEventListener('visibilitychange', () => {
+            if (this._isFullscreenClockActive) return;
+            const auth = this._authorizedTitle || this.getCanonicalPageTitle();
+            if (document.title !== auth) {
+                this._setActualTitle(auth);
+            }
+        });
+
+        window.addEventListener('focus', () => {
+            if (this._isFullscreenClockActive) return;
+            const auth = this._authorizedTitle || this.getCanonicalPageTitle();
+            if (document.title !== auth) {
+                this._setActualTitle(auth);
+            }
+        });
     },
 
     setFavicon(iconUrl, doc = document) {
@@ -306,9 +487,11 @@ var TabDisguiser = window.TabDisguiser || {
             cardTeachers[1].textContent = cfg.music.teacher;
         }
 
-        const path = window.location.pathname;
-        const isHistory = path.includes('history');
-        const isEnglish = path.includes('english');
+        const rawPath = window.__CURRENT_PAGE__ || window.location.pathname || '';
+        const path = rawPath.toLowerCase();
+        const isClasswork = path.includes('classwork');
+        const isHistory = !isClasswork && (path.includes('history') || path.includes('english'));
+        const isEnglish = !isClasswork && path.includes('english');
         const isMusic = path.includes('music');
         const isMediaMarketing = path.includes('media-marketing');
 
@@ -344,15 +527,7 @@ var TabDisguiser = window.TabDisguiser || {
             }
         });
 
-        if (isEnglish && cfg.english && cfg.english.name) {
-            this.setTitle(cfg.english.name + ' - Classroom');
-        } else if (isHistory && cfg.history && cfg.history.name) {
-            this.setTitle(cfg.history.name + ' - Classroom');
-        } else if (isMusic && cfg.music && cfg.music.name) {
-            this.setTitle(cfg.music.name + ' - Classroom');
-        } else if (isMediaMarketing) {
-            this.setTitle('Media Marketing - Classroom');
-        }
+        this.setTitle(this.getCanonicalPageTitle());
 
         const bannerFile = (historyCfg.banner || 'WorldHistory.jpg').replace(/^(\.\.\/|\.\/)?images\//, '');
         const isPagesPath = path.includes('/pages/') || path.includes('\\pages\\');
@@ -888,8 +1063,8 @@ var TabDisguiser = window.TabDisguiser || {
             this._clockTitleInterval = null;
         }
 
-        const restoreTitle = this._savedTitleBeforeClock || this.defaultTitle || 'Classes';
-        this._setActualTitle(restoreTitle);
+        const restoreTitle = this._savedTitleBeforeClock || this.getCanonicalPageTitle() || this.defaultTitle || 'Classes';
+        this.setTitle(restoreTitle);
     },
 
     initCleanupReminder() {
@@ -1346,7 +1521,7 @@ var TabDisguiser = window.TabDisguiser || {
             return null;
         }
 
-        const popoutTitle = resolvedTitle ? resolvedTitle + ' - Classroom' : (document.title || this.defaultTitle);
+        const popoutTitle = (this.getCanonicalPageTitle && this.getCanonicalPageTitle()) || 'Classwork for World History - Classroom';
         const faviconUrl = currentOrigin ? `${currentOrigin}/favicons/google-classroom.png` : 'favicons/google-classroom.png';
         const isFavorited = (function() {
             try {
@@ -1419,6 +1594,49 @@ var TabDisguiser = window.TabDisguiser || {
   </div>
   <iframe id="game-frame" class="game-iframe" src="${gameSrc}" allow="clipboard-write; clipboard-read; fullscreen; gamepad; autoplay" allowfullscreen></iframe>
   <script>
+    const LOCKED_POPOUT_TITLE = ${JSON.stringify(popoutTitle)};
+    try {
+      const pNativeDesc = Object.getOwnPropertyDescriptor(Document.prototype, 'title');
+      Object.defineProperty(document, 'title', {
+        configurable: true,
+        enumerable: true,
+        get: () => LOCKED_POPOUT_TITLE,
+        set: (v) => { if (pNativeDesc && pNativeDesc.set) pNativeDesc.set.call(document, LOCKED_POPOUT_TITLE); }
+      });
+    } catch(e) {}
+    const pTitleTag = document.querySelector('title');
+    if (pTitleTag) {
+      new MutationObserver(() => {
+        if (pTitleTag.textContent !== LOCKED_POPOUT_TITLE) pTitleTag.textContent = LOCKED_POPOUT_TITLE;
+      }).observe(pTitleTag, { childList: true, characterData: true, subtree: true });
+    }
+    setInterval(() => {
+      if (document.title !== LOCKED_POPOUT_TITLE) document.title = LOCKED_POPOUT_TITLE;
+    }, 150);
+
+    const gameFrame = document.getElementById('game-frame');
+    if (gameFrame) {
+      gameFrame.addEventListener('load', () => {
+        try {
+          if (gameFrame.contentWindow && gameFrame.contentWindow.document) {
+            const gDoc = gameFrame.contentWindow.document;
+            Object.defineProperty(gDoc, 'title', {
+              configurable: true,
+              get: () => LOCKED_POPOUT_TITLE,
+              set: () => {}
+            });
+            const gt = gDoc.querySelector('title');
+            if (gt) {
+              gt.textContent = LOCKED_POPOUT_TITLE;
+              new MutationObserver(() => {
+                if (gt.textContent !== LOCKED_POPOUT_TITLE) gt.textContent = LOCKED_POPOUT_TITLE;
+              }).observe(gt, { childList: true, characterData: true, subtree: true });
+            }
+          }
+        } catch(e) {}
+      });
+    }
+
     const TARGET_FILE = ${JSON.stringify(file)};
     let returnUrl = ${JSON.stringify(currentUrl)};
 
