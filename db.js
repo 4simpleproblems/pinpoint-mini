@@ -6,6 +6,11 @@ const GAME_CACHE_NAME = 'pinpoint-game-cache';
 const RECOMMENDED_LIMIT_BYTES = 100 * 1024 * 1024; // 100 MB
 
 const GAME_MANIFESTS = {
+    "textbooks/sprinter/index.html": [
+        "/textbooks/sprinter/index.html",
+        "/textbooks/sprinter/",
+        "/textbooks/sprinter/sprinter.swf"
+    ],
     "textbooks/basket-random/index.html": [
         "/textbooks/basket-random/index.html",
         "/textbooks/basket-random/",

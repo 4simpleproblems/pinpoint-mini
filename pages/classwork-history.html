@@ -1481,47 +1481,90 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
 </div>
 
 <script>
-const ALL_TEXTBOOKS = [
-  {"title": "Awesome Tanks", "file": "textbooks/awesome-tanks.html", "sizeBytes": 9825933},
-  {"title": "Awesome Tanks 2", "file": "textbooks/awesometanks2.html", "sizeBytes": 13004415},
-  {"title": "Basket Random", "file": "textbooks/basket-random/index.html", "sizeBytes": 2548324},
-  {"title": "Basketball Stars", "file": "textbooks/basketball-stars.html", "sizeBytes": 11794098},
-  {"title": "Bit Planes", "file": "textbooks/bit-planes.html", "sizeBytes": 757322},
-  {"title": "Bloons TD", "file": "textbooks/Bloons-TD.html", "sizeBytes": 711100},
-  {"title": "Bloons TD 2", "file": "textbooks/bloonsTD2.html", "sizeBytes": 7852517},
-  {"title": "Bloons TD 3", "file": "textbooks/bloonsTD3.html", "sizeBytes": 8665053},
-  {"title": "Bloons TD 4", "file": "textbooks/bloonsTD4.html", "sizeBytes": 11144029},
-  {"title": "Bloxorz", "file": "textbooks/bloxorz.html", "sizeBytes": 9824296},
-  {"title": "Car Soccer", "file": "textbooks/car-soccer/", "sizeBytes": 130837204},
-  {"title": "Cluster Rush", "file": "textbooks/cluster-rush.html", "sizeBytes": 16052232},
-  {"title": "Cookie Clicker", "file": "textbooks/cookie-clicker.html", "sizeBytes": 7649267},
-  {"title": "Crazy Pixel Apocalypse 9", "file": "textbooks/crazy-pixel-apocalypse-9/index.html", "sizeBytes": 27833728},
-  {"title": "Crossy Road", "file": "textbooks/crossy-road.html", "sizeBytes": 3250987},
-  {"title": "Drift Boss", "file": "textbooks/drift-boss.html", "sizeBytes": 8990388},
-  {"title": "Drivemad", "file": "textbooks/drivemad.html", "sizeBytes": 4999548},
-  {"title": "Escape Road", "file": "textbooks/escape-road.html", "sizeBytes": 37333168},
-  {"title": "Escape Road 2", "file": "textbooks/escape-road-2.html", "sizeBytes": 33570027},
-  {"title": "Escape Road 3", "file": "textbooks/escape-road-3/index.html", "sizeBytes": 217224234},
-  {"title": "Football Bros", "file": "textbooks/football-bros.html", "sizeBytes": 17512552},
-  {"title": "Geometry Dash Lite", "file": "textbooks/geometry-dash-lite.html", "sizeBytes": 56611619},
-  {"title": "Getaway Shootout", "file": "textbooks/getaway-shootout.html", "sizeBytes": 2311},
-  {"title": "Gladihoppers", "file": "textbooks/gladihoppers.html", "sizeBytes": 37178258},
-  {"title": "Granny", "file": "textbooks/granny.html", "sizeBytes": 58316198},
-  {"title": "Happy Wheels", "file": "textbooks/happy-wheels.html", "sizeBytes": 17835062},
-  {"title": "Highway Traffic", "file": "textbooks/highway-traffic.html", "sizeBytes": 36836782},
-  {"title": "Monspin", "file": "textbooks/monspin/index.html", "sizeBytes": 23136887},
-  {"title": "Moto X3M 3", "file": "textbooks/moto-x3m-3.html", "sizeBytes": 10594220},
-  {"title": "People Playground", "file": "textbooks/people-playground/index.html", "sizeBytes": 164247473},
-  {"title": "Polytrack", "file": "textbooks/polytrack.html", "sizeBytes": 7174550},
-  {"title": "Retro Bowl", "file": "textbooks/retro-bowl.html", "sizeBytes": 7254005},
-  {"title": "Retro Bowl College", "file": "textbooks/retro-bowl-college.html", "sizeBytes": 8216510},
-  {"title": "Sandboxels", "file": "textbooks/sandboxels.html", "sizeBytes": 664962},
-  {"title": "Slope", "file": "textbooks/slope.html", "sizeBytes": 25986251},
-  {"title": "Slope 2 Player", "file": "textbooks/slope-2-player.html", "sizeBytes": 10275184},
-  {"title": "Slow Roads", "file": "textbooks/slow-roads.html", "sizeBytes": 16960668},
-  {"title": "Vex5", "file": "textbooks/vex5.html", "sizeBytes": 15661734},
-  {"title": "Wordle Unlimited", "file": "textbooks/wordle-unlimited.html", "sizeBytes": 184510}
-];
+let ALL_TEXTBOOKS = [];
+let hasLoadedCatalog = false;
+let catalogLoadFailed = false;
+
+async function loadTextbooksCatalog() {
+  if (hasLoadedCatalog && ALL_TEXTBOOKS.length > 0 && !catalogLoadFailed) return ALL_TEXTBOOKS;
+
+  const rawUrl = 'https://raw.githubusercontent.com/pinpoint-edu/assets/main/games.json';
+  const cdnUrl = 'https://cdn.jsdelivr.net/gh/pinpoint-edu/assets@main/games.json';
+  const localUrl = '/games.json';
+
+  function fetchWithTimeout(url, timeoutMs = 3500) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now(), { signal: controller.signal })
+      .finally(() => clearTimeout(timer));
+  }
+
+  let list = null;
+  // 1. Try raw GitHub mirror (fastest)
+  try {
+    const res = await fetchWithTimeout(rawUrl, 3500);
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) list = data;
+    }
+  } catch(e) {
+    console.warn('Failed to fetch games.json from raw.githubusercontent:', e);
+  }
+
+  // 2. Try jsDelivr mirror
+  if (!list) {
+    try {
+      const res = await fetchWithTimeout(cdnUrl, 3500);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) list = data;
+      }
+    } catch(e) {
+      console.warn('Failed to fetch games.json from jsDelivr:', e);
+    }
+  }
+
+  // 3. Try local Vercel fallback
+  if (!list) {
+    try {
+      const res = await fetchWithTimeout(localUrl, 2000);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) list = data;
+      }
+    } catch(e) {
+      console.warn('Failed to fetch local games.json:', e);
+    }
+  }
+
+  if (list && Array.isArray(list) && list.length > 0) {
+    ALL_TEXTBOOKS = list;
+    hasLoadedCatalog = true;
+    catalogLoadFailed = false;
+  } else {
+    // If it cannot pull, only load the downloaded games the user has
+    catalogLoadFailed = true;
+    hasLoadedCatalog = true;
+    let dlGames = [];
+    if (typeof PinpointGameStorage !== 'undefined') {
+      try {
+        const records = await PinpointGameStorage.getAllGames();
+        if (records && records.length > 0) {
+          dlGames = records.map(r => ({
+            title: r.title || r.id,
+            file: r.fileUrl || r.id,
+            sizeBytes: r.sizeBytes || 0
+          }));
+        }
+      } catch(e) {
+        console.warn('Failed to load downloaded games:', e);
+      }
+    }
+    ALL_TEXTBOOKS = dlGames;
+  }
+
+  return ALL_TEXTBOOKS;
+}
 let currentRunnerFile = '';
 let currentRunnerTitle = '';
 let currentRunnerMode = 'online';
@@ -1804,6 +1847,9 @@ function formatBytes(bytes) {
 }
 
 async function renderTextbooks() {
+  if (!hasLoadedCatalog) {
+    await loadTextbooksCatalog();
+  }
   const favs = getFavorites();
   const ol = document.getElementById('textbooks-ol');
   const emptyState = document.getElementById('games-empty-state');
@@ -1831,6 +1877,15 @@ async function renderTextbooks() {
     } catch(e) {
       console.warn('Storage fetch error:', e);
     }
+  }
+
+  // If remote catalog pull failed, strictly load only the downloaded games the user has
+  if (catalogLoadFailed) {
+    ALL_TEXTBOOKS = dlRecords.map(r => ({
+      title: r.title || r.id,
+      file: r.fileUrl || r.id,
+      sizeBytes: r.sizeBytes || 0
+    }));
   }
 
   // Update counts on tab badges
