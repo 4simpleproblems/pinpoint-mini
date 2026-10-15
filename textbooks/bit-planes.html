@@ -660,20 +660,24 @@ main .demo {
     padding: 5px;
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 0 0 5px 5px;
+    overflow: hidden;
 }
 
 .missile-capacity {
     margin-right: 10px;
     padding-top: 3px;
+    overflow: hidden;
 }
 
 .missile-capacity .missile {
     transform: rotate(-90deg) scale(1.2);
-    transition: transform 500ms ease-in;
+    transition: transform 500ms ease-in, opacity 300ms ease-in;
 }
 
 .missile-capacity .missile.hidden {
     transform: translateY(-30px) rotate(-90deg);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .missile-capacity{
@@ -692,15 +696,18 @@ main .demo {
     font-size: 20px;
     margin-left: 13px;
     margin-right: 7px;
+    overflow: hidden;
 }
 
 .ammo-capacity > .ammo {
     margin-left: 1px;
-    transition: transform 50ms ease-in;
+    transition: transform 50ms ease-in, opacity 50ms ease-in;
 }
 
 .ammo-capacity > .ammo.hidden {
     transform: translateY(-30px);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .thrust {
