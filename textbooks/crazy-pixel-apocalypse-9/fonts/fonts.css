@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4443493e66404c827101fecc4467bc9340fe2c5085b8165279c9f897b2b75573
-size 311
+@font-face {
+  font-family: 'Heebo';
+  font-style: normal;
+  font-weight: 200 500;
+  font-display: swap;
+  src: url('heebo.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'MuseoModerno';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('museomoderno.woff2') format('woff2');
+}

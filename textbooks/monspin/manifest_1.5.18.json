@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e94425299678e4b22e5249605e7b88aecb5d604d24d27cf29850488c457d85fb
-size 636
+{
+  "short_name": "GunSpin",
+  "name": "GunSpin",
+  "icons": [
+    {
+      "src": "https://img.gamedistribution.com/917cce8c44c44638a8cdc2a1794b65c8-512x512.jpeg",
+      "type": "image/jpeg",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "https://img.gamedistribution.com/917cce8c44c44638a8cdc2a1794b65c8-512x512.jpeg",
+      "type": "image/png",
+      "sizes": "144x144",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "/917cce8c44c44638a8cdc2a1794b65c8/index.html",
+  "background_color": "#3367D6",
+  "display": "standalone",
+  "scope": "/917cce8c44c44638a8cdc2a1794b65c8/",
+  "theme_color": "#3367D6"
+}

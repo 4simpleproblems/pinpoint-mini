@@ -1,3 +1,70 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cc8f1a60022703ce2e07274a2dedadc04263bc9b42a8ea47e3393ea43c1dba37
-size 2182
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <base href="/textbooks/monspin/">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Monspin</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="TemplateData/UnityProgress.js"></script>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+      // Mock GameDistribution SDK to prevent external requests, domain checks, or blocking messages
+      window["GD_OPTIONS"] = {
+        debug: false,
+        gameId: "917cce8c44c44638a8cdc2a1794b65c8",
+        onEvent: function(event) {
+          if (event.name === "SDK_GAME_START" && window.gameInstance) {
+            window.gameInstance.SendMessage("GameDistribution", "ResumeGameCallback");
+          }
+        }
+      };
+      window.gdsdk = {
+        AdType: { Interstitial: "interstitial", Rewarded: "rewarded" },
+        showAd: function(type) {
+          return Promise.resolve();
+        },
+        preloadAd: function(type) {
+          return Promise.resolve();
+        },
+        openConsole: function() {}
+      };
+      //var unityInstance = UnityLoader.instantiate("unityContainer", "Build/GunSpin WebGL FinalVersion.json", {onProgress: UnityProgress});
+	  window.gameInstance = UnityLoader.instantiate("unityContainer", "Build/GunSpin WebGL FinalVersion.json");
+    </script>
+	<style>
+		* { 
+			margin: 0; padding: 0; 
+		} 
+		body { 
+			background: black; 
+		}
+		div#unityContainer {
+			margin: auto !important;
+			position: absolute !important;
+			left: 50%;
+			top: 50%;
+			-webkit-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+			width: 720px; 
+			height: 480px;
+			width: 150vh !important;
+			height: 100vh !important;
+		}
+		.footer {
+		display:none 
+		}
+	</style>
+  </head>
+  <body>
+    <div class="webgl-content">
+      <div id="unityContainer"></div>
+      <div class="footer">
+        <div class="webgl-logo"></div>
+        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
+        <div class="title">Monspin</div>
+      </div>
+    </div>
+  </body>
+</html>
