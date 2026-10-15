@@ -1562,6 +1562,8 @@ var TabDisguiser = window.TabDisguiser || {
         const faviconUrl = currentOrigin ? `${currentOrigin}/favicons/google-classroom.png` : 'favicons/google-classroom.png';
         const isFavorited = (function() {
             try {
+                const lib = localStorage.getItem('pinpoint_library');
+                if (lib && JSON.parse(lib).includes(file)) return true;
                 const raw = localStorage.getItem('pinpoint_favorites');
                 if (raw) return JSON.parse(raw).includes(file);
             } catch(e) {}
@@ -1618,10 +1620,10 @@ var TabDisguiser = window.TabDisguiser || {
     </div>
     <div class="topbar-right">
       <button id="popout-fav-btn" class="action-btn ${isFavorited ? 'starred' : ''}" onclick="togglePopoutFav()">
-        <span class="material-symbols-outlined" id="popout-fav-icon" style="${isFavorited ? "font-variation-settings:'FILL' 1;color:#fbbc04;" : ""}">
-          ${isFavorited ? 'star' : 'star_border'}
+        <span class="material-symbols-outlined" id="popout-fav-icon" style="${isFavorited ? "font-variation-settings:'FILL' 1;color:#1a73e8;" : ""}">
+          ${isFavorited ? 'bookmark' : 'bookmark_border'}
         </span>
-        <span id="popout-fav-text">${isFavorited ? 'Favorited' : 'Favorite'}</span>
+        <span id="popout-fav-text">${isFavorited ? 'In Library' : 'Library'}</span>
       </button>
       <button class="action-btn primary" onclick="toggleFullscreen()">
         <span class="material-symbols-outlined" style="font-size:18px;">fullscreen</span>
@@ -1730,7 +1732,7 @@ var TabDisguiser = window.TabDisguiser || {
     function togglePopoutFav() {
       try {
         let favs = [];
-        const raw = localStorage.getItem('pinpoint_favorites');
+        const raw = localStorage.getItem('pinpoint_library') || localStorage.getItem('pinpoint_favorites');
         if (raw) favs = JSON.parse(raw);
         const idx = favs.indexOf(TARGET_FILE);
         const btn = document.getElementById('popout-fav-btn');
@@ -1739,18 +1741,19 @@ var TabDisguiser = window.TabDisguiser || {
         if (idx !== -1) {
           favs.splice(idx, 1);
           btn.className = 'action-btn';
-          icon.textContent = 'star_border';
+          icon.textContent = 'bookmark_border';
           icon.style.color = '#5f6368';
           icon.style.fontVariationSettings = "'FILL' 0";
-          text.textContent = 'Favorite';
+          text.textContent = 'Library';
         } else {
           favs.push(TARGET_FILE);
           btn.className = 'action-btn starred';
-          icon.textContent = 'star';
-          icon.style.color = '#fbbc04';
+          icon.textContent = 'bookmark';
+          icon.style.color = '#1a73e8';
           icon.style.fontVariationSettings = "'FILL' 1";
-          text.textContent = 'Favorited';
+          text.textContent = 'In Library';
         }
+        localStorage.setItem('pinpoint_library', JSON.stringify(favs));
         localStorage.setItem('pinpoint_favorites', JSON.stringify(favs));
       } catch (e) {}
     }

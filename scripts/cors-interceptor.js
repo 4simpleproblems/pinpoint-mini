@@ -95,11 +95,53 @@
         }
     }
 
-    // 6. Suppress uncaught closure errors related to logging / RotateCookies
+    // 6. Suppress uncaught closure errors related to logging / RotateCookies / gbar
     window.addEventListener('error', function (e) {
-        if (e && e.message && (e.message.includes('pa') || e.message.includes('RotateCookiesPage') || e.message.includes('_ModuleManager'))) {
+        if (e && e.message && (e.message.includes('pa') || e.message.includes('RotateCookiesPage') || e.message.includes('_ModuleManager') || e.message.includes('_.me') || e.message.includes('me is not a function'))) {
             if (typeof e.preventDefault === 'function') e.preventDefault();
             return true;
+        }
+    }, true);
+
+    // 7. Stub Google gbar_ closure user module to prevent `_.me is not a function` in rs=AA2YrTuBu0AV...
+    let _gbar = window.gbar_ || {};
+    try {
+        Object.defineProperty(window, 'gbar_', {
+            configurable: true,
+            enumerable: true,
+            get: function () {
+                if (!_gbar.me) {
+                    _gbar.me = function () { return null; };
+                }
+                return _gbar;
+            },
+            set: function (val) {
+                if (val && typeof val === 'object') {
+                    if (!val.me) {
+                        val.me = function () { return null; };
+                    }
+                    _gbar = val;
+                } else {
+                    _gbar = val;
+                }
+            }
+        });
+        if (typeof window.gbar_.me !== 'function') {
+            window.gbar_.me = function () { return null; };
+        }
+    } catch(err) {
+        window.gbar_ = window.gbar_ || {};
+        window.gbar_.me = function () { return null; };
+    }
+
+    // 8. Suppress unhandled promise rejections related to `_.me` or closure modules
+    window.addEventListener('unhandledrejection', function (e) {
+        if (e && e.reason) {
+            const reasonStr = String(e.reason.message || e.reason);
+            if (reasonStr.includes('_.me') || reasonStr.includes('me is not a function') || reasonStr.includes('RotateCookiesPage')) {
+                if (typeof e.preventDefault === 'function') e.preventDefault();
+                return true;
+            }
         }
     }, true);
 })();

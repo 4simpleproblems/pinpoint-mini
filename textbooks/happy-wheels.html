@@ -30,13 +30,21 @@
     }
   </style>
   <script>
-    let baseOrigin = (window.location.origin && window.location.origin !== "null") ? window.location.origin : "";
+    let baseOrigin = (window.location.origin && window.location.origin !== "null" && !window.location.origin.startsWith("blob")) ? window.location.origin : "";
     try {
-      if (!baseOrigin && window.parent && window.parent.location && window.parent.location.origin && window.parent.location.origin !== "null") {
+      if ((!baseOrigin || baseOrigin.startsWith("blob")) && window.parent && window.parent.location && window.parent.location.origin && window.parent.location.origin !== "null" && !window.parent.location.origin.startsWith("blob")) {
         baseOrigin = window.parent.location.origin;
       }
     } catch(e) {}
-    if (!baseOrigin) baseOrigin = "";
+    if (!baseOrigin || baseOrigin.startsWith("blob")) {
+      try {
+        baseOrigin = localStorage.getItem('pinpoint_entry_origin') || "";
+      } catch(e) {}
+    }
+    if (!baseOrigin || baseOrigin.startsWith("blob")) {
+      baseOrigin = window.location.protocol.startsWith("http") ? (window.location.protocol + "//" + window.location.host) : "https://notebook.broshan.com.np";
+    }
+    if (baseOrigin.endsWith("/")) baseOrigin = baseOrigin.slice(0, -1);
 
     window.RufflePlayer = window.RufflePlayer || {};
     window.RufflePlayer.config = {
