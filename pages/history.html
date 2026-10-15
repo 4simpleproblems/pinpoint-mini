@@ -320,6 +320,53 @@ var hj=function(a,b){a<b?gj(a+1,b):_.$c.log(Error("aa`"+a+"`"+b))},gj=function(a
   #runner-clock:active {
     transform: scale(0.97);
   }
+  .runner-pill-btn {
+    height: 34px;
+    border-radius: 18px;
+    border: 1px solid #dadce0;
+    background: #ffffff;
+    color: #3c4043;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 12px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    flex-shrink: 0;
+    user-select: none;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .runner-pill-btn:hover {
+    background: #f1f3f4;
+    border-color: #dadce0;
+    color: #202124;
+  }
+  .runner-pill-btn-danger {
+    color: #d93025;
+    border-color: #fce8e6;
+    background: #fdf2f2;
+  }
+  .runner-pill-btn-danger:hover {
+    background: #fce8e6;
+    border-color: #fad2cf;
+    color: #c5221f;
+  }
+  .runner-pill-btn-primary {
+    color: #1a73e8;
+    border-color: #dadce0;
+    background: #ffffff;
+  }
+  .runner-pill-btn-primary:hover {
+    background: #e8f0fe;
+    border-color: #d2e3fc;
+    color: #1a73e8;
+  }
 </style>
 <div id="game-runner-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;z-index:999999;flex-direction:column;font-family:'Google Sans',Roboto,Arial,sans-serif;">
   <div style="height:56px;border-bottom:1px solid #dadce0;background:#fff;padding:0 12px;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box;user-select:none;">
@@ -328,8 +375,9 @@ var hj=function(a,b){a<b?gj(a+1,b):_.$c.log(Error("aa`"+a+"`"+b))},gj=function(a
         <span class="material-symbols-outlined" aria-hidden="true" style="font-size:24px;line-height:1;">arrow_back</span>
       </button>
       <div id="runner-title" style="font-size:18px;font-weight:500;color:#202124;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:22vw;">Textbook</div>
-      <a href="https://forms.gle/EnzAhDYTACGkM2oYA" target="_blank" rel="noopener noreferrer" tabindex="-1" style="width:36px;height:36px;font-size:14px;cursor:pointer;border-radius:4px;border:1px solid #dadce0;background:#fff;color:#ea4335;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;flex-shrink:0;text-decoration:none;" data-tooltip="Feedback" aria-label="Feedback">
-        <span class="material-symbols-outlined notranslate" style="font-size:20px;line-height:1;">description</span>
+      <a href="https://forms.gle/EnzAhDYTACGkM2oYA" target="_blank" rel="noopener noreferrer" tabindex="-1" class="runner-pill-btn runner-pill-btn-danger" data-tooltip="Leave Feedback" aria-label="Feedback">
+        <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">description</span>
+        <span>Feedback</span>
       </a>
       <button id="runner-save-export" onclick="PinpointSaveManager.exportCurrentSave()" tabindex="-1" style="display:none;width:36px;height:36px;font-size:14px;font-weight:500;cursor:pointer;border-radius:4px;border:1px solid #d2e3fc;background:#e8f0fe;color:#1a73e8;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;box-sizing:border-box;flex-shrink:0;padding:0;" data-tooltip="Download Save (.json)" aria-label="Download Save Data (.json)">
         <span class="material-symbols-outlined notranslate" style="font-size:22px;line-height:1;">download</span>
@@ -349,8 +397,9 @@ var hj=function(a,b){a<b?gj(a+1,b):_.$c.log(Error("aa`"+a+"`"+b))},gj=function(a
           <button id="mono-lvl-3" onclick="setMonochromeLevel(3)" tabindex="-1" style="width:26px;height:26px;font-size:12px;font-weight:600;cursor:pointer;border-radius:3px;border:1px solid #dadce0;background:#fff;color:#5f6368;display:inline-flex;align-items:center;justify-content:center;padding:0;font-family:inherit;box-sizing:border-box;" aria-label="100% Monochrome (3)">3</button>
         </div>
       </div>
-      <button id="runner-fav-btn" onclick="toggleCurrentRunnerFav()" tabindex="-1" style="width:36px;height:36px;font-size:14px;font-weight:500;cursor:pointer;border-radius:4px;border:1px solid #dadce0;background:#fff;color:#5f6368;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;box-sizing:border-box;flex-shrink:0;padding:0;" data-tooltip="Favorite" aria-label="Favorite">
-        <span class="material-symbols-outlined" id="runner-fav-icon" aria-hidden="true" style="font-size:22px;line-height:1;">star_border</span>
+      <button id="runner-lib-btn" onclick="toggleCurrentRunnerFav()" tabindex="-1" class="runner-pill-btn runner-pill-btn-primary" data-tooltip="Save to Library" aria-label="Library">
+        <span class="material-symbols-outlined notranslate" id="runner-lib-icon" aria-hidden="true" style="font-size:19px;line-height:1;">bookmark_border</span>
+        <span id="runner-lib-text">Add to Library</span>
       </button>
       <button onclick="openInNewTab()" tabindex="-1" style="width:36px;height:36px;font-size:14px;font-weight:500;cursor:pointer;border-radius:4px;border:1px solid #dadce0;background:#fff;color:#1a73e8;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;box-sizing:border-box;flex-shrink:0;padding:0;" data-tooltip="Popout to New Tab" aria-label="Popout to New Tab">
         <span class="material-symbols-outlined" aria-hidden="true" style="font-size:22px;line-height:1;">open_in_new</span>
@@ -377,7 +426,7 @@ const allTextbooks = [{"id":"people-playground","title":"People Playground","fil
 
 function getFavorites() {
   try {
-    const raw = localStorage.getItem('pinpoint_favorites');
+    const raw = localStorage.getItem('pinpoint_library') || localStorage.getItem('pinpoint_favorites');
     if (raw) return JSON.parse(raw);
   } catch(e) {}
   return [];
@@ -395,6 +444,7 @@ function toggleFav(file) {
     favs.push(file);
   }
   try {
+    localStorage.setItem('pinpoint_library', JSON.stringify(favs));
     localStorage.setItem('pinpoint_favorites', JSON.stringify(favs));
   } catch(e) {}
   renderHistoryStream();
@@ -423,7 +473,7 @@ function renderHistoryStream() {
       </div>
       <div style="font-size:14px;line-height:1.5;color:#3c4043;">
         <p>Welcome to the curriculum portal! Head over to the <a href="/pages/classwork-history.html" style="color:#1a73e8;font-weight:500;">Classwork</a> tab above to browse all 20 interactive textbooks and simulations.</p>
-        <p>You can also star any textbook to add it to your favorites bar for 1-click access!</p>
+        <p>You can also save any textbook to add it to your Library for quick access!</p>
       </div>
     </div>
   `;
@@ -437,20 +487,11 @@ async function launchGame(file, title) {
   const gameId = file.replace(/[^a-zA-Z0-9_-]/g, '_');
 
   let targetSrc = '/' + file.replace(/^\/+/, '');
-  let isOffline = false;
-  if (typeof PinpointGameStorage !== 'undefined') {
-    try {
-      const isDl = await PinpointGameStorage.isDownloaded(gameId);
-      if (isDl) {
-        isOffline = true;
-      }
-    } catch(e) {}
-  }
 
   const win = TabDisguiser.openPopout(file, title);
   if (!win) {
-    document.getElementById('runner-title').textContent = title + (isOffline ? ' (Offline Mode)' : '');
-    updateRunnerFavBtn();
+    document.getElementById('runner-title').textContent = title;
+    updateRunnerLibraryBtn();
     updateMonochromeUI();
     if (typeof PinpointSaveManager !== 'undefined') {
       PinpointSaveManager.updateUI(file);
@@ -510,35 +551,48 @@ function setMonochromeLevel(lvl) {
   updateMonochromeUI();
 }
 
-function updateRunnerFavBtn() {
-  const btn = document.getElementById('runner-fav-btn');
-  const icon = document.getElementById('runner-fav-icon');
+function updateRunnerLibraryBtn() {
+  const btn = document.getElementById('runner-lib-btn');
+  const icon = document.getElementById('runner-lib-icon');
+  const text = document.getElementById('runner-lib-text');
   if (!btn || !icon) return;
-  const starred = isFav(currentRunnerFile);
-  if (starred) {
-    btn.style.color = '#b06000';
-    btn.style.background = '#fef7e0';
-    btn.style.borderColor = '#fdd663';
-    icon.textContent = 'star';
-    icon.style.color = '#fbbc04';
-    btn.setAttribute('data-tooltip', 'Favorited');
-    btn.setAttribute('aria-label', 'Favorited');
+  const inLib = isFav(currentRunnerFile);
+  if (inLib) {
+    btn.style.color = '#1a73e8';
+    btn.style.background = '#e8f0fe';
+    btn.style.borderColor = '#1a73e8';
+    icon.textContent = 'bookmark';
+    icon.style.color = '#1a73e8';
+    icon.style.fontVariationSettings = "'FILL' 1";
+    if (text) text.textContent = 'In Library';
+    btn.setAttribute('data-tooltip', 'Saved to your Library');
+    btn.setAttribute('aria-label', 'In Library');
     btn.removeAttribute('title');
   } else {
-    btn.style.color = '#5f6368';
+    btn.style.color = '#3c4043';
     btn.style.background = '#fff';
     btn.style.borderColor = '#dadce0';
-    icon.textContent = 'star_border';
+    icon.textContent = 'bookmark_border';
     icon.style.color = '#5f6368';
-    btn.setAttribute('data-tooltip', 'Favorite');
-    btn.setAttribute('aria-label', 'Favorite');
+    icon.style.fontVariationSettings = "'FILL' 0";
+    if (text) text.textContent = 'Add to Library';
+    btn.setAttribute('data-tooltip', 'Add to Library');
+    btn.setAttribute('aria-label', 'Add to Library');
     btn.removeAttribute('title');
   }
+}
+
+function updateRunnerFavBtn() {
+  updateRunnerLibraryBtn();
 }
 
 function toggleCurrentRunnerFav() {
   if (!currentRunnerFile) return;
   toggleFav(currentRunnerFile);
+}
+
+function toggleRunnerLibrary() {
+  toggleCurrentRunnerFav();
 }
 
 function closeGameRunner() {
@@ -807,7 +861,7 @@ function updateStreamWelcomeText(customName) {
 
   const bodyEl = document.getElementById('stream-welcome-body') || document.querySelector('.n8F6Jd .pco8Kc.j70YMc span');
   if (bodyEl) {
-    const expectedHtml = 'Welcome to ' + name + '. Check the <b>Classwork</b> tab above to access all interactive digital textbooks and modules. You can star any textbook to add it to your favorites bar.';
+    const expectedHtml = 'Welcome to ' + name + '. Check the <b>Classwork</b> tab above to access all interactive digital textbooks and modules. You can save any textbook to add it to your Library.';
     if (bodyEl.innerHTML !== expectedHtml) {
       bodyEl.innerHTML = expectedHtml;
     }

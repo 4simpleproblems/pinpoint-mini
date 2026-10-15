@@ -1231,6 +1231,53 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
           color: #ea4335;
           border-color: #fad2cf;
         }
+        .runner-pill-btn {
+          height: 34px;
+          border-radius: 18px;
+          border: 1px solid #dadce0;
+          background: #ffffff;
+          color: #3c4043;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 0 12px;
+          cursor: pointer;
+          transition: all 0.18s ease;
+          font-family: 'Google Sans', Roboto, Arial, sans-serif;
+          box-sizing: border-box;
+          text-decoration: none;
+          outline: none;
+          flex-shrink: 0;
+          user-select: none;
+          white-space: nowrap;
+          font-size: 13px;
+          font-weight: 500;
+        }
+        .runner-pill-btn:hover {
+          background: #f1f3f4;
+          border-color: #dadce0;
+          color: #202124;
+        }
+        .runner-pill-btn-danger {
+          color: #d93025;
+          border-color: #fce8e6;
+          background: #fdf2f2;
+        }
+        .runner-pill-btn-danger:hover {
+          background: #fce8e6;
+          border-color: #fad2cf;
+          color: #c5221f;
+        }
+        .runner-pill-btn-primary {
+          color: #1a73e8;
+          border-color: #dadce0;
+          background: #ffffff;
+        }
+        .runner-pill-btn-primary:hover {
+          background: #e8f0fe;
+          border-color: #d2e3fc;
+          color: #1a73e8;
+        }
         .runner-mono-segment {
           display: inline-flex;
           align-items: center;
@@ -1406,7 +1453,7 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
                 <span class="material-symbols-outlined notranslate" style="font-size:16px;">close</span>
               </button>
             </div>
-            <button id="clear-all-dl-btn" onclick="clearAllLibraryGames(event)" class="clear-btn" style="display:none;" title="Delete all games from your library to free up offline storage">
+            <button id="clear-all-dl-btn" onclick="clearAllLibraryGames(event)" class="clear-btn" style="display:none;" title="Clear all saved textbooks from your library">
               <span class="material-symbols-outlined notranslate" style="font-size:16px;">delete</span>
               <span>Clear Library</span>
             </button>
@@ -1443,12 +1490,10 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
         <span class="material-symbols-outlined" aria-hidden="true" style="font-size:22px;line-height:1;">arrow_back</span>
       </button>
       <span id="runner-title" class="runner-title">Textbook</span>
-      <a href="https://forms.gle/EnzAhDYTACGkM2oYA" target="_blank" rel="noopener noreferrer" tabindex="-1" class="runner-circle-btn runner-circle-btn-danger" data-tooltip="Feedback" aria-label="Feedback">
+      <a href="https://forms.gle/EnzAhDYTACGkM2oYA" target="_blank" rel="noopener noreferrer" tabindex="-1" class="runner-pill-btn runner-pill-btn-danger" data-tooltip="Leave Feedback" aria-label="Feedback">
         <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">description</span>
+        <span>Feedback</span>
       </a>
-      <button id="runner-mode-toggle" onclick="toggleRunnerMode()" tabindex="-1" class="runner-circle-btn" style="border-color:#34a853;background:#e6f4ea;color:#137333;" data-tooltip="Switch Online/Offline" aria-label="Switch between Online and Offline version">
-        <span class="material-symbols-outlined notranslate" id="runner-mode-icon" style="font-size:18px;line-height:1;">cloud</span>
-      </button>
       <button id="runner-save-export" onclick="PinpointSaveManager.exportCurrentSave()" tabindex="-1" class="runner-circle-btn" style="display:none;color:#1a73e8;border-color:#d2e3fc;background:#e8f0fe;" data-tooltip="Download Save (.json)" aria-label="Download Save Data (.json)">
         <span class="material-symbols-outlined notranslate" style="font-size:18px;line-height:1;">download</span>
       </button>
@@ -1465,8 +1510,9 @@ initAft()</script><script id="wiz_jd" nonce="HnfaNKxHbluY2XWMwmR8fw">if (window[
         <button id="mono-lvl-2" onclick="setMonochromeLevel(2)" tabindex="-1" class="runner-mono-btn" aria-label="60% Monochrome (2)">2</button>
         <button id="mono-lvl-3" onclick="setMonochromeLevel(3)" tabindex="-1" class="runner-mono-btn" aria-label="100% Monochrome (3)">3</button>
       </div>
-      <button id="runner-lib-btn" onclick="toggleRunnerLibrary()" tabindex="-1" class="runner-circle-btn" data-tooltip="Add to Library" aria-label="Library">
-        <span class="material-symbols-outlined notranslate" id="runner-lib-icon" aria-hidden="true" style="font-size:20px;line-height:1;">bookmark_border</span>
+      <button id="runner-lib-btn" onclick="toggleRunnerLibrary()" tabindex="-1" class="runner-pill-btn runner-pill-btn-primary" data-tooltip="Save to Library" aria-label="Library">
+        <span class="material-symbols-outlined notranslate" id="runner-lib-icon" aria-hidden="true" style="font-size:19px;line-height:1;">bookmark_border</span>
+        <span id="runner-lib-text">Add to Library</span>
       </button>
       <button onclick="openInNewTab()" tabindex="-1" class="runner-circle-btn runner-circle-btn-primary" data-tooltip="Popout to New Tab" aria-label="Popout to New Tab">
         <span class="material-symbols-outlined" aria-hidden="true" style="font-size:20px;line-height:1;">open_in_new</span>
@@ -1691,95 +1737,18 @@ function showPinpointConfirm({ title, message, icon = 'help', confirmText = 'Con
 }
 
 function updateDownloadBtnProgress(gameId, percent, title) {
-  const btn = document.getElementById('dl-btn-' + gameId);
-  if (!btn) return;
-
-  if (percent > 0 && percent < 100) {
-    btn.style.background = `linear-gradient(to top, #1a73e8 0%, #1a73e8 ${percent}%, #f1f3f4 ${percent}%, #f1f3f4 100%)`;
-    btn.style.border = '1px solid #1a73e8';
-    btn.style.borderRadius = '50%';
-    btn.style.width = '32px';
-    btn.style.height = '32px';
-    btn.style.padding = '0';
-    btn.title = `Downloading ${percent}% (Click to cancel)`;
-    btn.innerHTML = `<span style="font-size:10px;font-weight:700;line-height:1;pointer-events:none;color:${percent >= 55 ? '#ffffff' : '#1a73e8'};">${percent}%</span>`;
-  } else if (percent >= 100) {
-    btn.style.background = 'none';
-    btn.style.border = 'none';
-    btn.style.color = '#1e8e3e';
-    btn.style.width = '';
-    btn.style.height = '';
-    btn.style.padding = '6px';
-    btn.title = 'Downloaded (Click to Undownload)';
-    btn.innerHTML = '<i class="material-symbols-outlined notranslate" style="font-size:20px;color:#1e8e3e;line-height:1;">download_done</i>';
-  } else {
-    btn.style.background = 'none';
-    btn.style.border = 'none';
-    btn.style.color = '#5f6368';
-    btn.style.width = '';
-    btn.style.height = '';
-    btn.style.padding = '6px';
-    btn.title = 'Download for Offline Play (IndexedDB)';
-    btn.innerHTML = '<i class="material-symbols-outlined notranslate" style="font-size:20px;line-height:1;">download</i>';
-  }
+  updateLibraryBtnProgress(gameId, percent, title);
 }
 
 function applyRunnerModeState(isDl, mode) {
-  const toggleBtn = document.getElementById('runner-mode-toggle');
-  const toggleIcon = document.getElementById('runner-mode-icon');
-  if (!toggleBtn || !toggleIcon) return;
-
-  toggleBtn.style.display = 'inline-flex';
-
-  if (mode === 'offline') {
-    currentRunnerMode = 'offline';
-    toggleBtn.style.background = '#e8f0fe';
-    toggleBtn.style.color = '#1a73e8';
-    toggleBtn.style.borderColor = '#1a73e8';
-    toggleIcon.textContent = 'cloud_off';
-    const tip = 'Playing offline version. Click to switch to Online mode.';
-    toggleBtn.setAttribute('data-tooltip', tip);
-    toggleBtn.setAttribute('aria-label', tip);
-    toggleBtn.removeAttribute('title');
-  } else {
-    currentRunnerMode = 'online';
-    toggleBtn.style.background = '#e6f4ea';
-    toggleBtn.style.color = '#137333';
-    toggleBtn.style.borderColor = '#34a853';
-    toggleIcon.textContent = 'cloud';
-    const tip = isDl
-      ? 'Playing online version. Click to switch to Offline mode.'
-      : 'Playing online version. Click to download and switch to Offline mode.';
-    toggleBtn.setAttribute('data-tooltip', tip);
-    toggleBtn.setAttribute('aria-label', tip);
-    toggleBtn.removeAttribute('title');
-  }
+  // Runner mode cloud toggle removed; Library indicator controls status
 }
 
 function updateRunnerModeProgress(percent, isCancelled = false) {
-  const toggleBtn = document.getElementById('runner-mode-toggle');
-  const toggleIcon = document.getElementById('runner-mode-icon');
-  if (!toggleBtn) return;
-
   if (isCancelled || percent <= 0) {
-    applyRunnerModeState(false, 'online');
-    return;
-  }
-
-  if (percent > 0 && percent < 100) {
-    toggleBtn.style.display = 'inline-flex';
-    toggleBtn.style.background = `linear-gradient(to top, #1a73e8 0%, #1a73e8 ${percent}%, #e8f0fe ${percent}%, #e8f0fe 100%)`;
-    toggleBtn.style.borderColor = '#1a73e8';
-    toggleBtn.style.color = percent >= 55 ? '#ffffff' : '#1a73e8';
-    const tip = `Downloading: ${percent}% (Click to cancel)`;
-    toggleBtn.setAttribute('data-tooltip', tip);
-    toggleBtn.setAttribute('aria-label', tip);
-    toggleBtn.removeAttribute('title');
-    if (toggleIcon) {
-      toggleIcon.innerHTML = `<span style="font-size:11px;font-weight:700;line-height:1;">${percent}%</span>`;
-    }
-  } else if (percent >= 100) {
-    applyRunnerModeState(true, 'offline');
+    updateRunnerLibraryBtn();
+  } else {
+    updateRunnerLibraryBtn(percent);
   }
 }
 
@@ -1846,11 +1815,11 @@ function updateLibraryBtnProgress(gameId, percent, title) {
   if (!btn) return;
   if (percent > 0 && percent < 100) {
     btn.innerHTML = `<span style="font-size:11px;font-weight:700;color:#1a73e8;background:#e8f0fe;border-radius:12px;padding:3px 7px;line-height:1;">${percent}%</span>`;
-    btn.setAttribute('title', `Downloading: ${percent}% (Click to cancel)`);
+    btn.setAttribute('title', `Saving: ${percent}% (Click to cancel)`);
     if (statusSpan) {
       statusSpan.style.display = 'inline';
       statusSpan.style.color = '#1a73e8';
-      statusSpan.textContent = `• Downloading ${percent}%...`;
+      statusSpan.textContent = `• Saving ${percent}%...`;
     }
   } else if (percent >= 100) {
     btn.innerHTML = `<i class="material-symbols-outlined notranslate" style="font-size:22px;color:#1a73e8;font-variation-settings:'FILL' 1;line-height:1;">bookmark</i>`;
@@ -1858,11 +1827,11 @@ function updateLibraryBtnProgress(gameId, percent, title) {
     if (statusSpan) {
       statusSpan.style.display = 'inline';
       statusSpan.style.color = '#1e8e3e';
-      statusSpan.textContent = '• In Library (Offline Ready)';
+      statusSpan.textContent = '• In Library';
     }
   } else {
     btn.innerHTML = `<i class="material-symbols-outlined notranslate" style="font-size:22px;color:#5f6368;font-variation-settings:'FILL' 0;line-height:1;">bookmark_border</i>`;
-    btn.setAttribute('title', 'Add to Library (Auto-downloads for offline play)');
+    btn.setAttribute('title', 'Add to Library');
     if (statusSpan) {
       statusSpan.style.display = 'none';
     }
@@ -1891,7 +1860,7 @@ async function toggleLibrary(file, title, event) {
       localStorage.setItem('pinpoint_library', JSON.stringify(lib));
       localStorage.setItem('pinpoint_favorites', JSON.stringify(lib));
     } catch(e) {}
-    showPinpointToast(`Download cancelled for "${title}"`, 'info');
+    showPinpointToast(`Cancelled saving "${title}" to Library`, 'info');
     renderTextbooks();
     updateRunnerLibraryBtn();
     return;
@@ -1903,7 +1872,7 @@ async function toggleLibrary(file, title, event) {
   if (inLib) {
     const proceed = await showPinpointConfirm({
       title: 'Remove from Library?',
-      message: `Remove "${title}" from your library? This will also remove the offline download to free up space.`,
+      message: `Remove "${title}" from your library?`,
       icon: 'bookmark_remove',
       confirmText: 'Remove',
       cancelText: 'Cancel',
@@ -1942,10 +1911,10 @@ async function toggleLibrary(file, title, event) {
     if (gameInfo && gameInfo.sizeBytes > PinpointGameStorage.RECOMMENDED_LIMIT_BYTES) {
       const mbStr = (gameInfo.sizeBytes / (1024 * 1024)).toFixed(1);
       const proceed = await showPinpointConfirm({
-        title: 'Large Game Notice',
-        message: `"${title}" is ${mbStr} MB, which is over the recommended 100 MB offline limit.\n\nDownloading this game will use extra local storage on your device.\n\nDo you want to continue adding to your Library?`,
+        title: 'Large Textbook Notice',
+        message: `"${title}" is ${mbStr} MB.\n\nSaving this textbook will use extra local storage on your device.\n\nDo you want to continue adding it to your Library?`,
         icon: 'warning',
-        confirmText: 'Download to Library',
+        confirmText: 'Save to Library',
         cancelText: 'Cancel'
       });
       if (!proceed) {
@@ -1980,7 +1949,7 @@ async function toggleLibrary(file, title, event) {
       if (currentRunnerFile === file) {
         updateRunnerModeProgress(100);
       }
-      showPinpointToast(`"${title}" added to Library & ready for offline play!`, 'success');
+      showPinpointToast(`"${title}" saved to your Library!`, 'success');
       renderTextbooks();
       updateRunnerLibraryBtn();
     } catch(err) {
@@ -1993,7 +1962,7 @@ async function toggleLibrary(file, title, event) {
       updateRunnerLibraryBtn();
       if (err && err.name !== 'AbortError' && err.message !== 'Download cancelled') {
         console.error('Download error:', err);
-        showPinpointToast(`Failed to download "${title}": ${err.message}`, 'error');
+        showPinpointToast(`Failed to save "${title}": ${err.message}`, 'error');
       }
     }
   }
@@ -2003,7 +1972,7 @@ async function clearAllLibraryGames(event) {
   if (event) event.stopPropagation();
   const proceed = await showPinpointConfirm({
     title: 'Clear Library?',
-    message: 'Are you sure you want to remove ALL games from your library and delete all offline storage? This cannot be undone.',
+    message: 'Are you sure you want to remove all textbooks from your library? This cannot be undone.',
     icon: 'delete_sweep',
     confirmText: 'Clear All',
     cancelText: 'Cancel',
@@ -2016,7 +1985,7 @@ async function clearAllLibraryGames(event) {
       if (typeof PinpointGameStorage !== 'undefined') {
         await PinpointGameStorage.clearAllDownloads();
       }
-      showPinpointToast('All library games and offline downloads have been cleared', 'success');
+      showPinpointToast('All library textbooks have been cleared', 'success');
       renderTextbooks();
       updateRunnerLibraryBtn();
     } catch(err) {
@@ -2147,12 +2116,12 @@ async function renderTextbooks() {
               <div class="game-card-title">${t.title}</div>
               <div class="game-card-sub">
                 ${sizeText ? `<span>${sizeText}</span>` : ''}
-                <span id="lib-status-${gameId}" style="${isDownloaded ? 'display:inline;' : 'display:none;'}color:#1e8e3e;font-weight:500;">• In Library (Offline Ready)</span>
+                <span id="lib-status-${gameId}" style="${isDownloaded ? 'display:inline;' : 'display:none;'}color:#1e8e3e;font-weight:500;">• In Library</span>
               </div>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
-            <button id="lib-btn-${gameId}" onclick="toggleLibrary('${t.file}', '${t.title.replace(/'/g, "\\'")}', event)" class="icon-btn" title="${isItemInLibrary ? 'In Library (Click to remove)' : 'Add to Library (Auto-downloads for offline play)'}">
+            <button id="lib-btn-${gameId}" onclick="toggleLibrary('${t.file}', '${t.title.replace(/'/g, "\\'")}', event)" class="icon-btn" title="${isItemInLibrary ? 'In Library (Click to remove)' : 'Add to Library'}">
               <i class="material-symbols-outlined notranslate" style="font-size:22px;color:${isItemInLibrary ? '#1a73e8' : '#5f6368'};font-variation-settings:'FILL' ${isItemInLibrary ? 1 : 0};line-height:1;">${isItemInLibrary ? 'bookmark' : 'bookmark_border'}</i>
             </button>
           </div>
@@ -2183,7 +2152,7 @@ async function renderTextbooks() {
       } else if (currentTab === 'library') {
         if (emptyIcon) emptyIcon.textContent = 'bookmark_border';
         if (emptyTitle) emptyTitle.textContent = 'Your library is empty';
-        if (emptySub) emptySub.textContent = 'Click the bookmark icon on any game to add it to your library for instant offline play';
+        if (emptySub) emptySub.textContent = 'Click the bookmark icon on any textbook to save it to your library';
       } else {
         if (emptyIcon) emptyIcon.textContent = 'menu_book';
         if (emptyTitle) emptyTitle.textContent = 'No textbooks found';
@@ -2194,113 +2163,26 @@ async function renderTextbooks() {
 }
 
 function updateRunnerModeUI(isDl, mode) {
-  const toggleBtn = document.getElementById('runner-mode-toggle');
-  const toggleIcon = document.getElementById('runner-mode-icon');
-  if (!toggleBtn || !toggleIcon) return;
-
-  // If currently downloading this game, preserve progress
-  if (currentRunnerFile) {
-    const runnerGameId = currentRunnerFile.replace(/[^a-zA-Z0-9_-]/g, '_');
-    if (typeof PinpointGameStorage !== 'undefined' && PinpointGameStorage.isDownloading(runnerGameId)) {
-      const prog = activeDownloadProgress.get(runnerGameId);
-      if (prog && prog.percent > 0 && prog.percent < 100) {
-        updateRunnerModeProgress(prog.percent);
-        return;
-      }
-    }
-  }
-
-  applyRunnerModeState(isDl, mode);
+  // Runner mode toggle replaced by runner library button
 }
 
 async function toggleRunnerMode() {
-  if (!currentRunnerFile) return;
-  const gameId = currentRunnerFile.replace(/[^a-zA-Z0-9_-]/g, '_');
-
-  // If currently downloading, cancel the download
-  if (typeof PinpointGameStorage !== 'undefined' && PinpointGameStorage.isDownloading(gameId)) {
-    PinpointGameStorage.cancelDownload(gameId);
-    activeDownloadProgress.delete(gameId);
-    updateLibraryBtnProgress(gameId, 0, currentRunnerTitle);
-    updateRunnerModeProgress(0, true);
-    showPinpointToast(`Download cancelled for "${currentRunnerTitle}"`, 'info');
-    renderTextbooks();
-    return;
-  }
-
-  const isDl = typeof PinpointGameStorage !== 'undefined' ? await PinpointGameStorage.isDownloaded(gameId) : false;
-
-  if (currentRunnerMode === 'offline') {
-    // Switch to online mode
-    await launchGame(currentRunnerFile, currentRunnerTitle, false);
-    showPinpointToast(`Switched to Online mode for "${currentRunnerTitle}"`, 'info');
-  } else {
-    // Switch to offline mode
-    if (isDl) {
-      await launchGame(currentRunnerFile, currentRunnerTitle, true);
-      showPinpointToast(`Switched to Offline mode for "${currentRunnerTitle}"`, 'info');
-    } else {
-      // Prompt user to add to library with custom modal
-      const proceed = await showPinpointConfirm({
-        title: 'Download to Library for Offline Play?',
-        message: `"${currentRunnerTitle}" is not downloaded for offline play yet.\n\nWould you like to add it to your Library now to enable Offline Mode?`,
-        icon: 'bookmark_add',
-        confirmText: 'Add to Library',
-        cancelText: 'Cancel'
-      });
-      if (!proceed) return;
-
-      updateRunnerModeProgress(1);
-
-      try {
-        await toggleLibrary(currentRunnerFile, currentRunnerTitle);
-        await launchGame(currentRunnerFile, currentRunnerTitle, true);
-      } catch(err) {
-        if (err && err.name !== 'AbortError' && err.message !== 'Download cancelled') {
-          showPinpointToast(`Failed to download game: ${err.message}`, 'error');
-        }
-        updateRunnerModeUI(false, 'online');
-      }
-    }
-  }
+  toggleRunnerLibrary();
 }
+
 
 async function launchGame(file, title, forceOffline = null) {
   if (window.va) { window.va("event", { name: "game_launched", data: { game: title } }); }
   currentRunnerFile = file;
   currentRunnerTitle = title;
-  const gameId = file.replace(/[^a-zA-Z0-9_-]/g, '_');
 
   let targetSrc = '/' + file.replace(/^\/+/, '');
-  let isDl = false;
-  let useOffline = false;
 
-  if (typeof PinpointGameStorage !== 'undefined') {
-    try {
-      isDl = await PinpointGameStorage.isDownloaded(gameId);
-
-      // If game is currently downloading in background, play online version
-      const libBtn = document.getElementById('lib-btn-' + gameId);
-      const isDownloading = libBtn && libBtn.innerText && libBtn.innerText.includes('%');
-
-      // Automatically use offline mode if downloaded, unless explicitly forced online (forceOffline === false)
-      if (isDl && !isDownloading && forceOffline !== false) {
-        useOffline = true;
-      } else if (forceOffline === true) {
-        useOffline = true;
-      }
-    } catch(e) {
-      console.warn('Offline lookup failed:', e);
-    }
-  }
-
-  // Update topbar Mode Toggle UI & Monochrome UI
-  updateRunnerModeUI(isDl, useOffline ? 'offline' : 'online');
   updateMonochromeUI();
 
   // Display overlay directly over the UI
   const titleEl = document.getElementById('runner-title');
-  if (titleEl) titleEl.textContent = title + (useOffline ? ' (Offline Mode)' : ' (Online Mode)');
+  if (titleEl) titleEl.textContent = title;
   updateRunnerLibraryBtn();
   if (typeof PinpointSaveManager !== 'undefined') {
     PinpointSaveManager.updateUI(file);
@@ -2359,10 +2241,41 @@ function setMonochromeLevel(lvl) {
   updateMonochromeUI();
 }
 
-function updateRunnerLibraryBtn() {
+function updateRunnerLibraryBtn(progressPercent = null) {
   const btn = document.getElementById('runner-lib-btn');
   const icon = document.getElementById('runner-lib-icon');
+  const text = document.getElementById('runner-lib-text');
   if (!btn || !icon) return;
+
+  let isDownloading = false;
+  let percent = 0;
+  if (currentRunnerFile) {
+    const gameId = currentRunnerFile.replace(/[^a-zA-Z0-9_-]/g, '_');
+    if (typeof PinpointGameStorage !== 'undefined' && PinpointGameStorage.isDownloading(gameId)) {
+      isDownloading = true;
+      const prog = activeDownloadProgress.get(gameId);
+      percent = (prog && prog.percent) ? prog.percent : (progressPercent || 1);
+    }
+  }
+  if (progressPercent !== null && progressPercent > 0 && progressPercent < 100) {
+    isDownloading = true;
+    percent = progressPercent;
+  }
+
+  if (isDownloading) {
+    btn.style.color = '#1a73e8';
+    btn.style.background = '#e8f0fe';
+    btn.style.borderColor = '#1a73e8';
+    icon.textContent = 'hourglass_top';
+    icon.style.color = '#1a73e8';
+    icon.style.fontVariationSettings = "'FILL' 0";
+    if (text) text.textContent = `Saving ${percent}%...`;
+    btn.setAttribute('data-tooltip', `Saving to Library: ${percent}% (Click to cancel)`);
+    btn.setAttribute('aria-label', `Saving ${percent}%`);
+    btn.removeAttribute('title');
+    return;
+  }
+
   const inLib = isLibrary(currentRunnerFile);
   if (inLib) {
     btn.style.color = '#1a73e8';
@@ -2371,16 +2284,18 @@ function updateRunnerLibraryBtn() {
     icon.textContent = 'bookmark';
     icon.style.color = '#1a73e8';
     icon.style.fontVariationSettings = "'FILL' 1";
-    btn.setAttribute('data-tooltip', 'In Library (Offline Downloaded)');
+    if (text) text.textContent = 'In Library';
+    btn.setAttribute('data-tooltip', 'Saved to your Library');
     btn.setAttribute('aria-label', 'In Library');
     btn.removeAttribute('title');
   } else {
-    btn.style.color = '#5f6368';
+    btn.style.color = '#3c4043';
     btn.style.background = '#fff';
     btn.style.borderColor = '#dadce0';
     icon.textContent = 'bookmark_border';
     icon.style.color = '#5f6368';
     icon.style.fontVariationSettings = "'FILL' 0";
+    if (text) text.textContent = 'Add to Library';
     btn.setAttribute('data-tooltip', 'Add to Library');
     btn.setAttribute('aria-label', 'Add to Library');
     btn.removeAttribute('title');
