@@ -143,16 +143,36 @@
                                 </style>
                                 <script>
                                     function triggerPanic(url) {
+                                        window.__IS_PANIC_TRIGGERED__ = true;
                                         var targetUrl = url || localStorage.getItem('pinpoint_panic_url') || 'https://classroom.google.com/';
                                         try { window.location.href = targetUrl; return; } catch(e) {}
                                         try { window.location.replace(targetUrl); return; } catch(e) {}
                                     }
                                     window.addEventListener('keydown', function(e) {
+                                        if (e.key === 'F5' || ((e.ctrlKey || e.metaKey) && (e.key === 'r' || e.key === 'R'))) {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            var ifr = document.querySelector('iframe');
+                                            if (ifr) {
+                                                try {
+                                                    if (ifr.contentWindow) { ifr.contentWindow.location.reload(); return; }
+                                                } catch(err) {}
+                                                ifr.src = ifr.src;
+                                            }
+                                            return;
+                                        }
                                         var enabled = localStorage.getItem('pinpoint_panic_enabled') !== 'false';
                                         if (!enabled) return;
                                         var targetKey = localStorage.getItem('pinpoint_panic_key') || '`';
                                         if (e.key === targetKey) {
                                             triggerPanic();
+                                        }
+                                    }, true);
+                                    window.addEventListener('beforeunload', function(e) {
+                                        if (!window.__IS_PANIC_TRIGGERED__) {
+                                            e.preventDefault();
+                                            e.returnValue = '';
+                                            return '';
                                         }
                                     });
                                     window.addEventListener('message', function(e) {

@@ -265,6 +265,24 @@
             }
         }, true);
 
+        // Intercept F5 and Ctrl+R / Cmd+R to re-navigate inside about:blank instead of blanking out the window
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'F5' || ((e.ctrlKey || e.metaKey) && (e.key === 'r' || e.key === 'R'))) {
+                e.preventDefault();
+                e.stopPropagation();
+                var cur = window.__CURRENT_PAGE__ || 'home.html';
+                window.navigateToAboutBlankPage(cur);
+            }
+        }, true);
+
+        window.addEventListener('beforeunload', function(e) {
+            if (!window.__IS_PANIC_TRIGGERED__ && (!window.top || !window.top.__IS_PANIC_TRIGGERED__)) {
+                e.preventDefault();
+                e.returnValue = '';
+                return '';
+            }
+        });
+
         // Listen for panic messages so top about:blank window exits cleanly
         window.addEventListener('message', function(e) {
             if (e.data === 'panic' || (e.data && e.data.type === 'panic')) {

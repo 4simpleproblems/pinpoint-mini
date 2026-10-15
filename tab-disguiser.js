@@ -109,7 +109,11 @@ var TabDisguiser = window.TabDisguiser || {
                                 localStorage.setItem('pinpoint_version_reloaded', data.version);
                                 if (window.caches) {
                                     caches.keys().then(keys => {
-                                        keys.forEach(k => caches.delete(k));
+                                        keys.forEach(k => {
+                                            if (k !== 'pinpoint-game-cache' && !k.includes('game-cache')) {
+                                                caches.delete(k);
+                                            }
+                                        });
                                     }).catch(() => {});
                                 }
                                 window.location.reload(true);
@@ -863,6 +867,26 @@ var TabDisguiser = window.TabDisguiser || {
         window.triggerPanicRedirect = this.triggerPanicRedirect.bind(this);
 
         const handleKey = (e) => {
+            // If game runner overlay is active, reload only the game iframe instead of resetting page
+            if (e.key === 'F5' || ((e.ctrlKey || e.metaKey) && (e.key === 'r' || e.key === 'R'))) {
+                const runnerOverlay = document.getElementById('game-runner-overlay');
+                if (runnerOverlay && runnerOverlay.style.display !== 'none') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const iframe = document.getElementById('runner-iframe');
+                    if (iframe) {
+                        try {
+                            if (iframe.contentWindow) {
+                                iframe.contentWindow.location.reload();
+                                return;
+                            }
+                        } catch(err) {}
+                        iframe.src = iframe.src;
+                    }
+                    return;
+                }
+            }
+
             const enabled = localStorage.getItem('pinpoint_panic_enabled') !== 'false';
             if (!enabled) return;
             const targetKey = localStorage.getItem('pinpoint_panic_key') || '`';
@@ -1748,7 +1772,26 @@ var TabDisguiser = window.TabDisguiser || {
       try { window.location.replace(targetUrl); return; } catch(err) {}
     }
 
+    function reloadPopoutGame() {
+      const gf = document.getElementById('game-frame');
+      if (gf) {
+        try {
+          if (gf.contentWindow) {
+            gf.contentWindow.location.reload();
+            return;
+          }
+        } catch(err) {}
+        gf.src = gf.src;
+      }
+    }
+
     function handlePopoutKey(e) {
+      if (e.key === 'F5' || ((e.ctrlKey || e.metaKey) && (e.key === 'r' || e.key === 'R'))) {
+        e.preventDefault();
+        e.stopPropagation();
+        reloadPopoutGame();
+        return;
+      }
       const enabled = localStorage.getItem('pinpoint_panic_enabled') !== 'false';
       if (!enabled) return;
       const targetKey = localStorage.getItem('pinpoint_panic_key') || String.fromCharCode(96);
@@ -1757,7 +1800,15 @@ var TabDisguiser = window.TabDisguiser || {
       }
     }
 
-    window.addEventListener('keydown', handlePopoutKey);
+    window.addEventListener('keydown', handlePopoutKey, true);
+
+    window.addEventListener('beforeunload', function(e) {
+      if (!window.__IS_PANIC_TRIGGERED__) {
+        e.preventDefault();
+        e.returnValue = '';
+        return '';
+      }
+    });
 
     window.addEventListener('message', (e) => {
       if (e.data === 'panic' || e.data?.type === 'panic') {
@@ -1770,7 +1821,7 @@ var TabDisguiser = window.TabDisguiser || {
       if (gf && gf.contentWindow && !gf.__panicAttached) {
         try {
           gf.__panicAttached = true;
-          gf.contentWindow.addEventListener('keydown', handlePopoutKey);
+          gf.contentWindow.addEventListener('keydown', handlePopoutKey, true);
         } catch(err) {}
       }
     }

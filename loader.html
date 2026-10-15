@@ -90,7 +90,27 @@
         }
       });
 
+      function reloadInnerFrame() {
+        var frame = document.getElementById('app-frame');
+        if (frame) {
+          try {
+            if (frame.contentWindow) {
+              frame.contentWindow.location.reload();
+              return;
+            }
+          } catch(e) {}
+          frame.src = frame.src;
+        }
+      }
+
       function handleKey(e) {
+        if (e.key === 'F5' || ((e.ctrlKey || e.metaKey) && (e.key === 'r' || e.key === 'R'))) {
+          e.preventDefault();
+          e.stopPropagation();
+          reloadInnerFrame();
+          return;
+        }
+
         var enabled = localStorage.getItem('pinpoint_panic_enabled') !== 'false';
         if (!enabled) return;
         var targetKey = localStorage.getItem('pinpoint_panic_key') || String.fromCharCode(96);
@@ -107,6 +127,14 @@
             frame.contentWindow.postMessage({ type: 'close-fullscreen-clock' }, '*');
           }
         }
+      }, true);
+
+      window.addEventListener('beforeunload', function(e) {
+        if (!window.__IS_PANIC_TRIGGERED__) {
+          e.preventDefault();
+          e.returnValue = '';
+          return '';
+        }
       });
 
       // Attach keydown directly to child frame so hotkey is caught when frame has focus
@@ -115,7 +143,7 @@
         if (frame && frame.contentWindow && !frame.__panicAttached) {
           try {
             frame.__panicAttached = true;
-            frame.contentWindow.addEventListener('keydown', handleKey);
+            frame.contentWindow.addEventListener('keydown', handleKey, true);
           } catch(err) {}
         }
       }
