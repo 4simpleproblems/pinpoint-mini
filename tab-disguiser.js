@@ -1129,7 +1129,7 @@ var TabDisguiser = window.TabDisguiser || {
         try {
             // Avoid showing inside textbook game iframes
             if (window.location.pathname.includes('/textbooks/')) return;
-            const widgetDismissed = localStorage.getItem('pinpoint_info_widget_dismissed_v2') === 'true';
+            const widgetDismissed = localStorage.getItem('pinpoint_info_widget_dismissed_v3') === 'true';
             if (!widgetDismissed) {
                 this.showInfoWidget();
             }
@@ -1143,8 +1143,8 @@ var TabDisguiser = window.TabDisguiser || {
             if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
         }
         try {
-            localStorage.setItem('pinpoint_info_widget_dismissed_v2', 'true');
-            sessionStorage.setItem('pinpoint_info_widget_dismissed_v2', 'true');
+            localStorage.setItem('pinpoint_info_widget_dismissed_v3', 'true');
+            sessionStorage.setItem('pinpoint_info_widget_dismissed_v3', 'true');
         } catch (err) {}
         const widget = document.getElementById('pinpoint-info-widget');
         if (widget) {
@@ -1156,7 +1156,7 @@ var TabDisguiser = window.TabDisguiser || {
 
     showInfoWidget(force = false) {
         if (!force) {
-            const dismissed = localStorage.getItem('pinpoint_info_widget_dismissed_v2') === 'true';
+            const dismissed = localStorage.getItem('pinpoint_info_widget_dismissed_v3') === 'true';
             if (dismissed) return;
         }
 
@@ -1167,7 +1167,7 @@ var TabDisguiser = window.TabDisguiser || {
 
         let existing = document.getElementById('pinpoint-info-widget');
         if (existing) {
-            if (!force && localStorage.getItem('pinpoint_info_widget_dismissed_v2') === 'true') {
+            if (!force && localStorage.getItem('pinpoint_info_widget_dismissed_v3') === 'true') {
                 existing.remove();
                 return;
             }
@@ -1192,7 +1192,6 @@ var TabDisguiser = window.TabDisguiser || {
         }
 
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbxOoEViQ2ohkOZK6Lrm3bpCB4EXT0CvAHGALItv9SWW0M13YQOPdX7qcsXivsSDXyAkoQ/exec';
-        const cleanupUrl = 'chrome://settings/content/all?searchSubpage=agrolujo.cl';
 
         // Add or update style for simple closable list card
         let style = document.getElementById('pinpoint-info-widget-style');
@@ -1207,7 +1206,7 @@ var TabDisguiser = window.TabDisguiser || {
                 bottom: 20px !important;
                 right: 20px !important;
                 left: auto !important;
-                width: 410px !important;
+                width: 380px !important;
                 max-width: calc(100vw - 32px) !important;
                 max-height: 85vh !important;
                 z-index: 2147483647 !important;
@@ -1228,32 +1227,32 @@ var TabDisguiser = window.TabDisguiser || {
                 justify-content: space-between !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
-                padding: 12px 16px !important;
+                padding: 10px 14px !important;
                 background: #f8fafd !important;
                 border-bottom: 1px solid #e8eaed !important;
                 color: #202124 !important;
-                font-size: 13.5px !important;
+                font-size: 13px !important;
                 font-weight: 600 !important;
                 user-select: none !important;
             }
             .pinpoint-card-list {
                 display: flex !important;
                 flex-direction: column !important;
-                gap: 8px !important;
-                padding: 12px !important;
+                gap: 6px !important;
+                padding: 10px !important;
                 overflow-y: auto !important;
-                max-height: calc(85vh - 54px) !important;
+                max-height: calc(85vh - 50px) !important;
                 box-sizing: border-box !important;
             }
             .pinpoint-list-item {
                 background: #f8fafd !important;
                 border: 1px solid #e8eaed !important;
-                border-radius: 10px !important;
-                padding: 10px 12px !important;
+                border-radius: 8px !important;
+                padding: 7px 10px !important;
                 box-sizing: border-box !important;
                 display: flex !important;
                 flex-direction: column !important;
-                gap: 4px !important;
+                gap: 2px !important;
                 transition: background-color 0.15s ease, border-color 0.15s ease !important;
             }
             .pinpoint-list-item:hover {
@@ -1264,29 +1263,49 @@ var TabDisguiser = window.TabDisguiser || {
                 display: flex !important;
                 align-items: center !important;
                 justify-content: space-between !important;
-                gap: 8px !important;
+                gap: 6px !important;
             }
             .pinpoint-item-title {
                 display: flex !important;
                 align-items: center !important;
-                gap: 7px !important;
-                font-size: 13px !important;
+                gap: 6px !important;
+                font-size: 12px !important;
                 font-weight: 600 !important;
                 color: #202124 !important;
             }
             .pinpoint-item-desc {
-                font-size: 12px !important;
-                line-height: 1.45 !important;
-                color: #444746 !important;
+                font-size: 11px !important;
+                line-height: 1.35 !important;
+                color: #5f6368 !important;
             }
-            .pinpoint-info-badge {
-                font-size: 10px !important;
+            .pinpoint-badge {
+                font-size: 9.5px !important;
                 font-weight: 700 !important;
-                padding: 2px 7px !important;
+                padding: 1px 6px !important;
                 border-radius: 99px !important;
                 text-transform: uppercase !important;
-                letter-spacing: 0.4px !important;
+                letter-spacing: 0.3px !important;
                 flex-shrink: 0 !important;
+            }
+            .pinpoint-badge-addition {
+                background: #e6f4ea !important;
+                color: #137333 !important;
+                border: 1px solid #ceead6 !important;
+            }
+            .pinpoint-badge-fix {
+                background: #fce8e6 !important;
+                color: #c5221f !important;
+                border: 1px solid #fad2cf !important;
+            }
+            .pinpoint-badge-removal {
+                background: #f1f3f4 !important;
+                color: #5f6368 !important;
+                border: 1px solid #dadce0 !important;
+            }
+            .pinpoint-badge-updated {
+                background: #e8f0fe !important;
+                color: #1a73e8 !important;
+                border: 1px solid #d2e3fc !important;
             }
             .pinpoint-info-card.pinpoint-dismissed {
                 display: none !important;
@@ -1305,9 +1324,9 @@ var TabDisguiser = window.TabDisguiser || {
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                width: 28px !important;
-                height: 28px !important;
-                min-width: 28px !important;
+                width: 26px !important;
+                height: 26px !important;
+                min-width: 26px !important;
                 flex-shrink: 0 !important;
                 pointer-events: auto !important;
                 transition: background-color 0.15s ease, transform 0.1s ease !important;
@@ -1325,13 +1344,13 @@ var TabDisguiser = window.TabDisguiser || {
         const container = document.createElement('div');
         container.id = 'pinpoint-info-widget';
         container.className = 'pinpoint-info-card';
-        container.style.cssText = 'position:fixed !important; bottom:20px !important; right:20px !important; left:auto !important; width:410px !important; max-width:calc(100vw - 32px) !important; max-height:85vh !important; z-index:2147483647 !important; font-family:\'Google Sans\',Roboto,Arial,sans-serif !important; box-sizing:border-box !important; background:#ffffff !important; border:1px solid #dadce0 !important; border-radius:16px !important; box-shadow:0 10px 32px rgba(0,0,0,0.14),0 2px 8px rgba(0,0,0,0.06) !important; overflow:hidden !important; display:flex !important; flex-direction:column !important;';
+        container.style.cssText = 'position:fixed !important; bottom:20px !important; right:20px !important; left:auto !important; width:380px !important; max-width:calc(100vw - 32px) !important; max-height:85vh !important; z-index:2147483647 !important; font-family:\'Google Sans\',Roboto,Arial,sans-serif !important; box-sizing:border-box !important; background:#ffffff !important; border:1px solid #dadce0 !important; border-radius:16px !important; box-shadow:0 10px 32px rgba(0,0,0,0.14),0 2px 8px rgba(0,0,0,0.06) !important; overflow:hidden !important; display:flex !important; flex-direction:column !important;';
 
         container.innerHTML = `
             <div class="pinpoint-card-header">
-                <div style="display:flex !important; align-items:center !important; gap:7px !important; flex:1 !important; min-width:0 !important;">
-                    <span class="material-symbols-outlined notranslate" style="font-size:19px !important; color:#1a73e8 !important; line-height:1 !important; flex-shrink:0 !important;">campaign</span>
-                    <span style="font-size:13.5px !important; font-weight:600 !important; color:#202124 !important; white-space:nowrap !important;">Classroom Highlights</span>
+                <div style="display:flex !important; align-items:center !important; gap:6px !important; flex:1 !important; min-width:0 !important;">
+                    <span class="material-symbols-outlined notranslate" style="font-size:18px !important; color:#1a73e8 !important; line-height:1 !important; flex-shrink:0 !important;">campaign</span>
+                    <span style="font-size:13px !important; font-weight:600 !important; color:#202124 !important; white-space:nowrap !important;">Classroom Highlights</span>
                 </div>
                 <button id="pinpoint-info-dismiss-btn" type="button" onclick="TabDisguiser.closeInfoWidget(event)" title="Dismiss">
                     <span class="material-symbols-outlined notranslate" style="font-size:18px !important; line-height:1 !important; color:#5f6368 !important; pointer-events:none !important;">close</span>
@@ -1339,90 +1358,76 @@ var TabDisguiser = window.TabDisguiser || {
             </div>
 
             <div class="pinpoint-card-list">
-                <!-- Item 1: Bit Planes Updated -->
+                <!-- Top Share Link (Not in regular container, no full URL displayed) -->
+                <div style="background:#f1f3f4;border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:3px;margin-bottom:2px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
+                        <span style="font-size:12px;font-weight:600;color:#202124;display:flex;align-items:center;gap:5px;">
+                            <span class="material-symbols-outlined notranslate" style="font-size:15px;color:#1a73e8;">share</span>
+                            <span>Share Active Mirror</span>
+                        </span>
+                        <button id="info-copy-script-btn" type="button" style="background:#1a73e8;border:none;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:600;color:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-family:inherit;">
+                            <span class="material-symbols-outlined notranslate" style="font-size:13px;line-height:1;">content_copy</span> Copy Script Link
+                        </button>
+                    </div>
+                    <div style="font-size:10.5px;color:#5f6368;line-height:1.3;">
+                        Share this link to always get an unblocked mirror.
+                    </div>
+                    <div id="info-script-toast" style="display:none;font-size:10.5px;color:#137333;font-weight:500;">✓ Script link copied to clipboard!</div>
+                </div>
+
+                <!-- 1. Bit Planes -->
                 <div class="pinpoint-list-item">
                     <div class="pinpoint-item-head">
                         <div class="pinpoint-item-title">
-                            <span class="material-symbols-outlined notranslate" style="font-size:17px;color:#1a73e8;line-height:1;">flight</span>
-                            <span>Bit Planes Dogfight Overhaul</span>
+                            <span class="material-symbols-outlined notranslate" style="font-size:16px;color:#1a73e8;line-height:1;">flight</span>
+                            <span>Bit Planes Overhaul</span>
                         </div>
-                        <span class="pinpoint-info-badge" style="background:#e8f0fe;color:#1a73e8;">Updated</span>
+                        <span class="pinpoint-badge pinpoint-badge-updated">Updated</span>
                     </div>
                     <div class="pinpoint-item-desc">
-                        Added retro in-game pause button (<kbd>Esc</kbd> / <kbd>P</kbd>) and match-end death menu with flight stats (Kills, Deaths, K/D, Waves), pilot callsign syncing from main menu, and instant restarts!
+                        Pause button (Esc/P), death menu with stats (Kills, Deaths, K/D, Waves), nickname saving, and instant restart.
                     </div>
                 </div>
 
-                <!-- Item 2: New Library Feature -->
+                <!-- 2. Library -->
                 <div class="pinpoint-list-item">
                     <div class="pinpoint-item-head">
                         <div class="pinpoint-item-title">
-                            <span class="material-symbols-outlined notranslate" style="font-size:17px;color:#188038;line-height:1;">bookmark</span>
-                            <span>Unified Library (Offline Saves)</span>
+                            <span class="material-symbols-outlined notranslate" style="font-size:16px;color:#188038;line-height:1;">bookmark</span>
+                            <span>Unified Library</span>
                         </div>
-                        <span class="pinpoint-info-badge" style="background:#e6f4ea;color:#137333;">New Feature</span>
+                        <span class="pinpoint-badge pinpoint-badge-addition">Addition</span>
                     </div>
                     <div class="pinpoint-item-desc">
-                        Replaced separate downloads and favorites with a streamlined <strong>Library</strong>. Adding any textbook to your library automatically downloads and caches it for instant offline play without network lag.
+                        A seamless upgrade replacing downloads and favorites—bookmark any game to instantly play offline with zero lag.
                     </div>
                 </div>
 
-                <!-- Item 3: JSDelivr & Multi-File Games Fixed -->
+                <!-- 3. Bug Fix -->
                 <div class="pinpoint-list-item">
                     <div class="pinpoint-item-head">
                         <div class="pinpoint-item-title">
-                            <span class="material-symbols-outlined notranslate" style="font-size:17px;color:#b06000;line-height:1;">bolt</span>
-                            <span>JSDelivr CDN & Engines Fixed</span>
+                            <span class="material-symbols-outlined notranslate" style="font-size:16px;color:#c5221f;line-height:1;">build</span>
+                            <span>JSDelivr CDN & Engines</span>
                         </div>
-                        <span class="pinpoint-info-badge" style="background:#fef7e0;color:#b06000;">Fixed</span>
+                        <span class="pinpoint-badge pinpoint-badge-fix">Bug Fix</span>
                     </div>
                     <div class="pinpoint-item-desc">
-                        Fixed the bug where games wouldn't load from jsDelivr / GitHub mirrors. Multi-file game packages, Construct engines, and Ruffle Flash WASM files now load reliably.
+                        Fixed 503 byte timeouts on jsDelivr mirrors, multi-file games, and Ruffle Flash WASM loading.
                     </div>
                 </div>
 
-                <!-- Item 4: Retro Bowl Dynasty Saves & New Games -->
+                <!-- 4. Retro Bowl Saves -->
                 <div class="pinpoint-list-item">
                     <div class="pinpoint-item-head">
                         <div class="pinpoint-item-title">
-                            <span class="material-symbols-outlined notranslate" style="font-size:17px;color:#7627bb;line-height:1;">save</span>
-                            <span>Retro Bowl Saves & Catalog</span>
+                            <span class="material-symbols-outlined notranslate" style="font-size:16px;color:#137333;line-height:1;">sports_football</span>
+                            <span>Retro Bowl Dynasty Saves</span>
                         </div>
-                        <span class="pinpoint-info-badge" style="background:#f3e8fd;color:#7627bb;">Saves</span>
+                        <span class="pinpoint-badge pinpoint-badge-addition">Addition</span>
                     </div>
                     <div class="pinpoint-item-desc">
-                        Export & import seasons for <strong>Retro Bowl</strong> & <strong>Retro Bowl College</strong> from the runner topbar. Also added <strong>Bloxorz</strong>, <strong>Awesome Tanks 2</strong>, and <strong>Basket Random</strong>!
-                    </div>
-                </div>
-
-                <!-- Item 5: Active Domain Link & History Cleaner -->
-                <div class="pinpoint-list-item">
-                    <div class="pinpoint-item-head">
-                        <div class="pinpoint-item-title">
-                            <span class="material-symbols-outlined notranslate" style="font-size:17px;color:#ea4335;line-height:1;">link</span>
-                            <span>Active Domain Links & Cleanup</span>
-                        </div>
-                        <span class="pinpoint-info-badge" style="background:#f1f3f4;color:#5f6368;">Tools</span>
-                    </div>
-                    <div class="pinpoint-item-desc">
-                        <div style="display:flex;align-items:center;gap:6px;margin:3px 0 5px 0;">
-                            <code id="info-script-url" style="background:#fff;color:#1a73e8;padding:3px 6px;border-radius:4px;font-size:10.5px;word-break:break-all;flex:1;font-family:monospace;border:1px solid #dadce0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${scriptUrl}</code>
-                            <button id="info-copy-script-btn" style="background:#1a73e8;border:none;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600;color:#fff;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:3px;font-family:inherit;">
-                                <span class="material-symbols-outlined notranslate" style="font-size:13px;line-height:1;">content_copy</span> Copy Script
-                            </button>
-                        </div>
-                        <div id="info-script-toast" style="display:none;font-size:11px;color:#137333;font-weight:500;margin-bottom:4px;">✓ Google Script URL copied!</div>
-
-                        <div style="display:flex;align-items:center;gap:6px;margin:2px 0 3px 0;">
-                            <code id="info-cleanup-url" style="background:#fff;color:#ea4335;padding:3px 6px;border-radius:4px;font-size:10.5px;word-break:break-all;flex:1;font-family:monospace;border:1px solid #dadce0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${cleanupUrl}</code>
-                            <button id="info-copy-cleanup-btn" style="background:#ea4335;border:none;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600;color:#fff;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:3px;font-family:inherit;">
-                                <span class="material-symbols-outlined notranslate" style="font-size:13px;line-height:1;">content_copy</span> Copy Cleanup
-                            </button>
-                        </div>
-                        <div id="info-cleanup-toast" style="display:none;font-size:11px;color:#137333;font-weight:500;margin-bottom:4px;">✓ Chrome settings URL copied!</div>
-                        <div style="font-size:11px;color:#137333;margin-top:2px;">
-                            🛡️ <em>Keep <strong>${currentHost}</strong> when cleaning to preserve game saves!</em>
-                        </div>
+                        Export and import season save files for Retro Bowl & Retro Bowl College right from the runner topbar.
                     </div>
                 </div>
             </div>
@@ -1439,21 +1444,6 @@ var TabDisguiser = window.TabDisguiser || {
                     navigator.clipboard.writeText(scriptUrl).catch(() => {});
                 }
                 const toast = document.getElementById('info-script-toast');
-                if (toast) {
-                    toast.style.display = 'block';
-                    setTimeout(() => { toast.style.display = 'none'; }, 3000);
-                }
-            };
-        }
-
-        const copyCleanupBtn = document.getElementById('info-copy-cleanup-btn');
-        if (copyCleanupBtn) {
-            copyCleanupBtn.onclick = (e) => {
-                e.stopPropagation();
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(cleanupUrl).catch(() => {});
-                }
-                const toast = document.getElementById('info-cleanup-toast');
                 if (toast) {
                     toast.style.display = 'block';
                     setTimeout(() => { toast.style.display = 'none'; }, 3000);
