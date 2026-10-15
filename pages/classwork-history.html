@@ -2285,24 +2285,31 @@ async function launchGame(file, title, forceOffline = null) {
 
       iframe.removeAttribute('src');
 
-      // Fetch from jsDelivr -> raw.githubusercontent.com -> fastly.jsdelivr.net -> local Vercel
-      fetch(cdnUrl + '?t=' + Date.now())
+      // Fetch sequence: Raw GitHub (fastest, no tarball timeouts) -> jsDelivr -> Fastly -> Local Vercel
+      function fetchWithTimeout(url, timeoutMs = 8000) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), timeoutMs);
+        return fetch(url, { signal: controller.signal })
+          .finally(() => clearTimeout(timer));
+      }
+
+      fetchWithTimeout(rawGithubUrl + '?t=' + Date.now(), 10000)
         .then(res => {
-          if (!res.ok) throw new Error('jsDelivr HTTP ' + res.status);
+          if (!res.ok) throw new Error('raw.githubusercontent HTTP ' + res.status);
           return res.text();
         })
         .then(html => renderGameHtml(html))
         .catch(err1 => {
-          console.warn('jsDelivr failed, trying raw.githubusercontent.com:', err1);
-          fetch(rawGithubUrl + '?t=' + Date.now())
+          console.warn('Raw GitHub fetch failed, trying jsDelivr:', err1);
+          fetchWithTimeout(cdnUrl + '?t=' + Date.now(), 6000)
             .then(res => {
-              if (!res.ok) throw new Error('raw.githubusercontent HTTP ' + res.status);
+              if (!res.ok) throw new Error('jsDelivr HTTP ' + res.status);
               return res.text();
             })
             .then(html => renderGameHtml(html))
             .catch(err2 => {
-              console.warn('Raw GitHub failed, trying Fastly CDN:', err2);
-              fetch(fastlyUrl + '?t=' + Date.now())
+              console.warn('jsDelivr failed, trying Fastly CDN:', err2);
+              fetchWithTimeout(fastlyUrl + '?t=' + Date.now(), 6000)
                 .then(res => {
                   if (!res.ok) throw new Error('Fastly HTTP ' + res.status);
                   return res.text();
