@@ -1,2 +1,25 @@
-# Track all game assets and bundles in textbooks/ with Git LFS
-textbooks/** filter=lfs diff=lfs merge=lfs -text
+# Track large binary game assets and bundles in textbooks/ with Git LFS
+textbooks/**/*.swf filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.wasm filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.data* filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.unityweb filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.unity3d filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.webm filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.part* filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.dat filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.resource filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.png filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.mp3 filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.ogg filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.wav filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.woff2 filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.woff filter=lfs diff=lfs merge=lfs -text
+textbooks/**/*.ttf filter=lfs diff=lfs merge=lfs -text
+
+# Keep all code and text files directly in standard Git
+textbooks/**/*.html text !filter !diff !merge
+textbooks/**/*.js text !filter !diff !merge
+textbooks/**/*.css text !filter !diff !merge
+textbooks/**/*.json text !filter !diff !merge

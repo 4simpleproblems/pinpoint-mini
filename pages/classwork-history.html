@@ -2297,86 +2297,16 @@ async function launchGame(file, title, forceOffline = null) {
   if (overlay) overlay.style.display = 'flex';
   const iframe = document.getElementById('runner-iframe');
   if (iframe) {
-    if (useOffline) {
-      iframe.src = targetSrc;
-      iframe.onload = () => {
-        try {
-          if (iframe.contentWindow && iframe.contentWindow.document) {
-            if (typeof TabDisguiser !== 'undefined' && TabDisguiser.protectDoc) {
-              TabDisguiser.protectDoc(iframe.contentWindow.document);
-            }
+    iframe.src = targetSrc;
+    iframe.onload = () => {
+      try {
+        if (iframe.contentWindow && iframe.contentWindow.document) {
+          if (typeof TabDisguiser !== 'undefined' && TabDisguiser.protectDoc) {
+            TabDisguiser.protectDoc(iframe.contentWindow.document);
           }
-        } catch(e) {}
-      };
-    } else {
-      const cleanFile = file.replace(/^(\.\.\/|\.\/|\/)+/, '');
-      const cdnUrl = 'https://cdn.jsdelivr.net/gh/pinpoint-edu/assets@main/' + cleanFile;
-      const rawGithubUrl = 'https://raw.githubusercontent.com/pinpoint-edu/assets/main/' + cleanFile;
-      const fastlyUrl = 'https://fastly.jsdelivr.net/gh/pinpoint-edu/assets@main/' + cleanFile;
-      const localUrl = '/' + cleanFile;
-
-      const lastSlash = cdnUrl.lastIndexOf('/');
-      const baseDirUrl = lastSlash !== -1 ? cdnUrl.substring(0, lastSlash + 1) : cdnUrl;
-
-      function renderGameHtml(html) {
-        const baseTag = '<base href="' + baseDirUrl + '">';
-        let modifiedHtml = html;
-        if (/<head(\s[^>]*)?>/i.test(modifiedHtml)) {
-          modifiedHtml = modifiedHtml.replace(/<head(\s[^>]*)?>/i, '$&' + baseTag);
-        } else {
-          modifiedHtml = baseTag + modifiedHtml;
         }
-        if (iframe.contentWindow) {
-          iframe.contentWindow.document.open();
-          iframe.contentWindow.document.write(modifiedHtml);
-          iframe.contentWindow.document.close();
-          try {
-            if (typeof TabDisguiser !== 'undefined' && TabDisguiser.protectDoc) {
-              TabDisguiser.protectDoc(iframe.contentWindow.document);
-            }
-          } catch(e) {}
-        }
-      }
-
-      iframe.removeAttribute('src');
-
-      // Fetch sequence: Raw GitHub (fastest, no tarball timeouts) -> jsDelivr -> Fastly -> Local Vercel
-      function fetchWithTimeout(url, timeoutMs = 8000) {
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), timeoutMs);
-        return fetch(url, { signal: controller.signal })
-          .finally(() => clearTimeout(timer));
-      }
-
-      fetchWithTimeout(rawGithubUrl + '?t=' + Date.now(), 10000)
-        .then(res => {
-          if (!res.ok) throw new Error('raw.githubusercontent HTTP ' + res.status);
-          return res.text();
-        })
-        .then(html => renderGameHtml(html))
-        .catch(err1 => {
-          console.warn('Raw GitHub fetch failed, trying jsDelivr:', err1);
-          fetchWithTimeout(cdnUrl + '?t=' + Date.now(), 6000)
-            .then(res => {
-              if (!res.ok) throw new Error('jsDelivr HTTP ' + res.status);
-              return res.text();
-            })
-            .then(html => renderGameHtml(html))
-            .catch(err2 => {
-              console.warn('jsDelivr failed, trying Fastly CDN:', err2);
-              fetchWithTimeout(fastlyUrl + '?t=' + Date.now(), 6000)
-                .then(res => {
-                  if (!res.ok) throw new Error('Fastly HTTP ' + res.status);
-                  return res.text();
-                })
-                .then(html => renderGameHtml(html))
-                .catch(err3 => {
-                  console.warn('All remote asset mirrors failed, falling back to local:', err3);
-                  iframe.src = localUrl;
-                });
-            });
-        });
-    }
+      } catch(e) {}
+    };
   }
   if (typeof TabDisguiser !== 'undefined') {
     TabDisguiser.setTitle(TabDisguiser.getCanonicalPageTitle());

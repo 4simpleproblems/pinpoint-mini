@@ -1,3 +1,100 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7038b3565ee53a881d14833719454bd3be50f8bf0acee5058a6751d7a50fc5ed
-size 2297
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sprinter</title>
+  <link rel="icon" type="image/png" href="../../favicons/google-classroom.png"/>
+  <link rel="shortcut icon" type="image/png" href="../../favicons/google-classroom.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000;
+    }
+    #player-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    ruffle-player {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  </style>
+  <script>
+    let baseOrigin = (window.location.origin && window.location.origin !== "null") ? window.location.origin : "";
+    try {
+      if (!baseOrigin && window.parent && window.parent.location && window.parent.location.origin && window.parent.location.origin !== "null") {
+        baseOrigin = window.parent.location.origin;
+      }
+    } catch(e) {}
+    if (!baseOrigin) baseOrigin = "";
+
+    window.RufflePlayer = window.RufflePlayer || {};
+    window.RufflePlayer.config = {
+      autoplay: "on",
+      unmuteOverlay: "hidden",
+      letterbox: "on",
+      contextMenu: false,
+      warnOnUnsupportedContent: false,
+      publicPath: (baseOrigin || "") + "/textbooks/ruffle/"
+    };
+  </script>
+  <script src="/textbooks/ruffle/ruffle.js"></script>
+  <script>
+    if (!window.RufflePlayer || !window.RufflePlayer.newest) {
+      document.write('<script src="https://unpkg.com/@ruffle-rs/ruffle"><\/script>');
+    }
+  </script>
+</head>
+<body>
+  <div id="player-container"></div>
+  <script>
+    window.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const ruffle = window.RufflePlayer ? (window.RufflePlayer.newest ? window.RufflePlayer.newest() : window.RufflePlayer) : null;
+        if (!ruffle) throw new Error("Ruffle not loaded");
+        const player = ruffle.createPlayer();
+        const container = document.getElementById("player-container");
+        container.appendChild(player);
+
+        let buf = null;
+        try {
+          const res = await fetch("sprinter.swf");
+          if (res.ok) buf = await res.arrayBuffer();
+        } catch(e) {}
+
+        if (!buf) {
+          try {
+            const res = await fetch((baseOrigin || "") + "/textbooks/sprinter/sprinter.swf");
+            if (res.ok) buf = await res.arrayBuffer();
+          } catch(e) {}
+        }
+
+        if (!buf) {
+          try {
+            const res = await fetch("https://raw.githubusercontent.com/pinpoint-edu/assets/main/textbooks/sprinter/sprinter.swf");
+            if (res.ok) buf = await res.arrayBuffer();
+          } catch(e) {}
+        }
+
+        if (buf) {
+          player.load({ data: buf });
+          return;
+        }
+
+        player.load("sprinter.swf");
+      } catch(err) {
+        console.error("Error launching Sprinter:", err);
+      }
+    });
+  </script>
+  <script src="../../tab-disguiser.js"></script>
+</body>
+</html>

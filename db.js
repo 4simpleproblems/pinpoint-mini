@@ -9,7 +9,10 @@ const GAME_MANIFESTS = {
     "textbooks/sprinter/index.html": [
         "/textbooks/sprinter/index.html",
         "/textbooks/sprinter/",
-        "/textbooks/sprinter/sprinter.swf"
+        "/textbooks/sprinter/sprinter.swf",
+        "/textbooks/ruffle/ruffle.js",
+        "/textbooks/ruffle/core.ruffle.e1ab5671fe9d69a41e55.js",
+        "/textbooks/ruffle/f9db7455c2c80fac021b.wasm"
     ],
     "textbooks/basket-random/index.html": [
         "/textbooks/basket-random/index.html",
@@ -192,9 +195,14 @@ const GAME_MANIFESTS = {
         "/textbooks/monspin/",
         "/textbooks/monspin/Build/UnityLoader.js",
         "/textbooks/monspin/Build/GunSpin%20WebGL%20FinalVersion.json",
+        "/textbooks/monspin/Build/GunSpin WebGL FinalVersion.json",
         "/textbooks/monspin/Build/GunSpin%20WebGL%20FinalVersion.data.unityweb",
+        "/textbooks/monspin/Build/GunSpin WebGL FinalVersion.data.unityweb",
         "/textbooks/monspin/Build/GunSpin%20WebGL%20FinalVersion.wasm.code.unityweb",
+        "/textbooks/monspin/Build/GunSpin WebGL FinalVersion.wasm.code.unityweb",
         "/textbooks/monspin/Build/GunSpin%20WebGL%20FinalVersion.wasm.framework.unityweb",
+        "/textbooks/monspin/Build/GunSpin WebGL FinalVersion.wasm.framework.unityweb",
+        "/textbooks/monspin/manifest_1.5.18.json",
         "/textbooks/monspin/TemplateData/favicon.ico",
         "/textbooks/monspin/TemplateData/style.css",
         "/textbooks/monspin/TemplateData/UnityProgress.js",
@@ -360,9 +368,20 @@ const PinpointGameStorage = {
                     throw err;
                 }
 
-                const res = await fetch(assetUrl, { signal: controller.signal });
-                if (!res.ok) {
-                    throw new Error(`Failed to fetch asset: ${assetUrl} (${res.status})`);
+                let res;
+                try {
+                    res = await fetch(assetUrl, { signal: controller.signal });
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                } catch(primaryErr) {
+                    // Fallback to raw GitHub assets repository if local fetch fails
+                    const clean = assetUrl.replace(/^\/+/, '');
+                    const rawFallback = 'https://raw.githubusercontent.com/pinpoint-edu/assets/main/' + clean;
+                    try {
+                        res = await fetch(rawFallback, { signal: controller.signal });
+                        if (!res.ok) throw primaryErr;
+                    } catch(fallbackErr) {
+                        throw primaryErr;
+                    }
                 }
 
                 const contentLength = parseInt(res.headers.get('content-length') || '0', 10);
@@ -407,17 +426,63 @@ const PinpointGameStorage = {
 
                 if (cache) {
                     try {
+                        const ext = assetUrl.split('.').pop().toLowerCase().split('?')[0];
+                        const mimeMap = {
+                            'wasm': 'application/wasm',
+                            'js': 'application/javascript; charset=utf-8',
+                            'json': 'application/json; charset=utf-8',
+                            'swf': 'application/x-shockwave-flash',
+                            'html': 'text/html; charset=utf-8',
+                            'htm': 'text/html; charset=utf-8',
+                            'css': 'text/css; charset=utf-8',
+                            'png': 'image/png',
+                            'jpg': 'image/jpeg',
+                            'jpeg': 'image/jpeg',
+                            'gif': 'image/gif',
+                            'svg': 'image/svg+xml',
+                            'ico': 'image/x-icon',
+                            'webm': 'video/webm'
+                        };
+
+                        const headers = new Headers(res.headers);
+                        if (mimeMap[ext]) {
+                            headers.set('content-type', mimeMap[ext]);
+                        }
+
                         const cacheRes = new Response(assetBlob, {
-                            headers: res.headers,
-                            status: res.status,
-                            statusText: res.statusText
+                            headers: headers,
+                            status: 200,
+                            statusText: 'OK'
                         });
-                        await cache.put(assetUrl, cacheRes.clone());
-                        await cache.put(new URL(assetUrl, window.location.href).href, cacheRes.clone());
+
+                        const putKeys = new Set([
+                            assetUrl,
+                            new URL(assetUrl, window.location.href).href,
+                            assetUrl.replace(/^\/+/, ''),
+                            decodeURIComponent(assetUrl),
+                            encodeURI(assetUrl)
+                        ]);
+
                         if (assetUrl.endsWith('/index.html')) {
                             const dirPath = assetUrl.replace(/index\.html$/, '');
-                            await cache.put(dirPath, cacheRes.clone());
-                            await cache.put(new URL(dirPath, window.location.href).href, cacheRes.clone());
+                            const dirNoSlash = dirPath.replace(/\/$/, '');
+                            putKeys.add(dirPath);
+                            putKeys.add(dirNoSlash);
+                            putKeys.add(new URL(dirPath, window.location.href).href);
+                            putKeys.add(new URL(dirNoSlash, window.location.href).href);
+                        } else if (assetUrl.endsWith('/')) {
+                            const indexPath = assetUrl + 'index.html';
+                            const noSlash = assetUrl.replace(/\/$/, '');
+                            putKeys.add(indexPath);
+                            putKeys.add(noSlash);
+                            putKeys.add(new URL(indexPath, window.location.href).href);
+                            putKeys.add(new URL(noSlash, window.location.href).href);
+                        }
+
+                        for (const k of putKeys) {
+                            try {
+                                await cache.put(k, cacheRes.clone());
+                            } catch(e) {}
                         }
                     } catch(err) {
                         console.warn('Could not cache asset in CacheStorage:', assetUrl, err);
@@ -480,8 +545,23 @@ const PinpointGameStorage = {
                 const cache = await caches.open(GAME_CACHE_NAME);
                 const assets = fileUrl ? this.getManifest(fileUrl) : [];
                 for (const assetUrl of assets) {
-                    await cache.delete(assetUrl);
-                    await cache.delete(new URL(assetUrl, window.location.href).href);
+                    const delKeys = [
+                        assetUrl,
+                        new URL(assetUrl, window.location.href).href,
+                        assetUrl.replace(/^\/+/, ''),
+                        decodeURIComponent(assetUrl),
+                        encodeURI(assetUrl)
+                    ];
+                    if (assetUrl.endsWith('/index.html')) {
+                        const dirPath = assetUrl.replace(/index\.html$/, '');
+                        delKeys.push(dirPath, dirPath.replace(/\/$/, ''), new URL(dirPath, window.location.href).href);
+                    } else if (assetUrl.endsWith('/')) {
+                        const indexPath = assetUrl + 'index.html';
+                        delKeys.push(indexPath, assetUrl.replace(/\/$/, ''), new URL(indexPath, window.location.href).href);
+                    }
+                    for (const k of delKeys) {
+                        try { await cache.delete(k); } catch(e) {}
+                    }
                 }
             } catch(e) {
                 console.warn('Error clearing CacheStorage:', e);
