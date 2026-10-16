@@ -1380,12 +1380,12 @@ var TabDisguiser = window.TabDisguiser || {
                     <div class="pinpoint-item-head">
                         <div class="pinpoint-item-title">
                             <span class="material-symbols-outlined notranslate" style="font-size:16px;color:#1a73e8;line-height:1;">flight</span>
-                            <span>Bit Planes Overhaul</span>
+                            <span>Bit Planes (2PM)</span>
                         </div>
                         <span class="pinpoint-badge pinpoint-badge-updated">Updated</span>
                     </div>
                     <div class="pinpoint-item-desc">
-                        Pause button (Esc/P), death menu with stats (Kills, Deaths, K/D, Waves), nickname saving, and instant restart.
+                        Brand new 1v1 local split-screen mode featuring dual independent cameras, customizable WASD & Arrow controls, live scores, homing missiles, and classic dogfighting!
                     </div>
                 </div>
 
