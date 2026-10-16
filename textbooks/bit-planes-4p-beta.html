@@ -1121,83 +1121,10 @@ kbd {
                 </div>
             </div>
 
-            <!-- Expandable 2-Player Setup Section (revealed only once 1v1 Split-Screen is selected) -->
-            <div id="two-player-setup" style="display: none; margin-top: 16px; padding: 14px 18px; background: rgba(0,0,0,0.035); border: 1px solid rgba(0,0,0,0.12); border-radius: 6px; font-family: 'Cormorant Garamond', serif;">
-                <div style="font-size: 21px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 4px;">2-Player Match Setup</div>
-                
-                <div style="margin-bottom: 12px;">
-                    <label for="p2-nickname" style="display: block; font-size: 19px; font-weight: bold; color: #1976d2; margin-bottom: 4px;">Player 2 Username (Blue Team)</label>
-                    <input type="text" name="nickname2" id="p2-nickname" placeholder="Type username..." maxlength="16" autocomplete="off" style="width: 100%; box-sizing: border-box; font-family: 'Cormorant Garamond', serif; font-size: 20px; padding: 6px 10px;">
-                    <div id="nick-error-msg" style="display: none; color: #d32f2f; font-size: 16px; margin-top: 6px; font-weight: bold;"></div>
-                </div>
-
-                <div style="margin-bottom: 12px; font-size: 19px; display: flex; align-items: center; gap: 14px;">
-                    <span style="font-weight: bold;">Match Rule:</span>
-                    <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 4px;"><input type="radio" name="matchRule" value="infinite" checked> Infinite Plays</label>
-                    <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 4px;"><input type="radio" name="matchRule" value="score"> Target Score</label>
-                    <select id="matchTargetScore" style="display: none; font-family: 'Cormorant Garamond', serif; font-size: 18px; padding: 2px 6px;">
-                        <option value="5">First to 5</option>
-                        <option value="10" selected>First to 10</option>
-                        <option value="15">First to 15</option>
-                        <option value="20">First to 20</option>
-                        <option value="25">First to 25</option>
-                        <option value="30">First to 30</option>
-                        <option value="40">First to 40</option>
-                        <option value="50">First to 50</option>
-                        <option value="75">First to 75</option>
-                        <option value="100">First to 100</option>
-                    </select>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 16px; border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 12px;">
-                    <div>
-                        <div style="font-size: 18px; font-weight: bold; color: #c62828; margin-bottom: 6px; border-bottom: 2px solid #ffcdd2; padding-bottom: 3px;">Player 1 (Red / Left)</div>
-                        <ul style="list-style: none; margin: 0; padding: 0; line-height: 1.6;">
-                            <li style="display: flex; justify-content: space-between; align-items: center; padding: 3px 0; border-bottom: 1px dashed rgba(0,0,0,0.08);">
-                                <span>Steer & Thrust:</span>
-                                <span><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></span>
-                            </li>
-                            <li style="display: flex; justify-content: space-between; align-items: center; padding: 3px 0; border-bottom: 1px dashed rgba(0,0,0,0.08);">
-                                <span>Shoot Gun:</span>
-                                <kbd>Z</kbd>
-                            </li>
-                            <li style="display: flex; justify-content: space-between; align-items: center; padding: 3px 0; border-bottom: 1px dashed rgba(0,0,0,0.08);">
-                                <span>Launch Missile:</span>
-                                <kbd>X</kbd>
-                            </li>
-                            <li style="display: flex; justify-content: space-between; align-items: center; padding: 3px 0;">
-                                <span>Bail / Re-enter:</span>
-                                <kbd>C</kbd>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <div style="font-size: 18px; font-weight: bold; color: #1565c0; margin-bottom: 6px; border-bottom: 2px solid #bbdefb; padding-bottom: 3px;">Player 2 (Blue / Right)</div>
-                        <ul style="list-style: none; margin: 0; padding: 0; line-height: 1.6;">
-                            <li style="display: flex; justify-content: space-between; align-items: center; padding: 3px 0; border-bottom: 1px dashed rgba(0,0,0,0.08);">
-                                <span>Steer & Thrust:</span>
-                                <span><kbd>&uarr;</kbd> <kbd>&larr;</kbd> <kbd>&darr;</kbd> <kbd>&rarr;</kbd></span>
-                            </li>
-                            <li style="display: flex; justify-content: space-between; align-items: center; padding: 3px 0; border-bottom: 1px dashed rgba(0,0,0,0.08);">
-                                <span>Shoot Gun:</span>
-                                <kbd>Right Ctrl</kbd>
-                            </li>
-                            <li style="display: flex; justify-content: space-between; align-items: center; padding: 3px 0; border-bottom: 1px dashed rgba(0,0,0,0.08);">
-                                <span>Launch Missile:</span>
-                                <kbd>Right Shift</kbd>
-                            </li>
-                            <li style="display: flex; justify-content: space-between; align-items: center; padding: 3px 0;">
-                                <span>Bail / Re-enter:</span>
-                                <kbd>/</kbd>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div style="margin-top: 10px; font-size: 15px; text-align: center; color: #555; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 8px;">
-                    Pause / Resume: <kbd>Space</kbd> or <kbd>Esc</kbd>
-                </div>
-            </div>
-
+            <!-- Hidden 2P Sync Form Inputs (configured via fullscreen modal) -->
+            <input type="hidden" name="nickname2" id="p2-nickname">
+            <input type="hidden" name="matchRule" id="matchRule-hidden" value="infinite">
+            <select id="matchTargetScore" style="display: none;"><option value="10" selected>First to 10</option></select>
             <div class="action" style="margin-top: 18px;">
                 <button type="submit" id="main-submit-btn" class="btn" style="width: 100%; font-size: 21px; padding: 10px; font-weight: bold;">‣ Start Game</button>
             
@@ -2074,9 +2001,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             e.preventDefault();
             e.stopPropagation();
             if (window.__currentBitPlanesMode === "online-beta") {
-                if (window.__toggleOnlineLocalPause) {
-                    window.__toggleOnlineLocalPause();
-                }
+                // In online beta, there is NO pause (keeps flying smoothly in real time)
                 return;
             }
             if (modal && modal.style.display === "flex") {
@@ -2162,11 +2087,11 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
 
 <!-- In-Game HUD Overlay -->
-<div id="online-4p-hud" style="display: none; position: fixed; top: 12px; left: 16px; z-index: 1000; font-family: 'Cormorant Garamond', serif; pointer-events: none;">
-    <div style="background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(4px); padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); color: #fff;">
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;">
-            <span style="font-weight: bold; font-size: 16px; color: #60a5fa;">ONLINE BETA MATCH</span>
-            <span id="hud-room-code" style="font-family: monospace; font-size: 14px; background: rgba(255,255,255,0.1); padding: 1px 6px; border-radius: 3px;">----</span>
+<div id="online-4p-hud" style="display: none; position: fixed; top: 12px; left: 16px; z-index: 1000; font-family: 'Cormorant Garamond', serif !important; pointer-events: none;">
+    <div style="background: rgba(10, 15, 26, 0.78); backdrop-filter: blur(8px); padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.18); color: #fff;">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 4px;">
+            <span style="font-weight: bold; font-size: 16px; color: #38bdf8; letter-spacing: 1px;">ONLINE BETA MATCH</span>
+            <span id="hud-room-code" style="font-family: monospace !important; font-size: 14px; background: rgba(255,255,255,0.1); padding: 1px 6px; border-radius: 4px;">----</span>
             <span id="hud-ping" style="font-size: 13px; color: #4ade80;">Ping: --ms</span>
         </div>
         <div id="hud-leaderboard" style="display: flex; flex-direction: column; gap: 4px; font-size: 15px;">
@@ -2175,37 +2100,278 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     </div>
 </div>
 
-<!-- Floating Pause Banner for Individual Player (Space / Esc in Online Beta) -->
-<div id="online-local-pause-overlay" style="display: none; position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); color: #fff; padding: 12px 28px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.25); font-family: 'Cormorant Garamond', serif; font-size: 21px; font-weight: bold; z-index: 9999; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; pointer-events: none;">
-  ⏸ LOCAL PAUSE (Thrust & Controls Suspended)<br>
-  <span style="font-size: 15px; color: #94a3b8; font-weight: normal;">Online match continues in real-time. Press <kbd style="background:#334155; padding: 2px 6px; border-radius: 4px; color:#fff; font-family: monospace;">Space</kbd> or <kbd style="background:#334155; padding: 2px 6px; border-radius: 4px; color:#fff; font-family: monospace;">Esc</kbd> to resume flying.</span>
-</div>
+<style>
+/* Fullscreen Menus Common Styles */
+.bp-fullscreen-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    background: rgba(10, 15, 26, 0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    overflow-y: auto;
+    font-family: 'Cormorant Garamond', serif !important;
+    padding: 24px 16px;
+    box-sizing: border-box;
+}
 
-<!-- 1v1 Split-Screen Configure Modal Dialog -->
-<div id="modal-split-screen" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.72); backdrop-filter: blur(6px); z-index: 99999; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif;">
-  <div style="background: #ffffff; width: 94%; max-width: 580px; max-height: 88vh; overflow-y: auto; border-radius: 14px; border: 1px solid #c5cae9; box-shadow: 0 24px 48px rgba(0,0,0,0.4); padding: 22px 26px; box-sizing: border-box; position: relative;">
-    <button type="button" id="btn-close-split-modal" style="position: absolute; top: 14px; right: 16px; background: none; border: none; font-size: 26px; line-height: 1; cursor: pointer; color: #555; font-weight: bold;">✕</button>
-    
-    <div style="font-size: 26px; font-weight: bold; color: #1a237e; border-bottom: 2px solid #e8eaf6; padding-bottom: 8px; margin-bottom: 16px;">
-      1v1 Split-Screen Setup
+.bp-fullscreen-modal * {
+    font-family: 'Cormorant Garamond', serif !important;
+    box-sizing: border-box;
+}
+
+.bp-menu-wrap {
+    width: 100%;
+    max-width: 880px;
+    margin: auto;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: calc(100vh - 48px);
+    justify-content: center;
+}
+
+.bp-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding-bottom: 12px;
+}
+
+.bp-menu-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.bp-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.bp-btn-close {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.15s;
+}
+.bp-btn-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.bp-card-glass {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    padding: 16px 18px;
+}
+
+.bp-input-field {
+    width: 100%;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 19px;
+    padding: 8px 12px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.bp-input-field:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.35);
+}
+
+.bp-grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 680px) {
+    .bp-grid-2col {
+        grid-template-columns: 1fr;
+    }
+}
+
+.bp-square-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 18px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.15s, border-color 0.15s, box-shadow 0.15s;
+    gap: 8px;
+}
+.bp-square-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.bp-square-public {
+    background: rgba(74, 222, 128, 0.12);
+    border: 1.5px solid rgba(74, 222, 128, 0.45);
+    color: #dcfce7;
+}
+.bp-square-public:hover {
+    background: rgba(74, 222, 128, 0.22);
+    border-color: #4ade80;
+}
+
+.bp-square-private {
+    background: rgba(56, 189, 248, 0.12);
+    border: 1.5px solid rgba(56, 189, 248, 0.45);
+    color: #e0f2fe;
+}
+.bp-square-private:hover {
+    background: rgba(56, 189, 248, 0.22);
+    border-color: #38bdf8;
+}
+
+.bp-btn-launch {
+    padding: 12px 24px;
+    font-size: 21px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.15s, background 0.15s;
+    border: 1.5px solid #4ade80;
+    background: #16a34a;
+    color: #ffffff;
+}
+.bp-btn-launch:hover:not(:disabled) {
+    background: #22c55e;
+    transform: translateY(-1px);
+}
+.bp-btn-launch:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.bp-btn-blue {
+    padding: 8px 16px;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1.5px solid #38bdf8;
+    background: #0284c7;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.15s;
+}
+.bp-btn-blue:hover {
+    background: #0369a1;
+}
+
+.bp-btn-ghost {
+    padding: 8px 16px;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.15s;
+}
+.bp-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+</style>
+
+<!-- Fullscreen 1v1 Split-Screen Modal -->
+<div id="modal-split-screen" class="bp-fullscreen-modal">
+  <div class="bp-menu-wrap" style="max-width: 760px;">
+    <div class="bp-menu-header">
+      <div class="bp-menu-title">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+        <span>1v1 Split-Screen Setup</span>
+      </div>
+      <button type="button" id="btn-close-split-modal" class="bp-btn-close" title="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
 
-    <div style="margin-bottom: 12px;">
-      <label for="split-modal-p1-nick" style="display: block; font-size: 19px; font-weight: bold; color: #c62828; margin-bottom: 4px;">Player 1 Username (Red Team / Left)</label>
-      <input type="text" id="split-modal-p1-nick" placeholder="Enter username for Player 1..." maxlength="16" autocomplete="off" style="width: 100%; box-sizing: border-box; font-family: 'Cormorant Garamond', serif; font-size: 20px; padding: 6px 10px; border: 1px solid #ef9a9a; border-radius: 6px;">
+    <!-- Pilots Cards -->
+    <div class="bp-grid-2col">
+      <!-- Player 1 -->
+      <div class="bp-card-glass" style="border-left: 4px solid #ef4444;">
+        <div style="font-size: 20px; font-weight: bold; color: #f87171; margin-bottom: 8px;">Player 1 (Red / Left)</div>
+        <div style="margin-bottom: 12px;">
+          <label for="split-modal-p1-nick" style="display: block; font-size: 16px; color: #cbd5e1; margin-bottom: 4px;">Pilot Username</label>
+          <input type="text" id="split-modal-p1-nick" placeholder="Enter username..." maxlength="16" autocomplete="off" class="bp-input-field" style="border-color: rgba(239, 68, 68, 0.5);">
+        </div>
+        <div style="font-size: 15px; color: #cbd5e1; line-height: 1.6; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 8px;">
+          <div style="display: flex; justify-content: space-between;"><span>Steer & Thrust:</span><span><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></span></div>
+          <div style="display: flex; justify-content: space-between;"><span>Shoot Gun:</span><kbd>Z</kbd></div>
+          <div style="display: flex; justify-content: space-between;"><span>Launch Missile:</span><kbd>X</kbd></div>
+          <div style="display: flex; justify-content: space-between;"><span>Bail / Re-enter:</span><kbd>C</kbd></div>
+        </div>
+      </div>
+
+      <!-- Player 2 -->
+      <div class="bp-card-glass" style="border-left: 4px solid #3b82f6;">
+        <div style="font-size: 20px; font-weight: bold; color: #60a5fa; margin-bottom: 8px;">Player 2 (Blue / Right)</div>
+        <div style="margin-bottom: 12px;">
+          <label for="split-modal-p2-nick" style="display: block; font-size: 16px; color: #cbd5e1; margin-bottom: 4px;">Pilot Username</label>
+          <input type="text" id="split-modal-p2-nick" placeholder="Enter username..." maxlength="16" autocomplete="off" class="bp-input-field" style="border-color: rgba(59, 130, 246, 0.5);">
+        </div>
+        <div style="font-size: 15px; color: #cbd5e1; line-height: 1.6; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 8px;">
+          <div style="display: flex; justify-content: space-between;"><span>Steer & Thrust:</span><span><kbd>&uarr;</kbd> <kbd>&larr;</kbd> <kbd>&darr;</kbd> <kbd>&rarr;</kbd></span></div>
+          <div style="display: flex; justify-content: space-between;"><span>Shoot Gun:</span><kbd>Right Ctrl</kbd></div>
+          <div style="display: flex; justify-content: space-between;"><span>Launch Missile:</span><kbd>Right Shift</kbd></div>
+          <div style="display: flex; justify-content: space-between;"><span>Bail / Re-enter:</span><kbd>/</kbd></div>
+        </div>
+      </div>
     </div>
 
-    <div style="margin-bottom: 14px;">
-      <label for="split-modal-p2-nick" style="display: block; font-size: 19px; font-weight: bold; color: #1565c0; margin-bottom: 4px;">Player 2 Username (Blue Team / Right)</label>
-      <input type="text" id="split-modal-p2-nick" placeholder="Enter username for Player 2..." maxlength="16" autocomplete="off" style="width: 100%; box-sizing: border-box; font-family: 'Cormorant Garamond', serif; font-size: 20px; padding: 6px 10px; border: 1px solid #90caf9; border-radius: 6px;">
-      <div id="split-modal-error" style="display: none; color: #d32f2f; font-size: 16px; margin-top: 6px; font-weight: bold;"></div>
-    </div>
+    <div id="split-modal-error" style="display: none; padding: 8px 14px; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; border-radius: 6px; color: #fca5a5; font-size: 16px; font-weight: bold;"></div>
 
-    <div style="margin-bottom: 16px; font-size: 18px; display: flex; align-items: center; gap: 14px; background: #f8f9fa; padding: 8px 12px; border-radius: 6px; border: 1px solid #e0e0e0;">
-      <span style="font-weight: bold;">Match Rule:</span>
-      <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 4px;"><input type="radio" name="modalMatchRule" value="infinite" checked> Infinite Plays</label>
-      <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 4px;"><input type="radio" name="modalMatchRule" value="score"> Target Score</label>
-      <select id="modalMatchTargetScore" style="display: none; font-family: 'Cormorant Garamond', serif; font-size: 17px; padding: 2px 6px;">
+    <!-- Match Mode -->
+    <div class="bp-card-glass" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+      <div style="display: flex; align-items: center; gap: 14px; font-size: 18px;">
+        <span style="font-weight: bold; color: #e2e8f0;">Match Mode:</span>
+        <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px;"><input type="radio" name="modalMatchRule" value="infinite" checked> Infinite Plays</label>
+        <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px;"><input type="radio" name="modalMatchRule" value="score"> Target Score</label>
+      </div>
+      <select id="modalMatchTargetScore" class="bp-input-field" style="display: none; width: auto; padding: 4px 10px; font-size: 17px;">
         <option value="5">First to 5</option>
         <option value="10" selected>First to 10</option>
         <option value="15">First to 15</option>
@@ -2216,149 +2382,156 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
       </select>
     </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 15px; margin-bottom: 18px; background: #fbfbfb; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px;">
-      <div>
-        <div style="font-weight: bold; color: #c62828; margin-bottom: 4px;">Player 1 (Left)</div>
-        <div>Steer: <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></div>
-        <div>Fire: <kbd>Z</kbd> | Missile: <kbd>X</kbd></div>
-        <div>Bail: <kbd>C</kbd></div>
-      </div>
-      <div>
-        <div style="font-weight: bold; color: #1565c0; margin-bottom: 4px;">Player 2 (Right)</div>
-        <div>Steer: <kbd>&uarr;</kbd> <kbd>&larr;</kbd> <kbd>&darr;</kbd> <kbd>&rarr;</kbd></div>
-        <div>Fire: <kbd>Right Ctrl</kbd> | Missile: <kbd>Right Shift</kbd></div>
-        <div>Bail: <kbd>/</kbd></div>
-      </div>
-    </div>
-
-    <button type="button" id="btn-start-split-modal" style="width: 100%; padding: 12px; font-size: 21px; font-weight: bold; background: #2e7d32; color: #fff; border: none; border-radius: 6px; cursor: pointer;">
-      ‣ Start 1v1 Split-Screen Match
+    <!-- Launch Button -->
+    <button type="button" id="btn-start-split-modal" class="bp-btn-launch" style="width: 100%;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      <span>Start 1v1 Split-Screen Match</span>
     </button>
   </div>
 </div>
 
-<!-- Online Beta Modal Dialog -->
-<div id="modal-online-beta" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.72); backdrop-filter: blur(6px); z-index: 99999; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif;">
-  <div style="background: #ffffff; width: 94%; max-width: 620px; max-height: 88vh; overflow-y: auto; border-radius: 14px; border: 1px solid #c5cae9; box-shadow: 0 24px 48px rgba(0,0,0,0.4); padding: 22px 26px; box-sizing: border-box; position: relative;">
-    
-    <!-- Modal Close Button -->
-    <button type="button" id="btn-close-online-modal" style="position: absolute; top: 14px; right: 16px; background: none; border: none; font-size: 26px; line-height: 1; cursor: pointer; color: #555; font-weight: bold;">✕</button>
-
-    <!-- Modal Title & Status -->
-    <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #e8eaf6; padding-bottom: 8px; margin-bottom: 16px;">
-      <div style="font-size: 28px; font-weight: bold; color: #1a237e;">Online Beta</div>
-      <div id="modal-photon-status" style="font-size: 15px; font-weight: bold; color: #e65100;">
-        <span id="modal-status-dot" style="display: inline-block; width: 8px; height: 8px; background: #ff9800; border-radius: 50%; margin-right: 4px;"></span>
-        <span id="modal-status-text">Connecting...</span>
+<!-- Fullscreen Online Beta Modal -->
+<div id="modal-online-beta" class="bp-fullscreen-modal">
+  <div class="bp-menu-wrap">
+    <div class="bp-menu-header">
+      <div class="bp-menu-title">
+        <span>Online Beta</span>
+        <div id="modal-photon-status" class="bp-status-badge">
+          <span id="modal-status-dot" style="display: inline-block; width: 8px; height: 8px; background: #ff9800; border-radius: 50%;"></span>
+          <span id="modal-status-text" style="color: #cbd5e1;">Connecting...</span>
+        </div>
       </div>
+      <button type="button" id="btn-close-online-modal" class="bp-btn-close" title="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
 
-    <!-- VIEW 1: MATCHMAKING & ROOM LIST (Shown when outside a room) -->
-    <div id="view-matchmaking">
-      <!-- Pilot Callsign -->
-      <div style="margin-bottom: 16px;">
-        <label for="modal-callsign-input" style="display: block; font-size: 19px; font-weight: bold; color: #333; margin-bottom: 4px;">Pilot Call-sign</label>
-        <input type="text" id="modal-callsign-input" placeholder="Enter your call-sign..." maxlength="16" autocomplete="off" style="width: 100%; box-sizing: border-box; font-family: 'Cormorant Garamond', serif; font-size: 20px; padding: 7px 12px; border: 1px solid #90caf9; border-radius: 6px;">
+    <!-- VIEW 1: MATCHMAKING -->
+    <div id="view-matchmaking" style="display: flex; flex-direction: column; gap: 16px;">
+      <!-- Callsign Bar -->
+      <div class="bp-card-glass" style="display: flex; align-items: center; gap: 14px;">
+        <label for="modal-callsign-input" style="font-size: 19px; font-weight: bold; color: #e2e8f0; white-space: nowrap;">Pilot Call-sign:</label>
+        <input type="text" id="modal-callsign-input" placeholder="Enter your call-sign..." maxlength="16" autocomplete="off" class="bp-input-field">
       </div>
 
-      <!-- Public Rooms List -->
-      <div style="margin-bottom: 18px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-          <span style="font-size: 20px; font-weight: bold; color: #283593;">Active Public Games</span>
-          <button type="button" id="btn-refresh-rooms" style="font-size: 14px; font-weight: bold; padding: 3px 10px; background: #e8eaf6; border: 1px solid #c5cae9; border-radius: 4px; cursor: pointer; color: #283593;">↻ Refresh</button>
+      <!-- Main 2-Column Resourceful Grid -->
+      <div class="bp-grid-2col">
+        <!-- Left: Public Games -->
+        <div class="bp-card-glass" style="display: flex; flex-direction: column; min-height: 220px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px;">
+            <span style="font-size: 20px; font-weight: bold; color: #38bdf8;">Active Public Games</span>
+            <button type="button" id="btn-refresh-rooms" class="bp-btn-ghost" style="padding: 4px 10px; font-size: 15px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+              <span>Refresh</span>
+            </button>
+          </div>
+          <div id="public-rooms-container" style="flex: 1; overflow-y: auto; max-height: 200px; display: flex; flex-direction: column; gap: 6px;">
+            <div style="text-align: center; color: #94a3b8; padding: 28px 0; font-size: 17px;">Searching for public games...</div>
+          </div>
         </div>
-        <div id="public-rooms-container" style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; min-height: 100px; max-height: 170px; overflow-y: auto; padding: 8px; font-size: 16px;">
-          <div style="text-align: center; color: #888; padding: 24px 0;">Searching for public rooms...</div>
-        </div>
-      </div>
 
-      <!-- Create Room Buttons -->
-      <div style="border-top: 1px solid #eee; padding-top: 14px; margin-bottom: 16px;">
-        <div style="font-size: 20px; font-weight: bold; margin-bottom: 8px; color: #283593;">Create a Room</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px;">
-          <button type="button" id="btn-create-public" style="padding: 10px; font-size: 18px; font-weight: bold; background: #2e7d32; color: #fff; border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.15s;">
-            + Create Public Room
-          </button>
-          <button type="button" id="btn-create-private" style="padding: 10px; font-size: 18px; font-weight: bold; background: #1565c0; color: #fff; border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.15s;">
-            🔒 Create Private Room
-          </button>
-        </div>
-        <div>
-          <input type="text" id="input-create-private-pass" placeholder="CUSTOM PRIVATE PASSWORD (OPTIONAL, E.G. SKY5)" maxlength="12" style="text-transform: uppercase; letter-spacing: 2px; font-family: monospace; font-size: 15px; font-weight: bold; text-align: center; padding: 6px 10px; border: 1px solid #bbb; border-radius: 6px; width: 100%; box-sizing: border-box;">
-        </div>
-      </div>
+        <!-- Right: Create & Join Private -->
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <!-- Square Action Cards: Create Public & Create Private -->
+          <div class="bp-grid-2col" style="gap: 12px;">
+            <button type="button" id="btn-create-public" class="bp-square-btn bp-square-public">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              <span style="font-size: 19px; font-weight: bold;">Public Room</span>
+              <span style="font-size: 13px; opacity: 0.85;">Open to all pilots</span>
+            </button>
 
-      <!-- Join with Password / Code -->
-      <div style="border-top: 1px solid #eee; padding-top: 14px;">
-        <label for="input-private-code" style="display: block; font-size: 18px; font-weight: bold; color: #333; margin-bottom: 4px;">Join Private Room</label>
-        <div style="display: flex; gap: 8px;">
-          <input type="text" id="input-private-code" placeholder="ENTER ROOM PASSWORD / CODE" maxlength="12" style="flex: 1; text-transform: uppercase; letter-spacing: 2px; font-family: monospace; font-size: 17px; font-weight: bold; text-align: center; padding: 8px 10px; border: 1px solid #bbb; border-radius: 6px;">
-          <button type="button" id="btn-join-private" style="padding: 8px 20px; font-size: 17px; font-weight: bold; background: #37474f; color: #fff; border: none; border-radius: 6px; cursor: pointer;">
-            Join
-          </button>
+            <button type="button" id="btn-create-private" class="bp-square-btn bp-square-private">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span style="font-size: 19px; font-weight: bold;">Private Room</span>
+              <span style="font-size: 13px; opacity: 0.85;">Passcode protected</span>
+            </button>
+          </div>
+
+          <!-- Custom Password for Creating Private -->
+          <div style="margin-top: -2px;">
+            <input type="text" id="input-create-private-pass" placeholder="CUSTOM PRIVATE PASSWORD (OPTIONAL)" maxlength="12" class="bp-input-field" style="text-align: center; font-family: monospace !important; letter-spacing: 2px; font-size: 15px; font-weight: bold;">
+          </div>
+
+          <!-- Join Private Room -->
+          <div class="bp-card-glass" style="padding: 12px 16px;">
+            <div style="font-size: 16px; font-weight: bold; color: #e2e8f0; margin-bottom: 6px;">Join Private Room with Password</div>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="input-private-code" placeholder="ENTER ROOM PASSWORD" maxlength="12" class="bp-input-field" style="text-align: center; font-family: monospace !important; letter-spacing: 2px; font-size: 17px; font-weight: bold; flex: 1;">
+              <button type="button" id="btn-join-private" class="bp-btn-blue">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                <span>Join</span>
+              </button>
+            </div>
+            <div style="font-size: 13px; color: #94a3b8; margin-top: 4px;">Letters and numbers only (case-insensitive, no symbols).</div>
+          </div>
         </div>
-        <div style="font-size: 14px; color: #777; margin-top: 5px;">Letters and numbers only (case-insensitive, no symbols).</div>
       </div>
     </div>
 
     <!-- VIEW 2: INSIDE ROOM BRIEFING -->
-    <div id="view-room-lobby" style="display: none;">
+    <div id="view-room-lobby" style="display: none; flex-direction: column; gap: 16px;">
       <!-- Room Code Banner -->
-      <div style="background: #e8eaf6; padding: 10px 14px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-        <div>
-          <span style="font-size: 18px; font-weight: bold; color: #283593;">Room:</span>
-          <span id="room-code-display" style="font-family: monospace; font-size: 22px; font-weight: bold; color: #0d47a1; margin-left: 6px;">----</span>
-          <span id="room-type-badge" style="font-size: 13px; font-weight: bold; background: #fff; border: 1px solid #9fa8da; padding: 2px 7px; border-radius: 4px; margin-left: 6px; color: #1a237e;">Public</span>
+      <div class="bp-card-glass" style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 18px; color: #94a3b8;">Room:</span>
+          <span id="room-code-display" style="font-family: monospace !important; font-size: 26px; font-weight: bold; color: #38bdf8;">----</span>
+          <span id="room-type-badge" style="font-size: 13px; font-weight: bold; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; color: #e2e8f0;">Public</span>
         </div>
-        <button type="button" id="btn-copy-code" style="font-size: 14px; padding: 5px 12px; background: #fff; border: 1px solid #9fa8da; border-radius: 4px; cursor: pointer; color: #1a237e; font-weight: bold;">
-          📋 Copy Code
+        <button type="button" id="btn-copy-code" class="bp-btn-ghost">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span>Copy Code</span>
         </button>
       </div>
 
-      <!-- Pilot Customization Box -->
-      <div style="background: rgba(0,0,0,0.03); border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px;">
-        <div style="font-size: 18px; font-weight: bold; margin-bottom: 8px;">Pilot Customization</div>
-        <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px;">
-          <input type="text" id="room-callsign-input" placeholder="Call-sign in room..." maxlength="16" style="flex: 1; font-family: 'Cormorant Garamond', serif; font-size: 18px; padding: 6px 10px; border: 1px solid #bbb; border-radius: 4px;">
-          <button type="button" id="btn-update-room-callsign" style="padding: 6px 14px; font-size: 16px; font-weight: bold; background: #1a237e; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
-            Update
-          </button>
+      <div class="bp-grid-2col">
+        <!-- Pilots on Runway -->
+        <div class="bp-card-glass" style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="font-size: 20px; font-weight: bold; color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px;">
+            Pilots on Runway (<span id="pilots-count">1</span>/4)
+          </div>
+          <div id="pilots-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <!-- 4 Pilot Cards -->
+          </div>
         </div>
 
-        <div>
-          <span style="font-size: 16px; font-weight: bold; display: block; margin-bottom: 6px;">Choose Plane Color:</span>
-          <div id="color-palette" style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <!-- Rendered by JS: Rainbow + White + Black -->
+        <!-- Pilot Aircraft Customization -->
+        <div class="bp-card-glass" style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="font-size: 20px; font-weight: bold; color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px;">
+            Pilot Customization
+          </div>
+          <div>
+            <label for="room-callsign-input" style="display: block; font-size: 16px; color: #cbd5e1; margin-bottom: 4px;">Call-sign in Room</label>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="room-callsign-input" placeholder="Call-sign..." maxlength="16" class="bp-input-field" style="flex: 1;">
+              <button type="button" id="btn-update-room-callsign" class="bp-btn-blue">Update</button>
+            </div>
+          </div>
+          <div>
+            <label style="display: block; font-size: 16px; color: #cbd5e1; margin-bottom: 6px;">Aircraft & Barn Color</label>
+            <div id="color-palette" style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <!-- Rendered by JS: 10 Colors -->
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Pilots in Room Grid -->
-      <div style="margin-bottom: 18px;">
-        <div style="font-size: 19px; font-weight: bold; margin-bottom: 8px;">
-          Pilots in Briefing (<span id="pilots-count">1</span>/4)
-        </div>
-        <div id="pilots-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-          <!-- 4 Pilot Cards -->
-        </div>
-      </div>
-
       <!-- Actions -->
-      <div style="display: flex; gap: 10px;">
-        <button type="button" id="btn-start-online-match" style="flex: 2; padding: 12px; font-size: 20px; font-weight: bold; background: #2e7d32; color: #fff; border: none; border-radius: 6px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
-          🚀 START GAME
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <button type="button" id="btn-start-online-match" class="bp-btn-launch" style="flex: 2;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>START GAME</span>
         </button>
-        <button type="button" id="btn-exit-online-room" style="flex: 1; padding: 12px; font-size: 17px; font-weight: bold; background: #b0bec5; color: #37474f; border: none; border-radius: 6px; cursor: pointer;">
-          Leave Room
+        <button type="button" id="btn-exit-online-room" class="bp-btn-ghost" style="flex: 1; padding: 12px 20px; font-size: 18px; justify-content: center;">
+          <span>Leave Room</span>
         </button>
       </div>
-      <div id="modal-host-notice" style="text-align: center; font-size: 15px; color: #666; margin-top: 8px;">
+      <div id="modal-host-notice" style="text-align: center; font-size: 16px; color: #94a3b8;">
         Need at least 2 players to start.
       </div>
     </div>
 
-    <!-- Error Toast inside Modal -->
-    <div id="modal-error-toast" style="display: none; margin-top: 12px; padding: 8px 12px; background: #ffebee; border: 1px solid #ef9a9a; border-radius: 6px; color: #c62828; font-size: 16px; font-weight: bold;"></div>
+    <!-- Error Toast -->
+    <div id="modal-error-toast" style="display: none; padding: 10px 16px; background: rgba(239, 68, 68, 0.25); border: 1px solid #ef4444; border-radius: 8px; color: #fca5a5; font-size: 17px; font-weight: bold; text-align: center;"></div>
   </div>
 </div>
 
@@ -2379,7 +2552,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     const EV_CRASH_OR_KILL  = 6;
     const EV_UPDATE_PROFILE = 7;
 
-    // Rainbow + White + Black Palette
+    // Rainbow (8) + White + Black Palette
     const COLOR_PALETTE = [
         { name: "Red",     hex: "#ff0015" },
         { name: "Orange",  hex: "#ff6d00" },
@@ -2418,22 +2591,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     window.__onlinePlayers = {};
     window.__onlineBarns = [];
     window.__onlineWorld = null;
-    window.__onlineLocalPaused = false;
-
-    // Individual Local Pause (Space / Esc in Online Beta)
-    function toggleOnlineLocalPause() {
-        if (window.__currentBitPlanesMode !== "online-beta") return;
-        window.__onlineLocalPaused = !window.__onlineLocalPaused;
-        const overlay = document.getElementById("online-local-pause-overlay");
-        if (overlay) {
-            overlay.style.display = window.__onlineLocalPaused ? "block" : "none";
-        }
-        if (localPlane) {
-            localPlane.thrust = 0;
-            localPlane.elevator = 0;
-        }
-    }
-    window.__toggleOnlineLocalPause = toggleOnlineLocalPause;
 
     // -------------------------------------------------------------
     // PHOTON INITIALIZATION & EVENT DISPATCH
@@ -2487,6 +2644,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         }
     }
 
+    // STRICTLY 1 GREEN CIRCLE IN CONNECTION STATUS
     function updateConnectionStatus(type, text) {
         const dot = document.getElementById("modal-status-dot");
         const statusText = document.getElementById("modal-status-text");
@@ -2495,20 +2653,20 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         statusText.textContent = text;
         if (type === "connected") {
             dot.style.background = "#22c55e";
-            statusText.parentElement.style.color = "#15803d";
+            statusText.parentElement.style.color = "#4ade80";
         } else if (type === "connecting") {
             dot.style.background = "#f59e0b";
-            statusText.parentElement.style.color = "#b45309";
+            statusText.parentElement.style.color = "#fbbf24";
         } else {
             dot.style.background = "#ef4444";
-            statusText.parentElement.style.color = "#b91c1c";
+            statusText.parentElement.style.color = "#f87171";
         }
     }
 
     function onStateChange(state) {
         const LbcState = Photon.LoadBalancing.LoadBalancingClient.State;
         if (state === LbcState.ConnectedToMaster || state === LbcState.JoinedLobby) {
-            updateConnectionStatus("connected", "● Connected (US Region)");
+            updateConnectionStatus("connected", "Connected (US Region)");
             renderPublicRoomsList();
         } else if (state === LbcState.ConnectingToNameServer || state === LbcState.ConnectingToMasterserver || state === LbcState.ConnectingToGameserver) {
             updateConnectionStatus("connecting", "Connecting...");
@@ -2562,29 +2720,28 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         if (!container || !photonClient) return;
 
         const rooms = photonClient.availableRooms() || [];
-        // Filter open, public rooms with at least 1 spot free
         const publicRooms = rooms.filter(r => {
             const props = r.customProperties || {};
             return r.isOpen && !props.isPriv && r.playerCount < r.maxPlayers;
         });
 
         if (publicRooms.length === 0) {
-            container.innerHTML = '<div style="text-align: center; color: #888; padding: 24px 0;">No active public games found. Create one!</div>';
+            container.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 28px 0; font-size: 17px;">No active public games found. Create one!</div>';
             return;
         }
 
-        let html = '<div style="display: flex; flex-direction: column; gap: 6px;">';
+        let html = '<div style="display: flex; flex-direction: column; gap: 8px;">';
         publicRooms.forEach(room => {
             const props = room.customProperties || {};
             const hostName = props.host || "Pilot";
             html += `
-                <div style="display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 8px 12px; border-radius: 6px; border: 1px solid #ddd;">
+                <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.08); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.15);">
                     <div>
-                        <span style="font-family: monospace; font-size: 18px; font-weight: bold; color: #1a237e;">${room.name}</span>
-                        <span style="font-size: 14px; color: #555; margin-left: 10px;">Host: <strong>${hostName}</strong></span>
-                        <span style="font-size: 13px; background: #e8f5e9; color: #2e7d32; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-left: 8px;">${room.playerCount}/${room.maxPlayers}</span>
+                        <span style="font-family: monospace !important; font-size: 19px; font-weight: bold; color: #38bdf8;">${room.name}</span>
+                        <span style="font-size: 16px; color: #cbd5e1; margin-left: 12px;">Host: <strong style="color: #ffffff;">${hostName}</strong></span>
+                        <span style="font-size: 14px; background: rgba(74, 222, 128, 0.2); color: #86efac; border: 1px solid rgba(74, 222, 128, 0.4); font-weight: bold; padding: 2px 8px; border-radius: 4px; margin-left: 10px;">${room.playerCount}/${room.maxPlayers}</span>
                     </div>
-                    <button type="button" class="btn-join-public-room" data-room="${room.name}" style="padding: 5px 14px; font-size: 15px; font-weight: bold; background: #1976d2; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
+                    <button type="button" class="btn-join-public-room bp-btn-blue" data-room="${room.name}" style="padding: 6px 16px; font-size: 16px;">
                         Join Game
                     </button>
                 </div>
@@ -2653,13 +2810,13 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         console.log("[Photon] Joined Room:", currentRoomCode, "CreatedByMe:", createdByMe);
 
         document.getElementById("view-matchmaking").style.display = "none";
-        document.getElementById("view-room-lobby").style.display = "block";
+        document.getElementById("view-room-lobby").style.display = "flex";
         document.getElementById("room-code-display").textContent = currentRoomCode;
 
         const badge = document.getElementById("room-type-badge");
         if (badge) {
-            badge.textContent = isCurrentRoomPrivate ? "Private 🔒" : "Public";
-            badge.style.color = isCurrentRoomPrivate ? "#c62828" : "#1a237e";
+            badge.textContent = isCurrentRoomPrivate ? "Private" : "Public";
+            badge.style.color = isCurrentRoomPrivate ? "#f87171" : "#38bdf8";
         }
 
         const roomCallsignInput = document.getElementById("room-callsign-input");
@@ -2694,14 +2851,16 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         COLOR_PALETTE.forEach(c => {
             const swatch = document.createElement("div");
             swatch.title = c.name;
-            swatch.style.width = "30px";
-            swatch.style.height = "30px";
-            swatch.style.borderRadius = "6px";
+            swatch.style.width = "32px";
+            swatch.style.height = "32px";
+            swatch.style.borderRadius = "8px";
             swatch.style.background = c.hex;
             swatch.style.cursor = "pointer";
             swatch.style.boxSizing = "border-box";
-            swatch.style.border = (myChosenColor === c.hex) ? "3px solid #000" : "1px solid rgba(0,0,0,0.25)";
-            swatch.style.boxShadow = (myChosenColor === c.hex) ? "0 0 6px rgba(0,0,0,0.5)" : "none";
+            swatch.style.border = (myChosenColor === c.hex) ? "3px solid #ffffff" : "1.5px solid rgba(255,255,255,0.3)";
+            swatch.style.boxShadow = (myChosenColor === c.hex) ? "0 0 10px #ffffff" : "none";
+            swatch.style.transform = (myChosenColor === c.hex) ? "scale(1.15)" : "scale(1)";
+            swatch.style.transition = "transform 0.15s, box-shadow 0.15s";
 
             swatch.onclick = () => {
                 myChosenColor = c.hex;
@@ -2761,21 +2920,21 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 window.__onlineProfiles[s] = prof;
 
                 html += `
-                    <div style="background: rgba(0,0,0,0.03); border: 2px solid ${color}; border-radius: 8px; padding: 10px; display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 22px; height: 22px; border-radius: 50%; background: ${color}; border: 1px solid rgba(0,0,0,0.3); flex-shrink: 0;"></div>
+                    <div style="background: rgba(255, 255, 255, 0.07); border: 2px solid ${color}; border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 24px; height: 24px; border-radius: 50%; background: ${color}; border: 2px solid #ffffff; flex-shrink: 0; box-shadow: 0 0 8px ${color};"></div>
                         <div style="flex: 1; overflow: hidden;">
-                            <div style="font-size: 17px; font-weight: bold; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; color: #111;">
-                                ${name} ${isMe ? '<span style="color:#1565c0;">(You)</span>' : ''} ${isRoomHost ? '<span style="color:#e65100;">★ Host</span>' : ''}
+                            <div style="font-size: 17px; font-weight: bold; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; color: #ffffff;">
+                                ${name} ${isMe ? '<span style="color:#38bdf8; font-size:14px; margin-left:3px;">(You)</span>' : ''} ${isRoomHost ? '<span style="color:#fbbf24; font-size:14px; margin-left:3px;">★ Host</span>' : ''}
                             </div>
-                            <div style="font-size: 13px; color: #666;">Ready on runway</div>
+                            <div style="font-size: 13px; color: #94a3b8;">Ready on runway</div>
                         </div>
                     </div>
                 `;
             } else {
                 html += `
-                    <div style="background: rgba(0,0,0,0.015); border: 1px dashed #ccc; border-radius: 8px; padding: 10px; opacity: 0.6; display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 22px; height: 22px; border-radius: 50%; background: #ddd; flex-shrink: 0;"></div>
-                        <div style="font-size: 16px; color: #888;">Waiting for Pilot...</div>
+                    <div style="background: rgba(255, 255, 255, 0.02); border: 1.5px dashed rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.15); flex-shrink: 0;"></div>
+                        <div style="font-size: 16px; color: #64748b;">Waiting for Pilot...</div>
                     </div>
                 `;
             }
@@ -2787,21 +2946,19 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         const hostNotice = document.getElementById("modal-host-notice");
         if (startBtn && hostNotice) {
             if (isHost) {
-                startBtn.style.display = "block";
+                startBtn.style.display = "inline-flex";
                 if (actors.length >= 2) {
                     startBtn.disabled = false;
-                    startBtn.style.opacity = "1";
-                    startBtn.textContent = "🚀 START GAME (" + actors.length + " Players)";
+                    startBtn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>START GAME (' + actors.length + ' Players)</span>';
                     hostNotice.textContent = "You are the Flight Host. Launch when ready!";
                 } else {
                     startBtn.disabled = true;
-                    startBtn.style.opacity = "0.5";
-                    startBtn.textContent = "Waiting for at least 2 pilots...";
+                    startBtn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Waiting for at least 2 pilots...</span>';
                     hostNotice.textContent = "Need at least 2 players to start.";
                 }
             } else {
                 startBtn.style.display = "none";
-                hostNotice.textContent = "⏳ Waiting for Host to launch the game...";
+                hostNotice.textContent = "Waiting for Host to launch the game...";
             }
         }
     }
@@ -2810,7 +2967,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         if (photonClient && photonClient.isJoinedToRoom()) {
             photonClient.leaveRoom();
         }
-        document.getElementById("view-matchmaking").style.display = "block";
+        document.getElementById("view-matchmaking").style.display = "flex";
         document.getElementById("view-room-lobby").style.display = "none";
     }
 
@@ -3089,7 +3246,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
         // Hook keydown for immediate weapon events
         window.addEventListener("keydown", function(e) {
-            if (window.__onlineLocalPaused) return;
             if (!photonClient || !photonClient.isJoinedToRoom()) return;
             const code = e.code;
             if (code === "KeyZ" || code === "ControlLeft" || code === "ControlRight") {
@@ -3146,7 +3302,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         }));
         Object(T.e)(M);
 
-        // State Broadcast Timer (20 Hz / 50ms)
+        // State Broadcast Timer (20 Hz / 50ms) - continuous real-time sync
         if (stateSyncTimer) clearInterval(stateSyncTimer);
         stateSyncTimer = setInterval(function() {
             if (!photonClient || !photonClient.isJoinedToRoom() || !localPlane) return;
@@ -3157,7 +3313,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 vx: +(localPlane.velocity.x.toFixed(2)),
                 vy: +(localPlane.velocity.y.toFixed(2)),
                 ang: +(localPlane.angle.toFixed(3)),
-                th: window.__onlineLocalPaused ? 0 : localPlane.thrust,
+                th: localPlane.thrust,
                 hp: localPlane.life,
                 ld: localPlane.landed ? 1 : 0
             });
@@ -3279,7 +3435,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             }, true);
         }
 
-        // Open Online Beta Modal
+        // Open Online Beta Fullscreen Modal
         function openOnlineModal() {
             if (onlineModal) {
                 onlineModal.style.display = "flex";
@@ -3296,7 +3452,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             btnCloseOnline.onclick = () => { onlineModal.style.display = "none"; };
         }
 
-        // Open Split Screen Modal
+        // Open Split Screen Fullscreen Modal
         function openSplitScreenModal() {
             if (!splitModal) return;
             splitModal.style.display = "flex";
@@ -3346,8 +3502,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 // Sync match rules
                 const modalRule = document.querySelector('input[name="modalMatchRule"]:checked');
                 if (modalRule) {
-                    const homeRule = document.querySelector('input[name="matchRule"][value="' + modalRule.value + '"]');
-                    if (homeRule) homeRule.checked = true;
+                    const homeRule = document.getElementById("matchRule-hidden");
+                    if (homeRule) homeRule.value = modalRule.value;
                 }
                 const modalTarget = document.getElementById("modalMatchTargetScore");
                 const homeTarget = document.getElementById("matchTargetScore");
@@ -3436,8 +3592,10 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         if (btnCopy) {
             btnCopy.onclick = () => {
                 navigator.clipboard.writeText(currentRoomCode).then(() => {
-                    btnCopy.textContent = "✓ Copied!";
-                    setTimeout(() => { btnCopy.textContent = "📋 Copy Code"; }, 2000);
+                    btnCopy.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Copied!</span>';
+                    setTimeout(() => {
+                        btnCopy.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy Code</span>';
+                    }, 2000);
                 }).catch(() => {
                     prompt("Copy room code:", currentRoomCode);
                 });
