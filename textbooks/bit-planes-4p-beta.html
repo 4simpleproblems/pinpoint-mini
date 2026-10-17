@@ -2726,10 +2726,11 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             isBusyJoiningOrCreate = false;
             updateConnectionStatus("error", "Disconnected. Reconnecting...");
             setTimeout(() => {
-                if (photonClient && photonClient.state === LbcState.Disconnected) {
-                    photonClient.connectToRegionMaster("us");
+                const modal = document.getElementById("modal-online-beta");
+                if (modal && modal.style.display !== "none") {
+                    ensurePhotonConnected();
                 }
-            }, 3000);
+            }, 1500);
         }
     }
 
@@ -2758,6 +2759,10 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         console.warn("[Photon Error]", code, message);
         isBusyJoiningOrCreate = false;
         resetActionButtons();
+        // Do not pop up error toasts for idle background timeouts
+        if (code === 1004 || code === 1003 || code === 2004 || code === 2003) {
+            return;
+        }
         if (code === 1101 || code === 2101) {
             showModalError("Authentication error. Reconnecting...");
         } else if (code === 3001 || code === 1002 || code === 2002) {
@@ -3047,7 +3052,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 window.__onlineProfiles[s] = { name, color };
 
                 html += `
-                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.08); padding: 10px 14px; border-radius: 8px; border-left: 5px solid ${color};">
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.08); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.12);">
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <span style="font-weight: bold; color: #94a3b8; font-size: 15px;">SLOT ${s}</span>
                             <span style="font-size: 19px; font-weight: bold; color: #ffffff;">${name} ${isMe ? '<span style="color:#38bdf8; font-size:14px;">(YOU)</span>' : ''}</span>
@@ -3722,6 +3727,27 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         const btnCancelSplit = document.getElementById("btn-cancel-split-modal");
         const btnLaunchSplit = document.getElementById("btn-launch-split-modal");
 
+        function ensurePhotonConnected() {
+            if (!photonClient) {
+                initPhoton();
+                return;
+            }
+            const LbcState = Photon.LoadBalancing.LoadBalancingClient.State;
+            if (photonClient.state === LbcState.Disconnected || photonClient.state === LbcState.Error || photonClient.state === LbcState.Uninitialized) {
+                updateConnectionStatus("connecting", "Connecting to server...");
+                try {
+                    if (photonClient.state === LbcState.Error) photonClient.disconnect();
+                } catch(e) {}
+                setTimeout(() => {
+                    try {
+                        photonClient.connectToRegionMaster("us");
+                    } catch(e) {
+                        console.warn("[Photon] connect error:", e);
+                    }
+                }, 150);
+            }
+        }
+
         function openOnlineModal() {
             if (onlineModal) {
                 onlineModal.style.display = "flex";
@@ -3729,6 +3755,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 if (modalNick) {
                     modalNick.value = getCallsign();
                 }
+                ensurePhotonConnected();
                 renderPublicRoomsList();
             }
         }
@@ -3817,10 +3844,12 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 const radio = document.getElementById("mode-split-2p");
                 if (radio) radio.checked = true;
 
+                window.__launchingFromSplitModal = true;
                 const form = document.getElementById("game");
                 if (form) {
                     form.dispatchEvent(new Event("submit", { cancelable: true }));
                 }
+                window.__launchingFromSplitModal = false;
             };
         }
 
@@ -3843,29 +3872,60 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             });
         });
 
-        if (btnOpenOnline) {
-            btnOpenOnline.addEventListener("change", function() {
-                if (this.checked) openOnlineModal();
-            });
-            const lbl = btnOpenOnline.parentElement;
-            if (lbl) {
-                lbl.addEventListener("click", function(e) {
-                    openOnlineModal();
-                });
+        // Mode radios switch main button between "Start Game" and "Configure Game"
+        function updateMainSubmitButton() {
+            const selectedMode = document.querySelector('input[name="mode"]:checked');
+            const mode = selectedMode ? selectedMode.value : "";
+            const btn = document.getElementById("main-submit-btn");
+            if (!btn) return;
+            if (mode === "online-beta" || mode === "split-2p") {
+                btn.textContent = "⚙ Configure Game";
+            } else {
+                btn.textContent = "‣ Start Game";
             }
         }
 
-        if (btnOpenSplit) {
-            btnOpenSplit.addEventListener("change", function() {
-                if (this.checked) openSplitScreenModal();
-            });
-            const lbl = btnOpenSplit.parentElement;
-            if (lbl) {
-                lbl.addEventListener("click", function(e) {
+        const modeRadios = document.querySelectorAll('input[name="mode"]');
+        modeRadios.forEach(radio => {
+            radio.addEventListener("change", updateMainSubmitButton);
+        });
+        updateMainSubmitButton();
+
+        // Main form submit interceptor: "Configure Game" opens modals without starting game immediately
+        const gameFormEl = document.getElementById("game");
+        if (gameFormEl) {
+            gameFormEl.addEventListener("submit", function(e) {
+                if (window.__launchingFromSplitModal) {
+                    return; // Allow game launch from inside modal
+                }
+                const selectedMode = document.querySelector('input[name="mode"]:checked');
+                const mode = selectedMode ? selectedMode.value : "";
+                if (mode === "online-beta") {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    openOnlineModal();
+                    return false;
+                }
+                if (mode === "split-2p") {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
                     openSplitScreenModal();
-                });
-            }
+                    return false;
+                }
+            }, true);
         }
+
+        // Auto-reconnect listeners on tab visibility and focus
+        document.addEventListener("visibilitychange", function() {
+            if (!document.hidden && onlineModal && onlineModal.style.display !== "none") {
+                ensurePhotonConnected();
+            }
+        });
+        window.addEventListener("focus", function() {
+            if (onlineModal && onlineModal.style.display !== "none") {
+                ensurePhotonConnected();
+            }
+        });
 
         const btnRefresh = document.getElementById("btn-refresh-rooms");
         if (btnRefresh) {
