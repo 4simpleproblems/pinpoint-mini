@@ -2628,7 +2628,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         Photon.LoadBalancing.LoadBalancingClient.prototype.initMasterPeer = function(peer) {
             origInitMasterPeer.call(this, peer);
             const self = this;
-            if (peer) peer.keepAliveTimeoutMs = 10000;
+            if (peer) peer.keepAliveTimeoutMs = 30000;
 
             // Save Master Server Secret on Authenticate (230)
             peer.addResponseListener(230, function(resp) {
@@ -2648,16 +2648,26 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             peer.addResponseListener(225, updateGameSecret); // JoinRandomGame
         };
 
+        if (!window.__photonHeartbeatInterval) {
+            window.__photonHeartbeatInterval = setInterval(function() {
+                try {
+                    if (photonClient && photonClient.gamePeer && photonClient.gamePeer.isConnected()) {
+                        photonClient.gamePeer.resetKeepAlive();
+                    }
+                } catch(e) {}
+            }, 3000);
+        }
+
         const origInitGamePeer = Photon.LoadBalancing.LoadBalancingClient.prototype.initGamePeer;
         Photon.LoadBalancing.LoadBalancingClient.prototype.initGamePeer = function(peer, op) {
             origInitGamePeer.call(this, peer, op);
-            if (peer) peer.keepAliveTimeoutMs = 10000;
+            if (peer) peer.keepAliveTimeoutMs = 30000;
         };
 
         const origInitNameServerPeer = Photon.LoadBalancing.LoadBalancingClient.prototype.initNameServerPeer;
         Photon.LoadBalancing.LoadBalancingClient.prototype.initNameServerPeer = function(peer) {
             origInitNameServerPeer.call(this, peer);
-            if (peer) peer.keepAliveTimeoutMs = 10000;
+            if (peer) peer.keepAliveTimeoutMs = 30000;
         };
     }
 
@@ -3879,7 +3889,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             const btn = document.getElementById("main-submit-btn");
             if (!btn) return;
             if (mode === "online-beta" || mode === "split-2p") {
-                btn.textContent = "⚙ Configure Game";
+                btn.textContent = "Configure Game";
             } else {
                 btn.textContent = "‣ Start Game";
             }
@@ -4014,13 +4024,11 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             setupUIEvents();
             const initialNick = document.getElementById("modal-callsign-input");
             if (initialNick) initialNick.value = getCallsign();
-            initPhoton();
         });
     } else {
         setupUIEvents();
         const initialNick = document.getElementById("modal-callsign-input");
         if (initialNick) initialNick.value = getCallsign();
-        initPhoton();
     }
 })();
 </script>
