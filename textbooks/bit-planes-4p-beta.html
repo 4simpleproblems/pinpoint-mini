@@ -2713,8 +2713,36 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         photonClient = null;
     }
 
+    let reconnectDebounceTimer = null;
+    function scheduleReconnect(delay = 400) {
+        if (reconnectDebounceTimer) clearTimeout(reconnectDebounceTimer);
+        reconnectDebounceTimer = setTimeout(() => {
+            reconnectDebounceTimer = null;
+            const modal = document.getElementById("modal-online-beta");
+            if (modal && modal.style.display !== "none") {
+                ensurePhotonConnected();
+            }
+        }, delay);
+    }
+
+    function isClientActiveOrConnecting() {
+        if (!photonClient) return false;
+        const LbcState = Photon.LoadBalancing.LoadBalancingClient.State;
+        const st = photonClient.getState();
+        return (
+            st === LbcState.ConnectingToNameServer ||
+            st === LbcState.ConnectedToNameServer ||
+            st === LbcState.ConnectingToMasterserver ||
+            st === LbcState.ConnectedToMaster ||
+            st === LbcState.JoinedLobby ||
+            st === LbcState.ConnectingToGameserver ||
+            st === LbcState.ConnectedToGameserver ||
+            st === LbcState.Joined
+        );
+    }
+
     function instantReconnect() {
-        if (isReconnecting) return;
+        if (isReconnecting || isClientActiveOrConnecting()) return;
         isReconnecting = true;
         isBusyJoiningOrCreate = false;
         updateConnectionStatus("connecting", "Connecting to server...");
@@ -2722,11 +2750,15 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         setTimeout(() => {
             isReconnecting = false;
             initPhoton();
-        }, 100);
+        }, 150);
     }
 
     function ensurePhotonConnected() {
-        if (!photonClient || (!photonClient.isConnectedToMaster() && !photonClient.isJoinedToRoom())) {
+        if (!photonClient) {
+            instantReconnect();
+            return;
+        }
+        if (!isClientActiveOrConnecting()) {
             instantReconnect();
         }
     }
@@ -2803,17 +2835,15 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             isBusyJoiningOrCreate = false;
             updateConnectionStatus("connected", "Connected (US Region)");
             renderPublicRoomsList();
+        } else if (state === LbcState.ConnectedToGameserver || state === LbcState.Joined) {
+            isBusyJoiningOrCreate = false;
+            updateConnectionStatus("connected", "In Room");
         } else if (state === LbcState.ConnectingToNameServer || state === LbcState.ConnectingToMasterserver || state === LbcState.ConnectingToGameserver) {
             updateConnectionStatus("connecting", "Connecting...");
         } else if (state === LbcState.Disconnected || state === LbcState.Error) {
             isBusyJoiningOrCreate = false;
             updateConnectionStatus("error", "Disconnected. Reconnecting...");
-            setTimeout(() => {
-                const modal = document.getElementById("modal-online-beta");
-                if (modal && modal.style.display !== "none") {
-                    ensurePhotonConnected();
-                }
-            }, 300);
+            scheduleReconnect(400);
         }
     }
 
@@ -3069,8 +3099,100 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         broadcastProfileUpdate();
     }
 
+
+    function openOnlineModal() {
+        const onlineModal = document.getElementById("modal-online-beta");
+        if (onlineModal) {
+            onlineModal.style.display = "flex";
+            initCallsignAndColor();
+            const modalNick = document.getElementById("modal-callsign-input");
+            if (modalNick) {
+                modalNick.value = myChosenName;
+            }
+            renderColorPalettes();
+            ensurePhotonConnected();
+            renderPublicRoomsList();
+            startRoomsAutoRefresh();
+        }
+    }
+
+    function openSplitScreenModal() {
+        const splitModal = document.getElementById("modal-split-screen");
+        if (!splitModal) return;
+        splitModal.style.display = "flex";
+        const homeP1 = document.getElementById("p1-nickname");
+        const homeP2 = document.getElementById("p2-nickname");
+        const splitP1 = document.getElementById("split-modal-p1-nick");
+        const splitP2 = document.getElementById("split-modal-p2-nick");
+
+        if (splitP1) {
+            splitP1.value = (homeP1 && homeP1.value.trim()) ? homeP1.value.trim() : (localStorage.getItem("nickname") || "Red Ace");
+        }
+        if (splitP2) {
+            splitP2.value = (homeP2 && homeP2.value.trim()) ? homeP2.value.trim() : (localStorage.getItem("nickname_p2") || "Blue Bandit");
+        }
+    }
+
+    function endOnlineMatchDueToPlayerLeft() {
+        if (stateSyncTimer) {
+            clearInterval(stateSyncTimer);
+            stateSyncTimer = null;
+        }
+        if (window.__onlineStopLoop) {
+            try { window.__onlineStopLoop(); } catch(e) {}
+            window.__onlineStopLoop = null;
+        }
+        if (window.__onlineInterpolateId) {
+            cancelAnimationFrame(window.__onlineInterpolateId);
+            window.__onlineInterpolateId = null;
+        }
+        window.__currentBitPlanesMode = null;
+        if (photonClient && photonClient.isJoinedToRoom()) {
+            photonClient.leaveRoom();
+        }
+        const mainEl = document.querySelector("main");
+        const canvasEl = document.querySelector("#canvas");
+        const uiEl = document.querySelector(".ui");
+        if (mainEl) mainEl.style.display = "block";
+        if (canvasEl) canvasEl.style.display = "none";
+        if (uiEl) uiEl.style.display = "none";
+
+        exitRoom();
+        openOnlineModal();
+        showModalError("The other pilot left the match. Match ended and room closed.");
+    }
+
     function onActorLeave(actor) {
-        updateLobbySlots();
+        if (!photonClient || !photonClient.isJoinedToRoom()) return;
+
+        const actors = photonClient.myRoomActorsArray();
+        if (actors.length <= 1) {
+            if (window.__currentBitPlanesMode === "online-beta") {
+                endOnlineMatchDueToPlayerLeft();
+            } else {
+                exitRoom();
+                showModalError("The other pilot left. Room has been closed.");
+            }
+            return;
+        }
+
+        if (window.__currentBitPlanesMode === "online-beta") {
+            if (actor && actor.actorNr) {
+                for (let s = 1; s <= 4; s++) {
+                    const player = window.__onlinePlayers[s];
+                    if (player && player.name === actor.name && window.__onlineWorld) {
+                        const plane = window.__onlinePlanes[s];
+                        if (plane && window.__onlineWorld.has(plane)) {
+                            window.__onlineWorld.delete(plane);
+                        }
+                        player.detach();
+                        break;
+                    }
+                }
+            }
+        } else {
+            updateLobbySlots();
+        }
     }
 
     function renderColorPalettes() {
@@ -3240,10 +3362,12 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         const radio = document.getElementById("mode-online-beta");
         if (radio) radio.checked = true;
 
+        window.__launchingFromOnlineModal = true;
         const form = document.getElementById("game");
         if (form) {
             form.dispatchEvent(new Event("submit", { cancelable: true }));
         }
+        window.__launchingFromOnlineModal = false;
     }
 
     function handleRemoteState(data) {
@@ -3527,12 +3651,14 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             leaveBtn.onclick = function(ev) {
                 ev.preventDefault();
                 ev.stopPropagation();
-                if (confirm("Leave this online match and return to menu?")) {
-                    if (photonClient && photonClient.isJoinedToRoom()) {
-                        photonClient.leaveRoom();
-                    }
-                    window.location.reload();
+                if (stateSyncTimer) { clearInterval(stateSyncTimer); stateSyncTimer = null; }
+                if (window.__onlineStopLoop) { try { window.__onlineStopLoop(); } catch(e){} window.__onlineStopLoop = null; }
+                if (window.__onlineInterpolateId) { cancelAnimationFrame(window.__onlineInterpolateId); window.__onlineInterpolateId = null; }
+                window.__currentBitPlanesMode = null;
+                if (photonClient && photonClient.isJoinedToRoom()) {
+                    photonClient.leaveRoom();
                 }
+                window.location.reload();
             };
         }
 
@@ -3762,7 +3888,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         // Start render loop & camera centered on local player
         const s = document.querySelector("#canvas");
         const [x, l] = Object(e.b)(1.25, s);
-        Object(I.a)(x, l, M, ((j, t) => {
+        window.__onlineStopLoop = Object(I.a)(x, l, M, ((j, t) => {
             Object(e.a)(j, M, localPlayer, t);
         }), (j => {
             // Render Online Match Scoreboard on Canvas (titles on the left)
@@ -3811,9 +3937,9 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 p.life = t.hp;
                 p.landed = (t.ld === 1);
             }
-            requestAnimationFrame(interpolateRemotePlanes);
+            window.__onlineInterpolateId = requestAnimationFrame(interpolateRemotePlanes);
         }
-        requestAnimationFrame(interpolateRemotePlanes);
+        window.__onlineInterpolateId = requestAnimationFrame(interpolateRemotePlanes);
     };
 
     function setupUIEvents() {
@@ -3828,20 +3954,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
 
 
-        function openOnlineModal() {
-            if (onlineModal) {
-                onlineModal.style.display = "flex";
-                initCallsignAndColor();
-                const modalNick = document.getElementById("modal-callsign-input");
-                if (modalNick) {
-                    modalNick.value = myChosenName;
-                }
-                renderColorPalettes();
-                ensurePhotonConnected();
-                renderPublicRoomsList();
-                startRoomsAutoRefresh();
-            }
-        }
+// openOnlineModal defined in outer scope
 
         const modalNickInput = document.getElementById("modal-callsign-input");
         if (modalNickInput) {
@@ -3870,21 +3983,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             btnCloseOnline.onclick = () => { onlineModal.style.display = "none"; };
         }
 
-        function openSplitScreenModal() {
-            if (!splitModal) return;
-            splitModal.style.display = "flex";
-            const homeP1 = document.getElementById("p1-nickname");
-            const homeP2 = document.getElementById("p2-nickname");
-            const splitP1 = document.getElementById("split-modal-p1-nick");
-            const splitP2 = document.getElementById("split-modal-p2-nick");
-
-            if (splitP1) {
-                splitP1.value = (homeP1 && homeP1.value.trim()) ? homeP1.value.trim() : (localStorage.getItem("nickname") || "Red Ace");
-            }
-            if (splitP2) {
-                splitP2.value = (homeP2 && homeP2.value.trim()) ? homeP2.value.trim() : (localStorage.getItem("nickname_p2") || "Blue Bandit");
-            }
-        }
+// openSplitScreenModal defined in outer scope
 
         if (btnCloseSplit && splitModal) {
             btnCloseSplit.onclick = () => { splitModal.style.display = "none"; };
@@ -3991,7 +4090,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         const gameFormEl = document.getElementById("game");
         if (gameFormEl) {
             gameFormEl.addEventListener("submit", function(e) {
-                if (window.__launchingFromSplitModal) {
+                if (window.__launchingFromSplitModal || window.__launchingFromOnlineModal) {
                     return; // Allow game launch from inside modal
                 }
                 const selectedMode = document.querySelector('input[name="mode"]:checked');
