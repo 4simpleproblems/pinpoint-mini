@@ -2442,9 +2442,19 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     <!-- VIEW 1: MATCHMAKING -->
     <div id="view-matchmaking" style="display: flex; flex-direction: column; gap: clamp(14px, 2vh, 22px);">
       <!-- Callsign Bar -->
-      <div class="bp-card-glass" style="display: flex; align-items: center; gap: 16px;">
-        <label for="modal-callsign-input" style="font-size: clamp(18px, 1.8vw, 22px); font-weight: bold; color: #e2e8f0; white-space: nowrap;">Pilot Call-sign:</label>
-        <input type="text" id="modal-callsign-input" placeholder="Enter your call-sign..." maxlength="16" autocomplete="off" class="bp-input-field">
+      <!-- Customize Pilot Loadout (Call-sign & Plane Color) -->
+      <div class="bp-card-glass" style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="font-size: clamp(18px, 1.8vw, 21px); font-weight: bold; color: #e2e8f0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">Your Pilot Loadout</div>
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <label for="modal-callsign-input" style="font-size: clamp(17px, 1.7vw, 20px); font-weight: bold; color: #cbd5e1; white-space: nowrap;">Pilot Call-sign:</label>
+          <input type="text" id="modal-callsign-input" placeholder="Enter your call-sign..." maxlength="14" autocomplete="off" class="bp-input-field" style="flex: 1;">
+        </div>
+        <div>
+          <label style="display: block; font-size: 16px; color: #cbd5e1; margin-bottom: 8px;">Select Plane Color</label>
+          <div id="matchmaking-color-palette" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <!-- Color swatches rendered dynamically -->
+          </div>
+        </div>
       </div>
 
       <div class="bp-grid-2col">
@@ -2615,6 +2625,16 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     let myChosenColor = "#ff0015";
     let myChosenName = "";
 
+    function initCallsignAndColor() {
+        myChosenName = getCallsign();
+        try {
+            const savedColor = localStorage.getItem("plane_color");
+            if (savedColor && COLOR_PALETTE.some(c => c.hex.toLowerCase() === savedColor.toLowerCase())) {
+                myChosenColor = savedColor;
+            }
+        } catch(e) {}
+    }
+
     let masterAuthSecret = null;
 
     function applyPhotonSDKPatch() {
@@ -2625,7 +2645,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         Photon.LoadBalancing.LoadBalancingClient.prototype.initMasterPeer = function(peer) {
             origInitMasterPeer.call(this, peer);
             const self = this;
-            if (peer) peer.keepAliveTimeoutMs = 60000;
+            if (peer) peer.keepAliveTimeoutMs = 8000;
 
             // Save Master Server Secret on Authenticate (230)
             peer.addResponseListener(230, function(resp) {
@@ -2645,33 +2665,16 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             peer.addResponseListener(225, updateGameSecret); // JoinRandomGame
         };
 
-        if (!window.__photonHeartbeatInterval) {
-            window.__photonHeartbeatInterval = setInterval(function() {
-                try {
-                    if (photonClient) {
-                        const peer = (photonClient.gamePeer && photonClient.gamePeer.isConnected()) ? photonClient.gamePeer :
-                                     (photonClient.masterPeer && photonClient.masterPeer.isConnected()) ? photonClient.masterPeer : null;
-                        if (peer && !peer.isClosing()) {
-                            const p = {};
-                            p.irq = 1;
-                            p.vals = [1, Date.now() - peer.initTimestamp];
-                            peer._send(p, true);
-                        }
-                    }
-                } catch(e) {}
-            }, 10000);
-        }
-
         const origInitGamePeer = Photon.LoadBalancing.LoadBalancingClient.prototype.initGamePeer;
         Photon.LoadBalancing.LoadBalancingClient.prototype.initGamePeer = function(peer, op) {
             origInitGamePeer.call(this, peer, op);
-            if (peer) peer.keepAliveTimeoutMs = 60000;
+            if (peer) peer.keepAliveTimeoutMs = 8000;
         };
 
         const origInitNameServerPeer = Photon.LoadBalancing.LoadBalancingClient.prototype.initNameServerPeer;
         Photon.LoadBalancing.LoadBalancingClient.prototype.initNameServerPeer = function(peer) {
             origInitNameServerPeer.call(this, peer);
-            if (peer) peer.keepAliveTimeoutMs = 60000;
+            if (peer) peer.keepAliveTimeoutMs = 8000;
         };
     }
 
@@ -2755,7 +2758,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             );
             window.__photonClient = photonClient;
             photonClient.autoJoinLobby = true;
-            photonClient.keepAliveTimeoutMs = 60000;
+            photonClient.keepAliveTimeoutMs = 8000;
 
             photonClient.onStateChange = onStateChange;
             photonClient.onError = onError;
@@ -2958,7 +2961,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         photonClient.myActor().setName(callsign);
 
         // Globally unique code to guarantee no collisions with old zombie sessions
-        const code = isPrivate ? sanitizeCode(password || generateCode()) : ("PUB-" + Date.now().toString(36).toUpperCase() + "-" + generateCode());
+        const code = isPrivate ? sanitizeCode(password || generateCode()) : ("PUB" + Date.now().toString(36).toUpperCase() + generateCode());
         if (!code) {
             showModalError("Please enter a valid room password/code (letters and numbers only)!");
             return;
@@ -2997,7 +3000,11 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         try { localStorage.setItem("nickname", callsign); } catch(e) {}
         photonClient.myActor().setName(callsign);
 
-        code = sanitizeCode(code);
+        if (isPrivate) {
+            code = sanitizeCode(code);
+        } else {
+            code = (code || "").trim();
+        }
         if (!code) {
             showModalError("Please enter a valid room password / code!");
             return;
@@ -3050,10 +3057,9 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         const roomCallsignInput = document.getElementById("room-callsign-input");
         if (roomCallsignInput) roomCallsignInput.value = myChosenName;
 
-        const defaultColors = ["#ff0015", "#007aff", "#00c853", "#ffd600"];
-        myChosenColor = defaultColors[localSlot - 1] || "#ff0015";
+        initCallsignAndColor();
 
-        renderColorPalette();
+        renderColorPalettes();
         updateLobbySlots();
         broadcastProfileUpdate();
     }
@@ -3067,33 +3073,41 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         updateLobbySlots();
     }
 
-    function renderColorPalette() {
-        const palette = document.getElementById("color-palette");
-        if (!palette) return;
+    function renderColorPalettes() {
+        const palettes = [
+            document.getElementById("matchmaking-color-palette"),
+            document.getElementById("color-palette")
+        ];
 
-        palette.innerHTML = "";
-        COLOR_PALETTE.forEach(c => {
-            const swatch = document.createElement("div");
-            swatch.title = c.name;
-            swatch.style.width = "34px";
-            swatch.style.height = "34px";
-            swatch.style.borderRadius = "8px";
-            swatch.style.background = c.hex;
-            swatch.style.cursor = "pointer";
-            swatch.style.border = (myChosenColor === c.hex) ? "3px solid #ffffff" : "2px solid rgba(255,255,255,0.25)";
-            swatch.style.boxShadow = (myChosenColor === c.hex) ? "0 0 10px " + c.hex : "none";
-            swatch.style.transition = "transform 0.1s, border-color 0.1s";
+        palettes.forEach(palette => {
+            if (!palette) return;
+            palette.innerHTML = "";
+            COLOR_PALETTE.forEach(c => {
+                const swatch = document.createElement("div");
+                swatch.title = c.name;
+                swatch.style.width = "34px";
+                swatch.style.height = "34px";
+                swatch.style.borderRadius = "8px";
+                swatch.style.background = c.hex;
+                swatch.style.cursor = "pointer";
+                const isSelected = (myChosenColor.toLowerCase() === c.hex.toLowerCase());
+                swatch.style.border = isSelected ? "3px solid #ffffff" : "2px solid rgba(255,255,255,0.25)";
+                swatch.style.boxShadow = isSelected ? "0 0 10px " + c.hex : "none";
+                swatch.style.transform = isSelected ? "scale(1.08)" : "none";
+                swatch.style.transition = "transform 0.15s, border-color 0.15s, box-shadow 0.15s";
 
-            swatch.onclick = () => {
-                myChosenColor = c.hex;
-                renderColorPalette();
-                if (window.__onlineProfiles[localSlot]) {
-                    window.__onlineProfiles[localSlot].color = myChosenColor;
-                }
-                updateLobbySlots();
-                broadcastProfileUpdate();
-            };
-            palette.appendChild(swatch);
+                swatch.onclick = () => {
+                    myChosenColor = c.hex;
+                    try { localStorage.setItem("plane_color", c.hex); } catch(e) {}
+                    renderColorPalettes();
+                    if (window.__onlineProfiles[localSlot]) {
+                        window.__onlineProfiles[localSlot].color = myChosenColor;
+                    }
+                    updateLobbySlots();
+                    broadcastProfileUpdate();
+                };
+                palette.appendChild(swatch);
+            });
         });
     }
 
@@ -3817,10 +3831,12 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         function openOnlineModal() {
             if (onlineModal) {
                 onlineModal.style.display = "flex";
+                initCallsignAndColor();
                 const modalNick = document.getElementById("modal-callsign-input");
                 if (modalNick) {
-                    modalNick.value = getCallsign();
+                    modalNick.value = myChosenName;
                 }
+                renderColorPalettes();
                 ensurePhotonConnected();
                 renderPublicRoomsList();
                 startRoomsAutoRefresh();
@@ -3831,9 +3847,22 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         if (modalNickInput) {
             modalNickInput.addEventListener("input", function() {
                 const val = this.value.trim();
-                const homeNick = document.getElementById("p1-nickname");
-                if (homeNick) homeNick.value = val;
-                try { localStorage.setItem("nickname", val); } catch(e) {}
+                if (val) {
+                    myChosenName = val.substring(0, 14);
+                    try { localStorage.setItem("nickname", myChosenName); } catch(e) {}
+                    const homeNick = document.getElementById("p1-nickname");
+                    if (homeNick) homeNick.value = myChosenName;
+                    const roomNick = document.getElementById("room-callsign-input");
+                    if (roomNick) roomNick.value = myChosenName;
+                    if (photonClient && photonClient.isJoinedToRoom()) {
+                        photonClient.myActor().setName(myChosenName);
+                        if (window.__onlineProfiles[localSlot]) {
+                            window.__onlineProfiles[localSlot].name = myChosenName;
+                        }
+                        updateLobbySlots();
+                        broadcastProfileUpdate();
+                    }
+                }
             });
         }
 
@@ -4034,12 +4063,16 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         const btnStart = document.getElementById("btn-start-online-match");
         const btnExit = document.getElementById("btn-exit-online-room");
 
-        if (btnUpdateNick && roomNickInput) {
-            btnUpdateNick.onclick = () => {
+        if (roomNickInput) {
+            const syncRoomNick = () => {
                 const name = roomNickInput.value.trim();
                 if (name) {
                     myChosenName = name.substring(0, 14);
                     try { localStorage.setItem("nickname", myChosenName); } catch(e) {}
+                    const homeNick = document.getElementById("p1-nickname");
+                    if (homeNick) homeNick.value = myChosenName;
+                    const modalNick = document.getElementById("modal-callsign-input");
+                    if (modalNick) modalNick.value = myChosenName;
                     if (photonClient && photonClient.isJoinedToRoom()) {
                         photonClient.myActor().setName(myChosenName);
                     }
@@ -4050,6 +4083,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                     broadcastProfileUpdate();
                 }
             };
+            roomNickInput.addEventListener("input", syncRoomNick);
+            if (btnUpdateNick) btnUpdateNick.onclick = syncRoomNick;
         }
 
         if (btnCopy) {
@@ -4071,14 +4106,18 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", function() {
+            initCallsignAndColor();
             setupUIEvents();
+            renderColorPalettes();
             const initialNick = document.getElementById("modal-callsign-input");
-            if (initialNick) initialNick.value = getCallsign();
+            if (initialNick) initialNick.value = myChosenName;
         });
     } else {
+        initCallsignAndColor();
         setupUIEvents();
+        renderColorPalettes();
         const initialNick = document.getElementById("modal-callsign-input");
-        if (initialNick) initialNick.value = getCallsign();
+        if (initialNick) initialNick.value = myChosenName;
     }
 })();
 </script>
