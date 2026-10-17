@@ -1086,7 +1086,7 @@ kbd {
             <i class="logo"></i>
         </h1>
         <div style="text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 21px; font-weight: 500; color: #444; margin-bottom: 22px;">
-            4-Player Online Mod: Powered by Photon (Beta)
+            Online Beta: Made by Pinpoint
         </div>
         <p>
             <strong>Controls:</strong><br>
@@ -2342,67 +2342,67 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
 <!-- Fullscreen 1v1 Split-Screen Modal -->
 <div id="modal-split-screen" class="bp-fullscreen-modal">
-  <div class="bp-menu-wrap" style="max-width: min(94vw, 960px);">
+  <div class="bp-menu-wrap">
     <div class="bp-menu-header">
-      <div class="bp-menu-title">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+      <div class="bp-menu-title" style="font-size: clamp(28px, 3.4vw, 40px);">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
         <span>1v1 Split-Screen Setup</span>
       </div>
-      <button type="button" id="btn-close-split-modal" class="bp-btn-close" title="Close">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button type="button" id="btn-close-split-modal" class="bp-btn-close" title="Close" style="width: 44px; height: 44px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
 
-    <!-- Pilots Cards (NO left side border) -->
+    <!-- Scaled-Up Pilots Cards matching Online Beta size -->
     <div class="bp-grid-2col">
       <!-- Player 1 -->
-      <div class="bp-card-glass">
-        <div style="font-size: clamp(19px, 2vw, 23px); font-weight: bold; color: #f87171; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-          <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:#ef4444;"></span>
+      <div class="bp-card-glass" style="padding: clamp(20px, 2.8vh, 32px) clamp(22px, 2.5vw, 34px);">
+        <div style="font-size: clamp(22px, 2.4vw, 28px); font-weight: bold; color: #f87171; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+          <span style="display:inline-block; width:14px; height:14px; border-radius:50%; background:#ef4444;"></span>
           <span>Player 1 (Red / Left)</span>
         </div>
-        <div style="margin-bottom: 14px;">
-          <label for="split-modal-p1-nick" style="display: block; font-size: clamp(15px, 1.4vw, 17px); color: #cbd5e1; margin-bottom: 6px;">Pilot Username</label>
-          <input type="text" id="split-modal-p1-nick" placeholder="Enter username..." maxlength="16" autocomplete="off" class="bp-input-field">
+        <div style="margin-bottom: 18px;">
+          <label for="split-modal-p1-nick" style="display: block; font-size: clamp(17px, 1.6vw, 20px); font-weight: bold; color: #cbd5e1; margin-bottom: 8px;">Pilot Username</label>
+          <input type="text" id="split-modal-p1-nick" placeholder="Enter username..." maxlength="16" autocomplete="off" class="bp-input-field" style="font-size: clamp(19px, 1.8vw, 23px); padding: clamp(10px, 1.5vh, 15px) clamp(14px, 1.6vw, 20px);">
         </div>
-        <div style="font-size: clamp(14px, 1.4vw, 16px); color: #cbd5e1; line-height: 1.7; border-top: 1px dashed rgba(255,255,255,0.12); padding-top: 10px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Steer & Thrust:</span><span><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></span></div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Shoot Gun:</span><kbd>Z</kbd></div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Launch Missile:</span><kbd>X</kbd></div>
+        <div style="font-size: clamp(16px, 1.6vw, 19px); color: #cbd5e1; line-height: 2.2; border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;"><span>Steer &amp; Thrust:</span><span><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></span></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;"><span>Shoot Gun:</span><kbd>Z</kbd></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;"><span>Launch Missile:</span><kbd>X</kbd></div>
           <div style="display: flex; justify-content: space-between; align-items: center;"><span>Bail / Re-enter:</span><kbd>C</kbd></div>
         </div>
       </div>
 
       <!-- Player 2 -->
-      <div class="bp-card-glass">
-        <div style="font-size: clamp(19px, 2vw, 23px); font-weight: bold; color: #60a5fa; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-          <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:#3b82f6;"></span>
+      <div class="bp-card-glass" style="padding: clamp(20px, 2.8vh, 32px) clamp(22px, 2.5vw, 34px);">
+        <div style="font-size: clamp(22px, 2.4vw, 28px); font-weight: bold; color: #60a5fa; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+          <span style="display:inline-block; width:14px; height:14px; border-radius:50%; background:#3b82f6;"></span>
           <span>Player 2 (Blue / Right)</span>
         </div>
-        <div style="margin-bottom: 14px;">
-          <label for="split-modal-p2-nick" style="display: block; font-size: clamp(15px, 1.4vw, 17px); color: #cbd5e1; margin-bottom: 6px;">Pilot Username</label>
-          <input type="text" id="split-modal-p2-nick" placeholder="Enter username..." maxlength="16" autocomplete="off" class="bp-input-field">
+        <div style="margin-bottom: 18px;">
+          <label for="split-modal-p2-nick" style="display: block; font-size: clamp(17px, 1.6vw, 20px); font-weight: bold; color: #cbd5e1; margin-bottom: 8px;">Pilot Username</label>
+          <input type="text" id="split-modal-p2-nick" placeholder="Enter username..." maxlength="16" autocomplete="off" class="bp-input-field" style="font-size: clamp(19px, 1.8vw, 23px); padding: clamp(10px, 1.5vh, 15px) clamp(14px, 1.6vw, 20px);">
         </div>
-        <div style="font-size: clamp(14px, 1.4vw, 16px); color: #cbd5e1; line-height: 1.7; border-top: 1px dashed rgba(255,255,255,0.12); padding-top: 10px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Steer & Thrust:</span><span><kbd>&uarr;</kbd> <kbd>&larr;</kbd> <kbd>&darr;</kbd> <kbd>&rarr;</kbd></span></div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Shoot Gun:</span><kbd>Right Ctrl</kbd></div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Launch Missile:</span><kbd>Right Shift</kbd></div>
+        <div style="font-size: clamp(16px, 1.6vw, 19px); color: #cbd5e1; line-height: 2.2; border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;"><span>Steer &amp; Thrust:</span><span><kbd>&uarr;</kbd> <kbd>&larr;</kbd> <kbd>&darr;</kbd> <kbd>&rarr;</kbd></span></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;"><span>Shoot Gun:</span><kbd>Right Ctrl</kbd></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;"><span>Launch Missile:</span><kbd>Right Shift</kbd></div>
           <div style="display: flex; justify-content: space-between; align-items: center;"><span>Bail / Re-enter:</span><kbd>/</kbd></div>
         </div>
       </div>
     </div>
 
-    <div id="split-modal-error" style="display: none; padding: 10px 16px; background: rgba(239, 68, 68, 0.25); border: 1px solid #ef4444; border-radius: 8px; color: #fca5a5; font-size: 17px; font-weight: bold;"></div>
+    <div id="split-modal-error" style="display: none; padding: 12px 18px; background: rgba(239, 68, 68, 0.25); border: 1.5px solid #ef4444; border-radius: 8px; color: #fca5a5; font-size: 19px; font-weight: bold;"></div>
 
-    <!-- Match Mode Card (Constant Height: dropdown visibility toggled so container never jumps or resizes) -->
-    <div id="split-match-mode-card" class="bp-card-glass" style="display: flex; align-items: center; justify-content: space-between; min-height: 62px; box-sizing: border-box; gap: 16px;">
-      <div style="display: flex; align-items: center; gap: clamp(12px, 1.8vw, 20px); font-size: clamp(16px, 1.6vw, 19px);">
+    <!-- Scaled Match Mode Card (Constant Height: dropdown visibility toggled so container never jumps or resizes) -->
+    <div id="split-match-mode-card" class="bp-card-glass" style="display: flex; align-items: center; justify-content: space-between; min-height: 72px; padding: clamp(16px, 2vh, 24px) clamp(22px, 2.5vw, 34px); box-sizing: border-box; gap: 20px;">
+      <div style="display: flex; align-items: center; gap: clamp(14px, 2vw, 24px); font-size: clamp(18px, 1.8vw, 22px);">
         <span style="font-weight: bold; color: #e2e8f0;">Match Mode:</span>
-        <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px;"><input type="radio" name="modalMatchRule" value="infinite" checked> Infinite Plays</label>
-        <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px;"><input type="radio" name="modalMatchRule" value="score"> Target Score</label>
+        <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 8px;"><input type="radio" name="modalMatchRule" value="infinite" checked style="width: 18px; height: 18px; cursor: pointer;"> Infinite Plays</label>
+        <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 8px;"><input type="radio" name="modalMatchRule" value="score" style="width: 18px; height: 18px; cursor: pointer;"> Target Score</label>
       </div>
       <!-- Dropdown with grey background & constant layout presence -->
-      <select id="modalMatchTargetScore" class="bp-input-field" style="visibility: hidden; opacity: 0; pointer-events: none; width: auto; transition: opacity 0.15s ease;">
+      <select id="modalMatchTargetScore" class="bp-input-field" style="visibility: hidden; opacity: 0; pointer-events: none; width: auto; font-size: clamp(18px, 1.8vw, 22px) !important; padding: 8px 18px !important; transition: opacity 0.15s ease;">
         <option value="5">First to 5 Kills</option>
         <option value="10">First to 10 Kills</option>
         <option value="15">First to 15 Kills</option>
@@ -2410,10 +2410,10 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
       </select>
     </div>
 
-    <div style="display: flex; justify-content: flex-end; gap: 14px; margin-top: 6px;">
-      <button type="button" id="btn-cancel-split-modal" class="bp-btn-ghost">Cancel</button>
-      <button type="button" id="btn-launch-split-modal" class="bp-btn-green">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    <div style="display: flex; justify-content: flex-end; gap: 18px; margin-top: 10px;">
+      <button type="button" id="btn-cancel-split-modal" class="bp-btn-ghost" style="font-size: clamp(18px, 1.8vw, 22px); padding: clamp(12px, 1.6vh, 16px) clamp(22px, 2vw, 32px);">Cancel</button>
+      <button type="button" id="btn-launch-split-modal" class="bp-btn-green" style="font-size: clamp(20px, 2.2vw, 26px); padding: clamp(14px, 1.8vh, 18px) clamp(32px, 3vw, 44px);">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         <span>Launch 1v1 Duel</span>
       </button>
     </div>
@@ -2618,6 +2618,49 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     let myChosenColor = "#ff0015";
     let myChosenName = "";
 
+    let masterAuthSecret = null;
+
+    function applyPhotonSDKPatch() {
+        if (typeof Photon === "undefined" || !Photon.LoadBalancing || Photon.LoadBalancing._patchApplied) return;
+        Photon.LoadBalancing._patchApplied = true;
+
+        const origInitMasterPeer = Photon.LoadBalancing.LoadBalancingClient.prototype.initMasterPeer;
+        Photon.LoadBalancing.LoadBalancingClient.prototype.initMasterPeer = function(peer) {
+            origInitMasterPeer.call(this, peer);
+            const self = this;
+            if (peer) peer.keepAliveTimeoutMs = 10000;
+
+            // Save Master Server Secret on Authenticate (230)
+            peer.addResponseListener(230, function(resp) {
+                if (!resp.errCode && resp.vals && resp.vals[221]) {
+                    masterAuthSecret = resp.vals[221];
+                }
+            });
+
+            // Update userAuthSecret with the Game Server token returned by Master Server
+            const updateGameSecret = function(resp) {
+                if (!resp.errCode && resp.vals && resp.vals[221]) {
+                    self.connectOptions.userAuthSecret = resp.vals[221];
+                }
+            };
+            peer.addResponseListener(227, updateGameSecret); // CreateGame
+            peer.addResponseListener(226, updateGameSecret); // JoinGame
+            peer.addResponseListener(225, updateGameSecret); // JoinRandomGame
+        };
+
+        const origInitGamePeer = Photon.LoadBalancing.LoadBalancingClient.prototype.initGamePeer;
+        Photon.LoadBalancing.LoadBalancingClient.prototype.initGamePeer = function(peer, op) {
+            origInitGamePeer.call(this, peer, op);
+            if (peer) peer.keepAliveTimeoutMs = 10000;
+        };
+
+        const origInitNameServerPeer = Photon.LoadBalancing.LoadBalancingClient.prototype.initNameServerPeer;
+        Photon.LoadBalancing.LoadBalancingClient.prototype.initNameServerPeer = function(peer) {
+            origInitNameServerPeer.call(this, peer);
+            if (peer) peer.keepAliveTimeoutMs = 10000;
+        };
+    }
+
     function initPhoton() {
         if (typeof Photon === "undefined" || !Photon.LoadBalancing) {
             console.warn("[Photon] SDK not yet loaded, retrying in 250ms...");
@@ -2626,6 +2669,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         }
 
         try {
+            applyPhotonSDKPatch();
             photonClient = new Photon.LoadBalancing.LoadBalancingClient(
                 Photon.ConnectionProtocol.Wss,
                 PHOTON_APP_ID,
@@ -3028,8 +3072,9 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     }
 
     function exitRoom() {
-        if (photonClient && photonClient.isJoinedToRoom()) {
-            photonClient.leaveRoom();
+        if (photonClient) {
+            if (masterAuthSecret) photonClient.connectOptions.userAuthSecret = masterAuthSecret;
+            if (photonClient.isJoinedToRoom()) photonClient.leaveRoom();
         }
         isBusyJoiningOrCreate = false;
         resetActionButtons();
