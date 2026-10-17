@@ -2086,22 +2086,21 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 </script>
 
 
-<!-- In-Game HUD Overlay -->
-<div id="online-4p-hud" style="display: none; position: fixed; top: 12px; left: 16px; z-index: 1000; font-family: 'Cormorant Garamond', serif !important; pointer-events: none;">
-    <div style="background: rgba(10, 15, 26, 0.78); backdrop-filter: blur(8px); padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.18); color: #fff;">
+<!-- In-Game HUD Overlay (Ping removed) -->
+<div id="online-4p-hud" style="display: none; position: fixed; top: 14px; left: 16px; z-index: 1000; font-family: 'Cormorant Garamond', serif !important; pointer-events: none;">
+    <div style="background: rgba(10, 15, 26, 0.78); backdrop-filter: blur(8px); padding: 8px 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.18); color: #fff;">
         <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 4px;">
-            <span style="font-weight: bold; font-size: 16px; color: #38bdf8; letter-spacing: 1px;">ONLINE BETA MATCH</span>
-            <span id="hud-room-code" style="font-family: monospace !important; font-size: 14px; background: rgba(255,255,255,0.1); padding: 1px 6px; border-radius: 4px;">----</span>
-            <span id="hud-ping" style="font-size: 13px; color: #4ade80;">Ping: --ms</span>
+            <span style="font-weight: bold; font-size: 17px; color: #38bdf8; letter-spacing: 1px;">ONLINE BETA MATCH</span>
+            <span id="hud-room-code" style="font-family: monospace !important; font-size: 14px; background: rgba(255,255,255,0.1); padding: 2px 7px; border-radius: 4px; display: none;"></span>
         </div>
-        <div id="hud-leaderboard" style="display: flex; flex-direction: column; gap: 4px; font-size: 15px;">
+        <div id="hud-leaderboard" style="display: flex; flex-direction: column; gap: 4px; font-size: 16px;">
             <!-- Populated dynamically -->
         </div>
     </div>
 </div>
 
 <style>
-/* Fullscreen Menus Common Styles */
+/* Fullscreen Menus Common Styles - Expanded & Scaled Up */
 .bp-fullscreen-modal {
     display: none;
     position: fixed;
@@ -2114,7 +2113,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     -webkit-backdrop-filter: blur(14px);
     overflow-y: auto;
     font-family: 'Cormorant Garamond', serif !important;
-    padding: 24px 16px;
+    padding: 28px 20px;
     box-sizing: border-box;
 }
 
@@ -2125,13 +2124,13 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
 .bp-menu-wrap {
     width: 100%;
-    max-width: 880px;
+    max-width: 1080px;
     margin: auto;
     color: #ffffff;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    min-height: calc(100vh - 48px);
+    gap: 20px;
+    min-height: calc(100vh - 56px);
     justify-content: center;
 }
 
@@ -2140,28 +2139,28 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    padding-bottom: 12px;
+    padding-bottom: 14px;
 }
 
 .bp-menu-title {
-    font-size: 32px;
+    font-size: 36px;
     font-weight: bold;
     color: #ffffff;
     letter-spacing: 0.5px;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
 }
 
 .bp-status-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    font-size: 16px;
+    gap: 8px;
+    font-size: 17px;
     font-weight: bold;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: 20px;
 }
 
@@ -2169,8 +2168,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2186,8 +2185,22 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 .bp-card-glass {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 10px;
-    padding: 16px 18px;
+    border-radius: 12px;
+    padding: 20px 24px;
+}
+
+/* Translucent Keys in Fullscreen Menus */
+.bp-fullscreen-modal kbd {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.28) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25) !important;
+    padding: 2px 8px !important;
+    border-radius: 5px !important;
+    font-family: inherit !important;
+    font-size: 16px !important;
+    line-height: 1.4 !important;
 }
 
 .bp-input-field {
@@ -2196,8 +2209,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 8px;
     color: #ffffff;
-    font-size: 19px;
-    padding: 8px 12px;
+    font-size: 20px;
+    padding: 10px 14px;
     outline: none;
     transition: border-color 0.15s, box-shadow 0.15s;
 }
@@ -2209,10 +2222,10 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 .bp-grid-2col {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 20px;
 }
 
-@media (max-width: 680px) {
+@media (max-width: 720px) {
     .bp-grid-2col {
         grid-template-columns: 1fr;
     }
@@ -2224,15 +2237,16 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 18px 14px;
-    border-radius: 10px;
+    padding: 24px 16px;
+    border-radius: 12px;
     cursor: pointer;
     transition: transform 0.15s, background 0.15s, border-color 0.15s, box-shadow 0.15s;
-    gap: 8px;
+    gap: 10px;
+    min-height: 130px;
 }
 .bp-square-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 .bp-square-public {
@@ -2256,8 +2270,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 }
 
 .bp-btn-launch {
-    padding: 12px 24px;
-    font-size: 21px;
+    padding: 14px 28px;
+    font-size: 22px;
     font-weight: bold;
     border-radius: 8px;
     cursor: pointer;
@@ -2280,17 +2294,17 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 }
 
 .bp-btn-blue {
-    padding: 8px 16px;
-    font-size: 17px;
+    padding: 10px 20px;
+    font-size: 18px;
     font-weight: bold;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     border: 1.5px solid #38bdf8;
     background: #0284c7;
     color: #ffffff;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     transition: background 0.15s;
 }
 .bp-btn-blue:hover {
@@ -2298,17 +2312,17 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 }
 
 .bp-btn-ghost {
-    padding: 8px 16px;
-    font-size: 17px;
+    padding: 10px 18px;
+    font-size: 18px;
     font-weight: bold;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.25);
     background: rgba(255, 255, 255, 0.08);
     color: #ffffff;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     transition: background 0.15s;
 }
 .bp-btn-ghost:hover {
@@ -2318,60 +2332,66 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
 <!-- Fullscreen 1v1 Split-Screen Modal -->
 <div id="modal-split-screen" class="bp-fullscreen-modal">
-  <div class="bp-menu-wrap" style="max-width: 760px;">
+  <div class="bp-menu-wrap" style="max-width: 920px;">
     <div class="bp-menu-header">
       <div class="bp-menu-title">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
         <span>1v1 Split-Screen Setup</span>
       </div>
       <button type="button" id="btn-close-split-modal" class="bp-btn-close" title="Close">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
 
-    <!-- Pilots Cards -->
+    <!-- Pilots Cards (NO left side border) -->
     <div class="bp-grid-2col">
       <!-- Player 1 -->
-      <div class="bp-card-glass" style="border-left: 4px solid #ef4444;">
-        <div style="font-size: 20px; font-weight: bold; color: #f87171; margin-bottom: 8px;">Player 1 (Red / Left)</div>
-        <div style="margin-bottom: 12px;">
-          <label for="split-modal-p1-nick" style="display: block; font-size: 16px; color: #cbd5e1; margin-bottom: 4px;">Pilot Username</label>
-          <input type="text" id="split-modal-p1-nick" placeholder="Enter username..." maxlength="16" autocomplete="off" class="bp-input-field" style="border-color: rgba(239, 68, 68, 0.5);">
+      <div class="bp-card-glass">
+        <div style="font-size: 22px; font-weight: bold; color: #f87171; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+          <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:#ef4444;"></span>
+          <span>Player 1 (Red / Left)</span>
         </div>
-        <div style="font-size: 15px; color: #cbd5e1; line-height: 1.6; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 8px;">
-          <div style="display: flex; justify-content: space-between;"><span>Steer & Thrust:</span><span><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></span></div>
-          <div style="display: flex; justify-content: space-between;"><span>Shoot Gun:</span><kbd>Z</kbd></div>
-          <div style="display: flex; justify-content: space-between;"><span>Launch Missile:</span><kbd>X</kbd></div>
-          <div style="display: flex; justify-content: space-between;"><span>Bail / Re-enter:</span><kbd>C</kbd></div>
+        <div style="margin-bottom: 14px;">
+          <label for="split-modal-p1-nick" style="display: block; font-size: 17px; color: #cbd5e1; margin-bottom: 6px;">Pilot Username</label>
+          <input type="text" id="split-modal-p1-nick" placeholder="Enter username..." maxlength="16" autocomplete="off" class="bp-input-field">
+        </div>
+        <div style="font-size: 16px; color: #cbd5e1; line-height: 1.7; border-top: 1px dashed rgba(255,255,255,0.12); padding-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Steer & Thrust:</span><span><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></span></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Shoot Gun:</span><kbd>Z</kbd></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Launch Missile:</span><kbd>X</kbd></div>
+          <div style="display: flex; justify-content: space-between; align-items: center;"><span>Bail / Re-enter:</span><kbd>C</kbd></div>
         </div>
       </div>
 
       <!-- Player 2 -->
-      <div class="bp-card-glass" style="border-left: 4px solid #3b82f6;">
-        <div style="font-size: 20px; font-weight: bold; color: #60a5fa; margin-bottom: 8px;">Player 2 (Blue / Right)</div>
-        <div style="margin-bottom: 12px;">
-          <label for="split-modal-p2-nick" style="display: block; font-size: 16px; color: #cbd5e1; margin-bottom: 4px;">Pilot Username</label>
-          <input type="text" id="split-modal-p2-nick" placeholder="Enter username..." maxlength="16" autocomplete="off" class="bp-input-field" style="border-color: rgba(59, 130, 246, 0.5);">
+      <div class="bp-card-glass">
+        <div style="font-size: 22px; font-weight: bold; color: #60a5fa; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+          <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:#3b82f6;"></span>
+          <span>Player 2 (Blue / Right)</span>
         </div>
-        <div style="font-size: 15px; color: #cbd5e1; line-height: 1.6; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 8px;">
-          <div style="display: flex; justify-content: space-between;"><span>Steer & Thrust:</span><span><kbd>&uarr;</kbd> <kbd>&larr;</kbd> <kbd>&darr;</kbd> <kbd>&rarr;</kbd></span></div>
-          <div style="display: flex; justify-content: space-between;"><span>Shoot Gun:</span><kbd>Right Ctrl</kbd></div>
-          <div style="display: flex; justify-content: space-between;"><span>Launch Missile:</span><kbd>Right Shift</kbd></div>
-          <div style="display: flex; justify-content: space-between;"><span>Bail / Re-enter:</span><kbd>/</kbd></div>
+        <div style="margin-bottom: 14px;">
+          <label for="split-modal-p2-nick" style="display: block; font-size: 17px; color: #cbd5e1; margin-bottom: 6px;">Pilot Username</label>
+          <input type="text" id="split-modal-p2-nick" placeholder="Enter username..." maxlength="16" autocomplete="off" class="bp-input-field">
+        </div>
+        <div style="font-size: 16px; color: #cbd5e1; line-height: 1.7; border-top: 1px dashed rgba(255,255,255,0.12); padding-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Steer & Thrust:</span><span><kbd>&uarr;</kbd> <kbd>&larr;</kbd> <kbd>&darr;</kbd> <kbd>&rarr;</kbd></span></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Shoot Gun:</span><kbd>Right Ctrl</kbd></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Launch Missile:</span><kbd>Right Shift</kbd></div>
+          <div style="display: flex; justify-content: space-between; align-items: center;"><span>Bail / Re-enter:</span><kbd>/</kbd></div>
         </div>
       </div>
     </div>
 
-    <div id="split-modal-error" style="display: none; padding: 8px 14px; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; border-radius: 6px; color: #fca5a5; font-size: 16px; font-weight: bold;"></div>
+    <div id="split-modal-error" style="display: none; padding: 10px 16px; background: rgba(239, 68, 68, 0.25); border: 1px solid #ef4444; border-radius: 8px; color: #fca5a5; font-size: 17px; font-weight: bold;"></div>
 
     <!-- Match Mode -->
-    <div class="bp-card-glass" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
-      <div style="display: flex; align-items: center; gap: 14px; font-size: 18px;">
+    <div class="bp-card-glass" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+      <div style="display: flex; align-items: center; gap: 18px; font-size: 19px;">
         <span style="font-weight: bold; color: #e2e8f0;">Match Mode:</span>
         <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px;"><input type="radio" name="modalMatchRule" value="infinite" checked> Infinite Plays</label>
         <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px;"><input type="radio" name="modalMatchRule" value="score"> Target Score</label>
       </div>
-      <select id="modalMatchTargetScore" class="bp-input-field" style="display: none; width: auto; padding: 4px 10px; font-size: 17px;">
+      <select id="modalMatchTargetScore" class="bp-input-field" style="display: none; width: auto; padding: 6px 14px; font-size: 18px;">
         <option value="5">First to 5</option>
         <option value="10" selected>First to 10</option>
         <option value="15">First to 15</option>
@@ -2384,7 +2404,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
     <!-- Launch Button -->
     <button type="button" id="btn-start-split-modal" class="bp-btn-launch" style="width: 100%;">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
       <span>Start 1v1 Split-Screen Match</span>
     </button>
   </div>
@@ -2397,118 +2417,118 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
       <div class="bp-menu-title">
         <span>Online Beta</span>
         <div id="modal-photon-status" class="bp-status-badge">
-          <span id="modal-status-dot" style="display: inline-block; width: 8px; height: 8px; background: #ff9800; border-radius: 50%;"></span>
+          <span id="modal-status-dot" style="display: inline-block; width: 10px; height: 10px; background: #ff9800; border-radius: 50%;"></span>
           <span id="modal-status-text" style="color: #cbd5e1;">Connecting...</span>
         </div>
       </div>
       <button type="button" id="btn-close-online-modal" class="bp-btn-close" title="Close">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
 
     <!-- VIEW 1: MATCHMAKING -->
-    <div id="view-matchmaking" style="display: flex; flex-direction: column; gap: 16px;">
+    <div id="view-matchmaking" style="display: flex; flex-direction: column; gap: 20px;">
       <!-- Callsign Bar -->
-      <div class="bp-card-glass" style="display: flex; align-items: center; gap: 14px;">
-        <label for="modal-callsign-input" style="font-size: 19px; font-weight: bold; color: #e2e8f0; white-space: nowrap;">Pilot Call-sign:</label>
+      <div class="bp-card-glass" style="display: flex; align-items: center; gap: 16px;">
+        <label for="modal-callsign-input" style="font-size: 20px; font-weight: bold; color: #e2e8f0; white-space: nowrap;">Pilot Call-sign:</label>
         <input type="text" id="modal-callsign-input" placeholder="Enter your call-sign..." maxlength="16" autocomplete="off" class="bp-input-field">
       </div>
 
       <!-- Main 2-Column Resourceful Grid -->
       <div class="bp-grid-2col">
-        <!-- Left: Public Games -->
-        <div class="bp-card-glass" style="display: flex; flex-direction: column; min-height: 220px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px;">
-            <span style="font-size: 20px; font-weight: bold; color: #38bdf8;">Active Public Games</span>
-            <button type="button" id="btn-refresh-rooms" class="bp-btn-ghost" style="padding: 4px 10px; font-size: 15px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+        <!-- Left: Public Games (NO codes displayed!) -->
+        <div class="bp-card-glass" style="display: flex; flex-direction: column; min-height: 280px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+            <span style="font-size: 22px; font-weight: bold; color: #38bdf8;">Active Public Games</span>
+            <button type="button" id="btn-refresh-rooms" class="bp-btn-ghost" style="padding: 6px 12px; font-size: 16px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
               <span>Refresh</span>
             </button>
           </div>
-          <div id="public-rooms-container" style="flex: 1; overflow-y: auto; max-height: 200px; display: flex; flex-direction: column; gap: 6px;">
-            <div style="text-align: center; color: #94a3b8; padding: 28px 0; font-size: 17px;">Searching for public games...</div>
+          <div id="public-rooms-container" style="flex: 1; overflow-y: auto; max-height: 260px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="text-align: center; color: #94a3b8; padding: 40px 0; font-size: 18px;">Searching for public games...</div>
           </div>
         </div>
 
         <!-- Right: Create & Join Private -->
-        <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 16px;">
           <!-- Square Action Cards: Create Public & Create Private -->
-          <div class="bp-grid-2col" style="gap: 12px;">
+          <div class="bp-grid-2col" style="gap: 14px;">
             <button type="button" id="btn-create-public" class="bp-square-btn bp-square-public">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-              <span style="font-size: 19px; font-weight: bold;">Public Room</span>
-              <span style="font-size: 13px; opacity: 0.85;">Open to all pilots</span>
+              <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              <span style="font-size: 21px; font-weight: bold;">Public Room</span>
+              <span style="font-size: 14px; opacity: 0.85;">Open match (no code)</span>
             </button>
 
             <button type="button" id="btn-create-private" class="bp-square-btn bp-square-private">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              <span style="font-size: 19px; font-weight: bold;">Private Room</span>
-              <span style="font-size: 13px; opacity: 0.85;">Passcode protected</span>
+              <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span style="font-size: 21px; font-weight: bold;">Private Room</span>
+              <span style="font-size: 14px; opacity: 0.85;">Passcode protected</span>
             </button>
           </div>
 
           <!-- Custom Password for Creating Private -->
-          <div style="margin-top: -2px;">
-            <input type="text" id="input-create-private-pass" placeholder="CUSTOM PRIVATE PASSWORD (OPTIONAL)" maxlength="12" class="bp-input-field" style="text-align: center; font-family: monospace !important; letter-spacing: 2px; font-size: 15px; font-weight: bold;">
+          <div>
+            <input type="text" id="input-create-private-pass" placeholder="CUSTOM PRIVATE PASSWORD (OPTIONAL)" maxlength="12" class="bp-input-field" style="text-align: center; font-family: monospace !important; letter-spacing: 2px; font-size: 16px; font-weight: bold;">
           </div>
 
           <!-- Join Private Room -->
-          <div class="bp-card-glass" style="padding: 12px 16px;">
-            <div style="font-size: 16px; font-weight: bold; color: #e2e8f0; margin-bottom: 6px;">Join Private Room with Password</div>
-            <div style="display: flex; gap: 8px;">
-              <input type="text" id="input-private-code" placeholder="ENTER ROOM PASSWORD" maxlength="12" class="bp-input-field" style="text-align: center; font-family: monospace !important; letter-spacing: 2px; font-size: 17px; font-weight: bold; flex: 1;">
+          <div class="bp-card-glass" style="padding: 16px 18px;">
+            <div style="font-size: 17px; font-weight: bold; color: #e2e8f0; margin-bottom: 8px;">Join Private Room with Password</div>
+            <div style="display: flex; gap: 10px;">
+              <input type="text" id="input-private-code" placeholder="ENTER ROOM PASSWORD" maxlength="12" class="bp-input-field" style="text-align: center; font-family: monospace !important; letter-spacing: 2px; font-size: 18px; font-weight: bold; flex: 1;">
               <button type="button" id="btn-join-private" class="bp-btn-blue">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
                 <span>Join</span>
               </button>
             </div>
-            <div style="font-size: 13px; color: #94a3b8; margin-top: 4px;">Letters and numbers only (case-insensitive, no symbols).</div>
+            <div style="font-size: 14px; color: #94a3b8; margin-top: 6px;">Letters and numbers only (case-insensitive, no symbols).</div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- VIEW 2: INSIDE ROOM BRIEFING -->
-    <div id="view-room-lobby" style="display: none; flex-direction: column; gap: 16px;">
-      <!-- Room Code Banner -->
+    <div id="view-room-lobby" style="display: none; flex-direction: column; gap: 20px;">
+      <!-- Room Banner -->
       <div class="bp-card-glass" style="display: flex; justify-content: space-between; align-items: center;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <span style="font-size: 18px; color: #94a3b8;">Room:</span>
-          <span id="room-code-display" style="font-family: monospace !important; font-size: 26px; font-weight: bold; color: #38bdf8;">----</span>
-          <span id="room-type-badge" style="font-size: 13px; font-weight: bold; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; color: #e2e8f0;">Public</span>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span id="room-banner-title" style="font-size: 24px; font-weight: bold; color: #38bdf8;">Match Briefing</span>
+          <span id="room-type-badge" style="font-size: 14px; font-weight: bold; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 4px; color: #e2e8f0;">Public</span>
+          <span id="room-code-display" style="font-family: monospace !important; font-size: 22px; font-weight: bold; color: #e2e8f0; display: none;"></span>
         </div>
-        <button type="button" id="btn-copy-code" class="bp-btn-ghost">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          <span>Copy Code</span>
+        <button type="button" id="btn-copy-code" class="bp-btn-ghost" style="display: none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span>Copy Password</span>
         </button>
       </div>
 
       <div class="bp-grid-2col">
         <!-- Pilots on Runway -->
-        <div class="bp-card-glass" style="display: flex; flex-direction: column; gap: 10px;">
-          <div style="font-size: 20px; font-weight: bold; color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px;">
+        <div class="bp-card-glass" style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="font-size: 22px; font-weight: bold; color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
             Pilots on Runway (<span id="pilots-count">1</span>/4)
           </div>
-          <div id="pilots-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div id="pilots-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
             <!-- 4 Pilot Cards -->
           </div>
         </div>
 
         <!-- Pilot Aircraft Customization -->
-        <div class="bp-card-glass" style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="font-size: 20px; font-weight: bold; color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px;">
+        <div class="bp-card-glass" style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="font-size: 22px; font-weight: bold; color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
             Pilot Customization
           </div>
           <div>
-            <label for="room-callsign-input" style="display: block; font-size: 16px; color: #cbd5e1; margin-bottom: 4px;">Call-sign in Room</label>
-            <div style="display: flex; gap: 8px;">
+            <label for="room-callsign-input" style="display: block; font-size: 17px; color: #cbd5e1; margin-bottom: 6px;">Call-sign in Room</label>
+            <div style="display: flex; gap: 10px;">
               <input type="text" id="room-callsign-input" placeholder="Call-sign..." maxlength="16" class="bp-input-field" style="flex: 1;">
               <button type="button" id="btn-update-room-callsign" class="bp-btn-blue">Update</button>
             </div>
           </div>
           <div>
-            <label style="display: block; font-size: 16px; color: #cbd5e1; margin-bottom: 6px;">Aircraft & Barn Color</label>
-            <div id="color-palette" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <label style="display: block; font-size: 17px; color: #cbd5e1; margin-bottom: 8px;">Aircraft & Barn Color</label>
+            <div id="color-palette" style="display: flex; gap: 10px; flex-wrap: wrap;">
               <!-- Rendered by JS: 10 Colors -->
             </div>
           </div>
@@ -2516,22 +2536,22 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
       </div>
 
       <!-- Actions -->
-      <div style="display: flex; gap: 12px; align-items: center;">
+      <div style="display: flex; gap: 14px; align-items: center;">
         <button type="button" id="btn-start-online-match" class="bp-btn-launch" style="flex: 2;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           <span>START GAME</span>
         </button>
-        <button type="button" id="btn-exit-online-room" class="bp-btn-ghost" style="flex: 1; padding: 12px 20px; font-size: 18px; justify-content: center;">
+        <button type="button" id="btn-exit-online-room" class="bp-btn-ghost" style="flex: 1; padding: 14px 24px; font-size: 20px; justify-content: center;">
           <span>Leave Room</span>
         </button>
       </div>
-      <div id="modal-host-notice" style="text-align: center; font-size: 16px; color: #94a3b8;">
+      <div id="modal-host-notice" style="text-align: center; font-size: 17px; color: #94a3b8;">
         Need at least 2 players to start.
       </div>
     </div>
 
     <!-- Error Toast -->
-    <div id="modal-error-toast" style="display: none; padding: 10px 16px; background: rgba(239, 68, 68, 0.25); border: 1px solid #ef4444; border-radius: 8px; color: #fca5a5; font-size: 17px; font-weight: bold; text-align: center;"></div>
+    <div id="modal-error-toast" style="display: none; padding: 12px 18px; background: rgba(239, 68, 68, 0.25); border: 1px solid #ef4444; border-radius: 8px; color: #fca5a5; font-size: 18px; font-weight: bold; text-align: center;"></div>
   </div>
 </div>
 
@@ -2551,6 +2571,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     const EV_BAIL_PILOT     = 5;
     const EV_CRASH_OR_KILL  = 6;
     const EV_UPDATE_PROFILE = 7;
+    const EV_RESPAWN        = 8;
 
     // Rainbow (8) + White + Black Palette
     const COLOR_PALETTE = [
@@ -2570,13 +2591,14 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     let localSlot = 1;
     let currentRoomCode = "";
     let isCurrentRoomPrivate = false;
+    let currentMatchTitle = "";
     let roomActorsList = [];
     let stateSyncTimer = null;
-    let pingTimer = null;
     let myChosenColor = "#ff0015";
     let myChosenName = "";
     let localPlane = null;
     let localPlayer = null;
+    let basePositions = [2500, 12500];
 
     // Track pilot profiles: { slot: { name, color } }
     window.__onlineProfiles = {
@@ -2698,10 +2720,24 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         return (str || "").toUpperCase().replace(/[^A-Z0-9]/g, "").trim();
     }
 
+    // Capture the pilot callsign reliably from the input, home page, or localStorage
     function getCallsign() {
         const modalInput = document.getElementById("modal-callsign-input");
         const homeInput = document.getElementById("p1-nickname");
-        const name = (modalInput && modalInput.value.trim()) || (homeInput && homeInput.value.trim()) || ("Pilot-" + Math.floor(Math.random() * 899 + 100));
+        let name = "";
+        if (modalInput && modalInput.value.trim()) {
+            name = modalInput.value.trim();
+        } else if (homeInput && homeInput.value.trim()) {
+            name = homeInput.value.trim();
+        } else {
+            try {
+                const saved = localStorage.getItem("nickname");
+                if (saved && saved.trim()) name = saved.trim();
+            } catch(e) {}
+        }
+        if (!name) {
+            name = "Ace Pilot";
+        }
         return name.substring(0, 14);
     }
 
@@ -2713,7 +2749,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     }
 
     // -------------------------------------------------------------
-    // ROOM MATCHMAKING (PUBLIC & PRIVATE)
+    // ROOM MATCHMAKING (PUBLIC WITHOUT CODES & PRIVATE WITH PASSWORD)
     // -------------------------------------------------------------
     function renderPublicRoomsList() {
         const container = document.getElementById("public-rooms-container");
@@ -2721,27 +2757,31 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
         const rooms = photonClient.availableRooms() || [];
         const publicRooms = rooms.filter(r => {
-            const props = r.customProperties || {};
+            const props = (typeof r.getCustomProperties === "function") ? r.getCustomProperties() : (r.customProperties || {});
             return r.isOpen && !props.isPriv && r.playerCount < r.maxPlayers;
         });
 
         if (publicRooms.length === 0) {
-            container.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 28px 0; font-size: 17px;">No active public games found. Create one!</div>';
+            container.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 40px 0; font-size: 18px;">No active public games found. Create one!</div>';
             return;
         }
 
         let html = '<div style="display: flex; flex-direction: column; gap: 8px;">';
         publicRooms.forEach(room => {
-            const props = room.customProperties || {};
+            const props = (typeof room.getCustomProperties === "function") ? room.getCustomProperties() : (room.customProperties || {});
             const hostName = props.host || "Pilot";
+            const matchTitle = props.matchName || (hostName + "'s Match");
+
             html += `
-                <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.08); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.15);">
+                <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.08); padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.15);">
                     <div>
-                        <span style="font-family: monospace !important; font-size: 19px; font-weight: bold; color: #38bdf8;">${room.name}</span>
-                        <span style="font-size: 16px; color: #cbd5e1; margin-left: 12px;">Host: <strong style="color: #ffffff;">${hostName}</strong></span>
-                        <span style="font-size: 14px; background: rgba(74, 222, 128, 0.2); color: #86efac; border: 1px solid rgba(74, 222, 128, 0.4); font-weight: bold; padding: 2px 8px; border-radius: 4px; margin-left: 10px;">${room.playerCount}/${room.maxPlayers}</span>
+                        <div style="font-size: 20px; font-weight: bold; color: #ffffff;">${matchTitle}</div>
+                        <div style="font-size: 15px; color: #cbd5e1; margin-top: 2px;">
+                            Host: <strong style="color: #38bdf8;">${hostName}</strong>
+                            <span style="font-size: 14px; background: rgba(74, 222, 128, 0.2); color: #86efac; border: 1px solid rgba(74, 222, 128, 0.4); font-weight: bold; padding: 2px 8px; border-radius: 4px; margin-left: 10px;">${room.playerCount}/${room.maxPlayers}</span>
+                        </div>
                     </div>
-                    <button type="button" class="btn-join-public-room bp-btn-blue" data-room="${room.name}" style="padding: 6px 16px; font-size: 16px;">
+                    <button type="button" class="btn-join-public-room bp-btn-blue" data-room="${room.name}" style="padding: 8px 18px; font-size: 17px;">
                         Join Game
                     </button>
                 </div>
@@ -2764,7 +2804,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         myChosenName = callsign;
         photonClient.myActor().setName(callsign);
 
-        const code = isPrivate ? sanitizeCode(password || generateCode()) : generateCode();
+        // Internal room code
+        const code = isPrivate ? sanitizeCode(password || generateCode()) : ("PUB-" + generateCode());
         if (!code) {
             showModalError("Please enter a valid room password/code (letters and numbers only)!");
             return;
@@ -2772,6 +2813,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
         currentRoomCode = code;
         isCurrentRoomPrivate = isPrivate;
+        currentMatchTitle = callsign + "'s Match";
 
         photonClient.createRoom(code, {
             maxPlayers: 4,
@@ -2779,9 +2821,10 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             isOpen: true,
             customGameProperties: {
                 host: callsign,
-                isPriv: isPrivate
+                isPriv: isPrivate,
+                matchName: currentMatchTitle
             },
-            propsListedInLobby: ["host", "isPriv"]
+            propsListedInLobby: ["host", "isPriv", "matchName"]
         });
     }
 
@@ -2807,16 +2850,40 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
     function onJoinRoom(createdByMe) {
         currentRoomCode = photonClient.myRoom().name;
+        const roomProps = (typeof photonClient.myRoom().getCustomProperties === "function") ? photonClient.myRoom().getCustomProperties() : (photonClient.myRoom().customProperties || {});
+        isCurrentRoomPrivate = !!roomProps.isPriv;
+        currentMatchTitle = roomProps.matchName || (roomProps.host ? (roomProps.host + "'s Match") : "Public Match");
+
         console.log("[Photon] Joined Room:", currentRoomCode, "CreatedByMe:", createdByMe);
 
         document.getElementById("view-matchmaking").style.display = "none";
         document.getElementById("view-room-lobby").style.display = "flex";
-        document.getElementById("room-code-display").textContent = currentRoomCode;
 
+        const titleEl = document.getElementById("room-banner-title");
         const badge = document.getElementById("room-type-badge");
-        if (badge) {
-            badge.textContent = isCurrentRoomPrivate ? "Private" : "Public";
-            badge.style.color = isCurrentRoomPrivate ? "#f87171" : "#38bdf8";
+        const codeDisplay = document.getElementById("room-code-display");
+        const btnCopy = document.getElementById("btn-copy-code");
+
+        if (isCurrentRoomPrivate) {
+            if (titleEl) titleEl.textContent = "Private Match";
+            if (badge) {
+                badge.textContent = "Private";
+                badge.style.color = "#f87171";
+            }
+            if (codeDisplay) {
+                codeDisplay.style.display = "inline";
+                codeDisplay.textContent = currentRoomCode;
+            }
+            if (btnCopy) btnCopy.style.display = "inline-flex";
+        } else {
+            // Public servers do NOT have codes displayed!
+            if (titleEl) titleEl.textContent = currentMatchTitle;
+            if (badge) {
+                badge.textContent = "Public";
+                badge.style.color = "#38bdf8";
+            }
+            if (codeDisplay) codeDisplay.style.display = "none";
+            if (btnCopy) btnCopy.style.display = "none";
         }
 
         const roomCallsignInput = document.getElementById("room-callsign-input");
@@ -2851,8 +2918,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         COLOR_PALETTE.forEach(c => {
             const swatch = document.createElement("div");
             swatch.title = c.name;
-            swatch.style.width = "32px";
-            swatch.style.height = "32px";
+            swatch.style.width = "34px";
+            swatch.style.height = "34px";
             swatch.style.borderRadius = "8px";
             swatch.style.background = c.hex;
             swatch.style.cursor = "pointer";
@@ -2920,21 +2987,21 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 window.__onlineProfiles[s] = prof;
 
                 html += `
-                    <div style="background: rgba(255, 255, 255, 0.07); border: 2px solid ${color}; border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 24px; height: 24px; border-radius: 50%; background: ${color}; border: 2px solid #ffffff; flex-shrink: 0; box-shadow: 0 0 8px ${color};"></div>
+                    <div style="background: rgba(255, 255, 255, 0.07); border: 2px solid ${color}; border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 26px; height: 26px; border-radius: 50%; background: ${color}; border: 2px solid #ffffff; flex-shrink: 0; box-shadow: 0 0 8px ${color};"></div>
                         <div style="flex: 1; overflow: hidden;">
-                            <div style="font-size: 17px; font-weight: bold; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; color: #ffffff;">
+                            <div style="font-size: 18px; font-weight: bold; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; color: #ffffff;">
                                 ${name} ${isMe ? '<span style="color:#38bdf8; font-size:14px; margin-left:3px;">(You)</span>' : ''} ${isRoomHost ? '<span style="color:#fbbf24; font-size:14px; margin-left:3px;">★ Host</span>' : ''}
                             </div>
-                            <div style="font-size: 13px; color: #94a3b8;">Ready on runway</div>
+                            <div style="font-size: 14px; color: #94a3b8;">Ready on runway</div>
                         </div>
                     </div>
                 `;
             } else {
                 html += `
-                    <div style="background: rgba(255, 255, 255, 0.02); border: 1.5px dashed rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.15); flex-shrink: 0;"></div>
-                        <div style="font-size: 16px; color: #64748b;">Waiting for Pilot...</div>
+                    <div style="background: rgba(255, 255, 255, 0.02); border: 1.5px dashed rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,0.15); flex-shrink: 0;"></div>
+                        <div style="font-size: 17px; color: #64748b;">Waiting for Pilot...</div>
                     </div>
                 `;
             }
@@ -2949,11 +3016,11 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 startBtn.style.display = "inline-flex";
                 if (actors.length >= 2) {
                     startBtn.disabled = false;
-                    startBtn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>START GAME (' + actors.length + ' Players)</span>';
+                    startBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>START GAME (' + actors.length + ' Players)</span>';
                     hostNotice.textContent = "You are the Flight Host. Launch when ready!";
                 } else {
                     startBtn.disabled = true;
-                    startBtn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Waiting for at least 2 pilots...</span>';
+                    startBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Waiting for at least 2 pilots...</span>';
                     hostNotice.textContent = "Need at least 2 players to start.";
                 }
             } else {
@@ -3013,6 +3080,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             handleRemoteBail(content);
         } else if (code === EV_CRASH_OR_KILL) {
             handleRemoteCrash(content);
+        } else if (code === EV_RESPAWN) {
+            handleRemoteRespawn(content);
         }
     }
 
@@ -3043,7 +3112,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     function handleRemoteState(data) {
         if (!data || data.s === localSlot) return;
         const plane = window.__onlinePlanes[data.s];
-        if (!plane) return;
+        if (!plane || plane.isCrashed) return;
 
         plane.targetState = {
             x: data.x,
@@ -3060,7 +3129,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     function handleRemoteBullet(data) {
         if (!data || data.s === localSlot) return;
         const plane = window.__onlinePlanes[data.s];
-        if (plane && window.__fireBullet && window.__onlineWorld) {
+        if (plane && !plane.isCrashed && window.__fireBullet && window.__onlineWorld) {
             window.__fireBullet(window.__onlineWorld, plane);
         }
     }
@@ -3068,7 +3137,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     function handleRemoteMissile(data) {
         if (!data || data.s === localSlot) return;
         const plane = window.__onlinePlanes[data.s];
-        if (plane && window.__fireMissile && window.__onlineWorld) {
+        if (plane && !plane.isCrashed && window.__fireMissile && window.__onlineWorld) {
             window.__fireMissile(window.__onlineWorld, plane);
         }
     }
@@ -3081,6 +3150,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         }
     }
 
+    // Remote crash: immediately destroy plane in world so it does NOT stay frozen in air
     function handleRemoteCrash(data) {
         if (!data) return;
         const victimSlot = data.s;
@@ -3093,19 +3163,122 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             window.__pDeaths[victimSlot]++;
         }
         updateHudLeaderboard();
+
+        const plane = window.__onlinePlanes[victimSlot];
+        const player = window.__onlinePlayers[victimSlot];
+        if (player) {
+            player.detach();
+        }
+        if (plane && window.__onlineWorld) {
+            plane.isCrashed = true;
+            plane.targetState = null;
+            if (window.__onlineWorld.has(plane)) {
+                if (window.__createExplosion) {
+                    window.__createExplosion(window.__onlineWorld, plane, true);
+                }
+                window.__onlineWorld.delete(plane);
+            }
+        }
+        window.__onlinePlanes[victimSlot] = null;
+    }
+
+    // Remote respawn: recreate remote plane at spawn location
+    function handleRemoteRespawn(data) {
+        if (!data || data.s === localSlot || !window.__onlineWorld) return;
+        const slotNum = data.s;
+        const player = window.__onlinePlayers[slotNum];
+        const prof = window.__onlineProfiles[slotNum] || { color: "#ff0015" };
+        const engine = window.__onlineEngineRef;
+        if (!engine || !player) return;
+
+        const { y, A, u } = engine;
+        const oldPlane = window.__onlinePlanes[slotNum];
+        if (oldPlane && window.__onlineWorld.has(oldPlane)) {
+            window.__onlineWorld.delete(oldPlane);
+        }
+
+        const newPlane = new y.a(prof.color);
+        if (data.flipped) {
+            newPlane.flippedHorizontal = true;
+            if (newPlane.circles) {
+                newPlane.circles = newPlane.circles.map(c => ({ v: Object(A.u)(-c.v.x, c.v.y), r: c.r }));
+            }
+        }
+        newPlane.life = u.h;
+        newPlane.landed = true;
+        newPlane.move(Object(A.u)(data.x, data.y));
+        player.control(newPlane);
+        window.__onlineWorld.add(newPlane);
+        window.__onlinePlanes[slotNum] = newPlane;
+        newPlane.isCrashed = false;
+        newPlane.targetState = {
+            x: data.x,
+            y: data.y,
+            vx: 0,
+            vy: 0,
+            ang: 0,
+            th: 0,
+            hp: u.h,
+            ld: 1
+        };
     }
 
     // -------------------------------------------------------------
-    // THE ONLINE GAME ENGINE: EVENLY SPACED BARNS & COLOR MATCHING
+    // THE ONLINE GAME ENGINE: RESPAWN & LEAVE BUTTON FIX
     // -------------------------------------------------------------
     window.__startOnlineBetaGame = function(engine) {
+        window.__onlineEngineRef = engine;
         const { r, o, g, a, n, y, A, u, D, e, I, T, L, i } = engine;
+        window.__createExplosion = o.d;
+        window.__fireBullet = D.d;
+        window.__fireMissile = D.e;
+        window.__bailPilot = D.b;
+
+        // Block Escape/Space from pausing in online match
+        window.addEventListener("keydown", function(e) {
+            if (window.__currentBitPlanesMode === "online-beta" || (photonClient && photonClient.isJoinedToRoom())) {
+                if (e.code === "Space" || e.code === "Escape") {
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                }
+            }
+        }, true);
 
         // Show HUD
         const hud = document.getElementById("online-4p-hud");
         if (hud) hud.style.display = "block";
-        const hudCode = document.getElementById("hud-room-code");
-        if (hudCode) hudCode.textContent = currentRoomCode || "ONLINE";
+
+        // Configure Top-Right Pause Button into a clean Google Fonts "Leave Match" button!
+        const oldPauseBtn = document.getElementById("bitplanes-pause-btn");
+        if (oldPauseBtn) {
+            const leaveBtn = oldPauseBtn.cloneNode(false);
+            oldPauseBtn.parentNode.replaceChild(leaveBtn, oldPauseBtn);
+            leaveBtn.id = "bitplanes-pause-btn";
+            leaveBtn.className = "bitplanes-pause-btn";
+            leaveBtn.style.display = "inline-flex";
+            leaveBtn.style.width = "auto";
+            leaveBtn.style.height = "38px";
+            leaveBtn.style.padding = "0 14px";
+            leaveBtn.style.background = "rgba(15, 23, 42, 0.88)";
+            leaveBtn.style.border = "1.5px solid rgba(239, 68, 68, 0.6)";
+            leaveBtn.style.borderRadius = "8px";
+            leaveBtn.style.alignItems = "center";
+            leaveBtn.style.justifyContent = "center";
+            leaveBtn.style.cursor = "pointer";
+            leaveBtn.style.zIndex = "9999";
+            leaveBtn.title = "Leave Online Match";
+            leaveBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span style="font-size:17px; font-weight:bold; color:#fca5a5; font-family:'Cormorant Garamond',serif !important; letter-spacing: 0.5px;">Leave</span>`;
+            leaveBtn.onclick = function(ev) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                if (confirm("Leave this online match and return to menu?")) {
+                    if (photonClient && photonClient.isJoinedToRoom()) {
+                        photonClient.leaveRoom();
+                    }
+                    window.location.reload();
+                }
+            };
+        }
 
         const N_PLAYERS = Math.max(2, Math.min(4, window.__onlinePlayerCount || 2));
         const WORLD_WIDTH = 15000;
@@ -3119,14 +3292,11 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         Object(g.a)(M);
 
         // Mathematical Even Spacing of Barns / Bases
-        // If 2 people: standard 2500 and 12500
-        // If 3 people: 3750, 7500, 11250
-        // If 4 people: 3000, 6000, 9000, 12000
-        let basePositions = [];
         if (N_PLAYERS === 2) {
             basePositions = [2500, 12500];
         } else {
             const step = Math.round(WORLD_WIDTH / (N_PLAYERS + 1));
+            basePositions = [];
             for (let idx = 1; idx <= N_PLAYERS; idx++) {
                 basePositions.push(step * idx);
             }
@@ -3157,7 +3327,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
                     // Player Color Roof Trim & Base Flag
                     ctx.save();
-                    // Roof trim in player's color
                     ctx.fillStyle = prof.color;
                     ctx.fillRect(-origSprite.width / 2 + 10, -origSprite.height / 2 + 3, origSprite.width - 20, 7);
 
@@ -3257,37 +3426,60 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             }
         });
 
-        // Crash and Respawn
+        // Crash and Respawn - GUARANTEED RESPAWN IMPLEMENTATION
         M.onCrash = function(body) {
             const pl = body.player;
             if (!pl) return;
 
-            if (pl === localPlayer && photonClient && photonClient.isJoinedToRoom()) {
-                photonClient.raiseEvent(EV_CRASH_OR_KILL, { s: localSlot });
+            if (pl === localPlayer) {
+                localPlane = null;
+                if (photonClient && photonClient.isJoinedToRoom()) {
+                    photonClient.raiseEvent(EV_CRASH_OR_KILL, { s: localSlot });
+                }
             }
 
-            setTimeout(function() {
-                if (!pl.inGame()) {
-                    const slotNum = pl.slot;
-                    const prof = window.__onlineProfiles[slotNum] || { color: "#ff0015" };
-                    const posX = basePositions[slotNum - 1] || 2500;
-                    const isLeftHalf = posX < (WORLD_WIDTH / 2);
+            // Immediately detach and clean up destroyed plane
+            pl.detach();
+            if (M.has(body)) {
+                Object(o.d)(M, body, true);
+                M.delete(body);
+            }
 
-                    const newPlane = new y.a(prof.color);
-                    if (isLeftHalf) {
-                        newPlane.flippedHorizontal = true;
-                        if (newPlane.circles) {
-                            newPlane.circles = newPlane.circles.map(c => ({ v: Object(A.u)(-c.v.x, c.v.y), r: c.r }));
-                        }
+            // Clean 2-second Respawn at home base
+            setTimeout(function() {
+                const slotNum = pl.slot;
+                const prof = window.__onlineProfiles[slotNum] || { color: "#ff0015" };
+                const posX = basePositions[slotNum - 1] || 2500;
+                const isLeftHalf = posX < (WORLD_WIDTH / 2);
+
+                const newPlane = new y.a(prof.color);
+                if (isLeftHalf) {
+                    newPlane.flippedHorizontal = true;
+                    if (newPlane.circles) {
+                        newPlane.circles = newPlane.circles.map(c => ({ v: Object(A.u)(-c.v.x, c.v.y), r: c.r }));
                     }
-                    newPlane.life = u.h;
-                    newPlane.ammo = newPlane.maxAmmo = pl.maxAmmo;
-                    newPlane.landed = true;
-                    newPlane.move(Object(A.u)(posX + (isLeftHalf ? 120 : -120), M.ground));
-                    pl.control(newPlane);
-                    M.add(newPlane);
-                    window.__onlinePlanes[slotNum] = newPlane;
-                    if (pl === localPlayer) localPlane = newPlane;
+                }
+                newPlane.life = u.h;
+                newPlane.ammo = newPlane.maxAmmo = pl.maxAmmo;
+                newPlane.missiles = newPlane.maxMissiles = pl.maxMissiles;
+                newPlane.landed = true;
+                const spawnX = posX + (isLeftHalf ? 120 : -120);
+                newPlane.move(Object(A.u)(spawnX, M.ground));
+                pl.control(newPlane);
+                M.add(newPlane);
+                window.__onlinePlanes[slotNum] = newPlane;
+
+                if (pl === localPlayer) {
+                    localPlane = newPlane;
+                    // Broadcast Respawn to all other players in the room!
+                    if (photonClient && photonClient.isJoinedToRoom()) {
+                        photonClient.raiseEvent(EV_RESPAWN, {
+                            s: localSlot,
+                            x: spawnX,
+                            y: M.ground,
+                            flipped: isLeftHalf
+                        });
+                    }
                 }
             }, 2000);
         };
@@ -3319,22 +3511,12 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             });
         }, 50);
 
-        // Ping Monitor
-        if (pingTimer) clearInterval(pingTimer);
-        pingTimer = setInterval(function() {
-            const pingEl = document.getElementById("hud-ping");
-            if (pingEl && photonClient) {
-                const rtt = photonClient.lastRtt || 0;
-                pingEl.textContent = "Ping: " + (rtt > 0 ? rtt : "--") + "ms";
-            }
-        }, 1000);
-
         // Interpolation Loop for Remote Planes
         function interpolateRemotePlanes() {
             for (let s = 1; s <= N_PLAYERS; s++) {
                 if (s === localSlot) continue;
                 const p = window.__onlinePlanes[s];
-                if (!p || !p.targetState) continue;
+                if (!p || p.isCrashed || !p.targetState || !M.has(p)) continue;
 
                 const t = p.targetState;
                 const dx = t.x - p.position.x;
@@ -3376,8 +3558,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             const bold = isMe ? "font-weight: bold; text-decoration: underline;" : "";
 
             html += `
-                <div style="display: flex; justify-content: space-between; gap: 12px; ${bold}">
-                    <span><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${prof.color}; margin-right:5px;"></span>${prof.name}</span>
+                <div style="display: flex; justify-content: space-between; gap: 14px; ${bold}">
+                    <span><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${prof.color}; margin-right:6px;"></span>${prof.name}</span>
                     <span>${kills} K / ${deaths} D</span>
                 </div>
             `;
@@ -3439,13 +3621,23 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         function openOnlineModal() {
             if (onlineModal) {
                 onlineModal.style.display = "flex";
-                const homeNick = document.getElementById("p1-nickname");
                 const modalNick = document.getElementById("modal-callsign-input");
-                if (homeNick && modalNick && !modalNick.value) {
-                    modalNick.value = homeNick.value || "";
+                if (modalNick) {
+                    modalNick.value = getCallsign();
                 }
                 renderPublicRoomsList();
             }
+        }
+
+        // Keep callsign synced with localStorage on typing
+        const modalNickInput = document.getElementById("modal-callsign-input");
+        if (modalNickInput) {
+            modalNickInput.addEventListener("input", function() {
+                const val = this.value.trim();
+                const homeNick = document.getElementById("p1-nickname");
+                if (homeNick) homeNick.value = val;
+                try { localStorage.setItem("nickname", val); } catch(e) {}
+            });
         }
 
         if (btnCloseOnline && onlineModal) {
@@ -3592,12 +3784,12 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         if (btnCopy) {
             btnCopy.onclick = () => {
                 navigator.clipboard.writeText(currentRoomCode).then(() => {
-                    btnCopy.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Copied!</span>';
+                    btnCopy.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Copied!</span>';
                     setTimeout(() => {
-                        btnCopy.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy Code</span>';
+                        btnCopy.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy Password</span>';
                     }, 2000);
                 }).catch(() => {
-                    prompt("Copy room code:", currentRoomCode);
+                    prompt("Copy room password:", currentRoomCode);
                 });
             };
         }
@@ -3609,6 +3801,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", function() {
             setupUIEvents();
+            const initialNick = document.getElementById("modal-callsign-input");
+            if (initialNick) initialNick.value = getCallsign();
             initPhoton();
         });
     } else {
