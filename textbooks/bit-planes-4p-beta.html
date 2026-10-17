@@ -809,10 +809,13 @@ main .demo {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.3);
-    text-shadow: 0 1px 0 rgb(82, 161, 255);
+    background-color: rgba(60, 65, 75, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
     border-radius: 5px;
-    padding: 0 3px;
+    padding: 2px 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    color: #ffffff;
 }
 
 .message > * {
@@ -2086,20 +2089,18 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 </script>
 
 
-<!-- In-Game HUD Overlay (Ping removed) -->
-<div id="online-4p-hud" style="display: none; position: fixed; top: 14px; left: 16px; z-index: 1000; font-family: 'Cormorant Garamond', serif !important; pointer-events: none;">
-    <div style="background: rgba(10, 15, 26, 0.78); backdrop-filter: blur(8px); padding: 8px 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.18); color: #fff;">
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 4px;">
-            <span style="font-weight: bold; font-size: 17px; color: #38bdf8; letter-spacing: 1px;">ONLINE BETA MATCH</span>
-            <span id="hud-room-code" style="font-family: monospace !important; font-size: 14px; background: rgba(255,255,255,0.1); padding: 2px 7px; border-radius: 4px; display: none;"></span>
-        </div>
-        <div id="hud-leaderboard" style="display: flex; flex-direction: column; gap: 4px; font-size: 16px;">
-            <!-- Populated dynamically -->
-        </div>
-    </div>
-</div>
-
+<!-- Top-Right Notifications Grey Background Styling -->
 <style>
+.message {
+    background-color: rgba(60, 65, 75, 0.88) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+    border-radius: 5px !important;
+    padding: 2px 8px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35) !important;
+    color: #ffffff !important;
+}
+
 /* Fullscreen Menus Common Styles - Expanded & Scaled Up */
 .bp-fullscreen-modal {
     display: none;
@@ -2205,18 +2206,19 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
 .bp-input-field {
     width: 100%;
-    background: rgba(15, 23, 42, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 8px;
-    color: #ffffff;
+    box-sizing: border-box;
     font-size: 20px;
     padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 8px;
+    color: #ffffff;
     outline: none;
-    transition: border-color 0.15s, box-shadow 0.15s;
+    transition: border-color 0.15s, background 0.15s;
 }
 .bp-input-field:focus {
     border-color: #38bdf8;
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.35);
+    background: rgba(255, 255, 255, 0.14);
 }
 
 .bp-grid-2col {
@@ -2225,94 +2227,86 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     gap: 20px;
 }
 
-@media (max-width: 720px) {
-    .bp-grid-2col {
-        grid-template-columns: 1fr;
-    }
-}
-
 .bp-square-btn {
+    aspect-ratio: 1.15 / 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 24px 16px;
+    gap: 8px;
     border-radius: 12px;
     cursor: pointer;
+    font-family: inherit;
+    text-align: center;
+    padding: 14px;
     transition: transform 0.15s, background 0.15s, border-color 0.15s, box-shadow 0.15s;
-    gap: 10px;
-    min-height: 130px;
 }
 .bp-square-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
+/* Light Blue & Light Green Theme Buttons */
 .bp-square-public {
-    background: rgba(74, 222, 128, 0.12);
-    border: 1.5px solid rgba(74, 222, 128, 0.45);
-    color: #dcfce7;
-}
-.bp-square-public:hover {
-    background: rgba(74, 222, 128, 0.22);
-    border-color: #4ade80;
-}
-
-.bp-square-private {
     background: rgba(56, 189, 248, 0.12);
     border: 1.5px solid rgba(56, 189, 248, 0.45);
-    color: #e0f2fe;
+    color: #38bdf8;
 }
-.bp-square-private:hover {
+.bp-square-public:hover {
     background: rgba(56, 189, 248, 0.22);
     border-color: #38bdf8;
 }
 
-.bp-btn-launch {
-    padding: 14px 28px;
-    font-size: 22px;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: transform 0.15s, background 0.15s;
-    border: 1.5px solid #4ade80;
-    background: #16a34a;
-    color: #ffffff;
+.bp-square-private {
+    background: rgba(74, 222, 128, 0.12);
+    border: 1.5px solid rgba(74, 222, 128, 0.45);
+    color: #4ade80;
 }
-.bp-btn-launch:hover:not(:disabled) {
-    background: #22c55e;
-    transform: translateY(-1px);
-}
-.bp-btn-launch:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+.bp-square-private:hover {
+    background: rgba(74, 222, 128, 0.22);
+    border-color: #4ade80;
 }
 
 .bp-btn-blue {
-    padding: 10px 20px;
-    font-size: 18px;
+    padding: 12px 28px;
+    font-size: 20px;
     font-weight: bold;
     border-radius: 8px;
     cursor: pointer;
-    border: 1.5px solid #38bdf8;
-    background: #0284c7;
-    color: #ffffff;
+    border: 1.5px solid rgba(56, 189, 248, 0.6);
+    background: rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    transition: background 0.15s;
+    gap: 10px;
+    transition: background 0.15s, transform 0.15s;
 }
 .bp-btn-blue:hover {
-    background: #0369a1;
+    background: rgba(56, 189, 248, 0.35);
+    transform: translateY(-1px);
+}
+
+.bp-btn-green {
+    padding: 12px 28px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1.5px solid rgba(74, 222, 128, 0.6);
+    background: rgba(74, 222, 128, 0.22);
+    color: #4ade80;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.15s, transform 0.15s;
+}
+.bp-btn-green:hover {
+    background: rgba(74, 222, 128, 0.38);
+    transform: translateY(-1px);
 }
 
 .bp-btn-ghost {
-    padding: 10px 18px;
+    padding: 10px 20px;
     font-size: 18px;
     font-weight: bold;
     border-radius: 8px;
@@ -2392,21 +2386,20 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px;"><input type="radio" name="modalMatchRule" value="score"> Target Score</label>
       </div>
       <select id="modalMatchTargetScore" class="bp-input-field" style="display: none; width: auto; padding: 6px 14px; font-size: 18px;">
-        <option value="5">First to 5</option>
-        <option value="10" selected>First to 10</option>
-        <option value="15">First to 15</option>
-        <option value="20">First to 20</option>
-        <option value="25">First to 25</option>
-        <option value="30">First to 30</option>
-        <option value="50">First to 50</option>
+        <option value="5">First to 5 Kills</option>
+        <option value="10">First to 10 Kills</option>
+        <option value="15">First to 15 Kills</option>
+        <option value="20">First to 20 Kills</option>
       </select>
     </div>
 
-    <!-- Launch Button -->
-    <button type="button" id="btn-start-split-modal" class="bp-btn-launch" style="width: 100%;">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      <span>Start 1v1 Split-Screen Match</span>
-    </button>
+    <div style="display: flex; justify-content: flex-end; gap: 14px; margin-top: 10px;">
+      <button type="button" id="btn-cancel-split-modal" class="bp-btn-ghost">Cancel</button>
+      <button type="button" id="btn-launch-split-modal" class="bp-btn-green">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <span>Launch 1v1 Duel</span>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -2434,9 +2427,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         <input type="text" id="modal-callsign-input" placeholder="Enter your call-sign..." maxlength="16" autocomplete="off" class="bp-input-field">
       </div>
 
-      <!-- Main 2-Column Resourceful Grid -->
       <div class="bp-grid-2col">
-        <!-- Left: Public Games (NO codes displayed!) -->
+        <!-- Left: Active Public Games -->
         <div class="bp-card-glass" style="display: flex; flex-direction: column; min-height: 280px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
             <span style="font-size: 22px; font-weight: bold; color: #38bdf8;">Active Public Games</span>
@@ -2488,82 +2480,73 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
       </div>
     </div>
 
-    <!-- VIEW 2: INSIDE ROOM BRIEFING -->
+    <!-- VIEW 2: ROOM LOBBY / BRIEFING -->
     <div id="view-room-lobby" style="display: none; flex-direction: column; gap: 20px;">
-      <!-- Room Banner -->
       <div class="bp-card-glass" style="display: flex; justify-content: space-between; align-items: center;">
         <div style="display: flex; align-items: center; gap: 14px;">
+          <span id="room-type-badge" style="font-size: 17px; font-weight: bold; color: #38bdf8; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); padding: 4px 12px; border-radius: 6px;">Public</span>
           <span id="room-banner-title" style="font-size: 24px; font-weight: bold; color: #38bdf8;">Match Briefing</span>
-          <span id="room-type-badge" style="font-size: 14px; font-weight: bold; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 4px; color: #e2e8f0;">Public</span>
+          <!-- Room code only shown for private rooms -->
           <span id="room-code-display" style="font-family: monospace !important; font-size: 22px; font-weight: bold; color: #e2e8f0; display: none;"></span>
         </div>
         <button type="button" id="btn-copy-code" class="bp-btn-ghost" style="display: none;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <span>Copy Password</span>
         </button>
       </div>
 
+      <!-- Pilots Briefing & Slot Assignment -->
       <div class="bp-grid-2col">
-        <!-- Pilots on Runway -->
         <div class="bp-card-glass" style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="font-size: 22px; font-weight: bold; color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
-            Pilots on Runway (<span id="pilots-count">1</span>/4)
-          </div>
-          <div id="pilots-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <!-- 4 Pilot Cards -->
+          <div style="font-size: 20px; font-weight: bold; color: #e2e8f0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">Connected Pilots (Max 4)</div>
+          <div id="lobby-slots-container" style="display: flex; flex-direction: column; gap: 10px;">
+            <!-- Rendered dynamically -->
           </div>
         </div>
 
-        <!-- Pilot Aircraft Customization -->
+        <!-- Customize Slot Color & Username -->
         <div class="bp-card-glass" style="display: flex; flex-direction: column; gap: 14px;">
-          <div style="font-size: 22px; font-weight: bold; color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
-            Pilot Customization
-          </div>
+          <div style="font-size: 20px; font-weight: bold; color: #e2e8f0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">Your Pilot Loadout</div>
           <div>
-            <label for="room-callsign-input" style="display: block; font-size: 17px; color: #cbd5e1; margin-bottom: 6px;">Call-sign in Room</label>
+            <label for="room-callsign-input" style="display: block; font-size: 16px; color: #cbd5e1; margin-bottom: 6px;">Pilot Call-sign</label>
             <div style="display: flex; gap: 10px;">
-              <input type="text" id="room-callsign-input" placeholder="Call-sign..." maxlength="16" class="bp-input-field" style="flex: 1;">
-              <button type="button" id="btn-update-room-callsign" class="bp-btn-blue">Update</button>
+              <input type="text" id="room-callsign-input" placeholder="Pilot Call-sign" maxlength="14" class="bp-input-field" style="flex: 1;">
+              <button type="button" id="btn-update-room-nick" class="bp-btn-ghost" style="padding: 8px 16px;">Update</button>
             </div>
           </div>
           <div>
-            <label style="display: block; font-size: 17px; color: #cbd5e1; margin-bottom: 8px;">Aircraft & Barn Color</label>
-            <div id="color-palette" style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <!-- Rendered by JS: 10 Colors -->
+            <label style="display: block; font-size: 16px; color: #cbd5e1; margin-bottom: 8px;">Select Plane Color</label>
+            <div id="color-palette" style="display: flex; flex-wrap: wrap; gap: 10px;">
+              <!-- Color swatches rendered dynamically -->
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Actions -->
-      <div style="display: flex; gap: 14px; align-items: center;">
-        <button type="button" id="btn-start-online-match" class="bp-btn-launch" style="flex: 2;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          <span>START GAME</span>
-        </button>
-        <button type="button" id="btn-exit-online-room" class="bp-btn-ghost" style="flex: 1; padding: 14px 24px; font-size: 20px; justify-content: center;">
+      <!-- Lobby Controls -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+        <button type="button" id="btn-exit-online-room" class="bp-btn-ghost">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           <span>Leave Room</span>
         </button>
-      </div>
-      <div id="modal-host-notice" style="text-align: center; font-size: 17px; color: #94a3b8;">
-        Need at least 2 players to start.
+
+        <button type="button" id="btn-start-online-match" class="bp-btn-green" style="font-size: 22px; padding: 14px 36px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Launch Match</span>
+        </button>
       </div>
     </div>
-
-    <!-- Error Toast -->
-    <div id="modal-error-toast" style="display: none; padding: 12px 18px; background: rgba(239, 68, 68, 0.25); border: 1px solid #ef4444; border-radius: 8px; color: #fca5a5; font-size: 18px; font-weight: bold; text-align: center;"></div>
   </div>
 </div>
 
 <!-- ========================================== -->
-<!-- ONLINE BETA MULTIPLAYER ENGINE             -->
+<!-- 4-PLAYER ONLINE MULTIPLAYER ENGINE (PHOTON) -->
 <!-- ========================================== -->
 <script>
 (function() {
     const PHOTON_APP_ID = "94a23c0c-428f-429e-9745-be9d2e68b244";
     const PHOTON_APP_VERSION = "1.0";
 
-    // Photon Event Codes
     const EV_START_GAME     = 1;
     const EV_STATE_SYNC     = 2;
     const EV_FIRE_BULLET    = 3;
@@ -2573,7 +2556,31 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     const EV_UPDATE_PROFILE = 7;
     const EV_RESPAWN        = 8;
 
-    // Rainbow (8) + White + Black Palette
+    let photonClient = null;
+    let localSlot = 1;
+    let currentRoomCode = "";
+    let isCurrentRoomPrivate = false;
+    let currentMatchTitle = "";
+    let stateSyncTimer = null;
+
+    let basePositions = [2500, 12500];
+    let localPlane = null;
+    let localPlayer = null;
+
+    window.__onlineProfiles = {
+        1: { name: "Pilot 1", color: "#ff0015" },
+        2: { name: "Pilot 2", color: "#007aff" },
+        3: { name: "Pilot 3", color: "#00c853" },
+        4: { name: "Pilot 4", color: "#ffd600" }
+    };
+
+    window.__pKills = { 1: 0, 2: 0, 3: 0, 4: 0 };
+    window.__pDeaths = { 1: 0, 2: 0, 3: 0, 4: 0 };
+    window.__onlinePlanes = {};
+    window.__onlinePlayers = {};
+    window.__onlineWorld = null;
+    window.__onlinePlayerCount = 2;
+
     const COLOR_PALETTE = [
         { name: "Red",     hex: "#ff0015" },
         { name: "Orange",  hex: "#ff6d00" },
@@ -2584,42 +2591,16 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         { name: "Purple",  hex: "#7c4dff" },
         { name: "Pink",    hex: "#f50057" },
         { name: "White",   hex: "#ffffff" },
-        { name: "Black",   hex: "#212121" }
+        { name: "Dark",    hex: "#1f2937" }
     ];
 
-    let photonClient = null;
-    let localSlot = 1;
-    let currentRoomCode = "";
-    let isCurrentRoomPrivate = false;
-    let currentMatchTitle = "";
-    let roomActorsList = [];
-    let stateSyncTimer = null;
     let myChosenColor = "#ff0015";
     let myChosenName = "";
-    let localPlane = null;
-    let localPlayer = null;
-    let basePositions = [2500, 12500];
 
-    // Track pilot profiles: { slot: { name, color } }
-    window.__onlineProfiles = {
-        1: { name: "Player 1", color: "#ff0015" },
-        2: { name: "Player 2", color: "#007aff" },
-        3: { name: "Player 3", color: "#00c853" },
-        4: { name: "Player 4", color: "#ffd600" }
-    };
-    window.__pKills = { 1: 0, 2: 0, 3: 0, 4: 0 };
-    window.__pDeaths = { 1: 0, 2: 0, 3: 0, 4: 0 };
-    window.__onlinePlanes = {};
-    window.__onlinePlayers = {};
-    window.__onlineBarns = [];
-    window.__onlineWorld = null;
-
-    // -------------------------------------------------------------
-    // PHOTON INITIALIZATION & EVENT DISPATCH
-    // -------------------------------------------------------------
     function initPhoton() {
         if (typeof Photon === "undefined" || !Photon.LoadBalancing) {
-            setTimeout(initPhoton, 200);
+            console.warn("[Photon] SDK not yet loaded, retrying in 250ms...");
+            setTimeout(initPhoton, 250);
             return;
         }
 
@@ -2632,25 +2613,9 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             window.__photonClient = photonClient;
             photonClient.autoJoinLobby = true;
 
-            // Bugfix for SDK: update connectOptions.userAuthSecret from MasterServer's response (opcode 227/226 parameter 221)
-            photonClient.onOperationResponse = function(errCode, errMsg, opCode, vals) {
-                if (vals && vals[221]) {
-                    photonClient.connectOptions.userAuthSecret = vals[221];
-                }
-                if (errCode !== 0) {
-                    console.warn("[Photon Op Error]", opCode, errCode, errMsg);
-                    if (errCode === 32758) {
-                        showModalError("Private room not found! Check your password/code.");
-                    } else if (errCode === 32765) {
-                        showModalError("This game room is already full (max 4 players).");
-                    } else if (errMsg) {
-                        showModalError(errMsg);
-                    }
-                }
-            };
-
             photonClient.onStateChange = onStateChange;
             photonClient.onError = onError;
+            photonClient.onOperationResponse = onOperationResponse;
             photonClient.onJoinRoom = onJoinRoom;
             photonClient.onActorJoin = onActorJoin;
             photonClient.onActorLeave = onActorLeave;
@@ -2658,15 +2623,14 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             photonClient.onRoomList = renderPublicRoomsList;
             photonClient.onRoomListUpdate = renderPublicRoomsList;
 
-            updateConnectionStatus("connecting", "Connecting to server...");
+            updateConnectionStatus("connecting", "Connecting to cloud...");
             photonClient.connectToRegionMaster("us");
         } catch (e) {
-            console.error("Photon initialization error:", e);
+            console.error("[Photon] Init failed:", e);
             updateConnectionStatus("error", "Init Error: " + e.message);
         }
     }
 
-    // STRICTLY 1 GREEN CIRCLE IN CONNECTION STATUS
     function updateConnectionStatus(type, text) {
         const dot = document.getElementById("modal-status-dot");
         const statusText = document.getElementById("modal-status-text");
@@ -2714,13 +2678,15 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             el.style.display = "block";
             setTimeout(() => { el.style.display = "none"; }, 5000);
         }
+        alert(msg);
     }
 
-    function sanitizeCode(str) {
-        return (str || "").toUpperCase().replace(/[^A-Z0-9]/g, "").trim();
+    function onOperationResponse(errorCode, errorMsg, opCode) {
+        if (errorCode !== 0) {
+            console.warn("[Photon OpResponse]", errorCode, errorMsg, opCode);
+        }
     }
 
-    // Capture the pilot callsign reliably from the input, home page, or localStorage
     function getCallsign() {
         const modalInput = document.getElementById("modal-callsign-input");
         const homeInput = document.getElementById("p1-nickname");
@@ -2735,9 +2701,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 if (saved && saved.trim()) name = saved.trim();
             } catch(e) {}
         }
-        if (!name) {
-            name = "Ace Pilot";
-        }
+        if (!name) name = "Ace Pilot";
         return name.substring(0, 14);
     }
 
@@ -2748,9 +2712,10 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         return res;
     }
 
-    // -------------------------------------------------------------
-    // ROOM MATCHMAKING (PUBLIC WITHOUT CODES & PRIVATE WITH PASSWORD)
-    // -------------------------------------------------------------
+    function sanitizeCode(code) {
+        return (code || "").toUpperCase().replace(/[^A-Z0-9]/g, "").substring(0, 12);
+    }
+
     function renderPublicRoomsList() {
         const container = document.getElementById("public-rooms-container");
         if (!container || !photonClient) return;
@@ -2802,9 +2767,9 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         }
         const callsign = getCallsign();
         myChosenName = callsign;
+        try { localStorage.setItem("nickname", callsign); } catch(e) {}
         photonClient.myActor().setName(callsign);
 
-        // Internal room code
         const code = isPrivate ? sanitizeCode(password || generateCode()) : ("PUB-" + generateCode());
         if (!code) {
             showModalError("Please enter a valid room password/code (letters and numbers only)!");
@@ -2835,6 +2800,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         }
         const callsign = getCallsign();
         myChosenName = callsign;
+        try { localStorage.setItem("nickname", callsign); } catch(e) {}
         photonClient.myActor().setName(callsign);
 
         code = sanitizeCode(code);
@@ -2853,8 +2819,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         const roomProps = (typeof photonClient.myRoom().getCustomProperties === "function") ? photonClient.myRoom().getCustomProperties() : (photonClient.myRoom().customProperties || {});
         isCurrentRoomPrivate = !!roomProps.isPriv;
         currentMatchTitle = roomProps.matchName || (roomProps.host ? (roomProps.host + "'s Match") : "Public Match");
-
-        console.log("[Photon] Joined Room:", currentRoomCode, "CreatedByMe:", createdByMe);
 
         document.getElementById("view-matchmaking").style.display = "none";
         document.getElementById("view-room-lobby").style.display = "flex";
@@ -2876,7 +2840,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             }
             if (btnCopy) btnCopy.style.display = "inline-flex";
         } else {
-            // Public servers do NOT have codes displayed!
             if (titleEl) titleEl.textContent = currentMatchTitle;
             if (badge) {
                 badge.textContent = "Public";
@@ -2889,7 +2852,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         const roomCallsignInput = document.getElementById("room-callsign-input");
         if (roomCallsignInput) roomCallsignInput.value = myChosenName;
 
-        // Pick initial slot color
         const defaultColors = ["#ff0015", "#007aff", "#00c853", "#ffd600"];
         myChosenColor = defaultColors[localSlot - 1] || "#ff0015";
 
@@ -2907,9 +2869,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         updateLobbySlots();
     }
 
-    // -------------------------------------------------------------
-    // ROOM BRIEFING CUSTOMIZATION (COLOR + USERNAME)
-    // -------------------------------------------------------------
     function renderColorPalette() {
         const palette = document.getElementById("color-palette");
         if (!palette) return;
@@ -2923,11 +2882,9 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             swatch.style.borderRadius = "8px";
             swatch.style.background = c.hex;
             swatch.style.cursor = "pointer";
-            swatch.style.boxSizing = "border-box";
-            swatch.style.border = (myChosenColor === c.hex) ? "3px solid #ffffff" : "1.5px solid rgba(255,255,255,0.3)";
-            swatch.style.boxShadow = (myChosenColor === c.hex) ? "0 0 10px #ffffff" : "none";
-            swatch.style.transform = (myChosenColor === c.hex) ? "scale(1.15)" : "scale(1)";
-            swatch.style.transition = "transform 0.15s, box-shadow 0.15s";
+            swatch.style.border = (myChosenColor === c.hex) ? "3px solid #ffffff" : "2px solid rgba(255,255,255,0.25)";
+            swatch.style.boxShadow = (myChosenColor === c.hex) ? "0 0 10px " + c.hex : "none";
+            swatch.style.transition = "transform 0.1s, border-color 0.1s";
 
             swatch.onclick = () => {
                 myChosenColor = c.hex;
@@ -2945,7 +2902,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     function broadcastProfileUpdate() {
         if (!photonClient || !photonClient.isJoinedToRoom()) return;
         photonClient.raiseEvent(EV_UPDATE_PROFILE, {
-            slot: localSlot,
+            s: localSlot,
             name: myChosenName,
             color: myChosenColor
         });
@@ -2954,107 +2911,74 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     function updateLobbySlots() {
         if (!photonClient || !photonClient.isJoinedToRoom()) return;
 
-        const actors = photonClient.myRoomActorsArray().sort((a, b) => a.actorNr - b.actorNr);
-        roomActorsList = actors;
-        window.__onlinePlayerCount = actors.length;
+        const actors = photonClient.myRoomActorsArray();
+        actors.sort((a, b) => a.actorNr - b.actorNr);
 
         const myActorNr = photonClient.myActor().actorNr;
-        const masterNr = photonClient.myRoomMasterActorNr();
-        const isHost = (myActorNr === masterNr);
+        const myIndex = actors.findIndex(a => a.actorNr === myActorNr);
+        localSlot = (myIndex >= 0) ? (myIndex + 1) : 1;
+        window.__onlinePlayerCount = actors.length;
 
-        const myIdx = actors.findIndex(a => a.actorNr === myActorNr);
-        localSlot = (myIdx >= 0 ? myIdx + 1 : 1);
-        window.__onlineMySlot = localSlot;
+        const isHost = (myIndex === 0);
+        const btnStart = document.getElementById("btn-start-online-match");
+        if (btnStart) {
+            btnStart.style.display = isHost ? "inline-flex" : "none";
+        }
 
-        const countEl = document.getElementById("pilots-count");
-        if (countEl) countEl.textContent = actors.length;
-
-        const grid = document.getElementById("pilots-grid");
-        if (!grid) return;
+        const container = document.getElementById("lobby-slots-container");
+        if (!container) return;
 
         let html = "";
         for (let s = 1; s <= 4; s++) {
             const actor = actors[s - 1];
             if (actor) {
                 const isMe = (actor.actorNr === myActorNr);
-                const isRoomHost = (actor.actorNr === masterNr);
-                const prof = window.__onlineProfiles[s] || { name: actor.name, color: "#ff0015" };
+                const prof = window.__onlineProfiles[s] || { name: actor.name || ("Pilot " + s), color: "#ff0015" };
                 const name = (isMe ? myChosenName : prof.name) || actor.name || ("Pilot " + s);
                 const color = isMe ? myChosenColor : prof.color;
-
-                prof.name = name;
-                prof.color = color;
-                window.__onlineProfiles[s] = prof;
+                window.__onlineProfiles[s] = { name, color };
 
                 html += `
-                    <div style="background: rgba(255, 255, 255, 0.07); border: 2px solid ${color}; border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 12px;">
-                        <div style="width: 26px; height: 26px; border-radius: 50%; background: ${color}; border: 2px solid #ffffff; flex-shrink: 0; box-shadow: 0 0 8px ${color};"></div>
-                        <div style="flex: 1; overflow: hidden;">
-                            <div style="font-size: 18px; font-weight: bold; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; color: #ffffff;">
-                                ${name} ${isMe ? '<span style="color:#38bdf8; font-size:14px; margin-left:3px;">(You)</span>' : ''} ${isRoomHost ? '<span style="color:#fbbf24; font-size:14px; margin-left:3px;">★ Host</span>' : ''}
-                            </div>
-                            <div style="font-size: 14px; color: #94a3b8;">Ready on runway</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.08); padding: 10px 14px; border-radius: 8px; border-left: 5px solid ${color};">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-weight: bold; color: #94a3b8; font-size: 15px;">SLOT ${s}</span>
+                            <span style="font-size: 19px; font-weight: bold; color: #ffffff;">${name} ${isMe ? '<span style="color:#38bdf8; font-size:14px;">(YOU)</span>' : ''}</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: ${color}; box-shadow: 0 0 6px ${color};"></span>
+                            <span style="font-size: 15px; color: #86efac; font-weight: bold;">Ready</span>
                         </div>
                     </div>
                 `;
             } else {
                 html += `
-                    <div style="background: rgba(255, 255, 255, 0.02); border: 1.5px dashed rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 12px;">
-                        <div style="width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,0.15); flex-shrink: 0;"></div>
-                        <div style="font-size: 17px; color: #64748b;">Waiting for Pilot...</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.02); padding: 10px 14px; border-radius: 8px; border: 1px dashed rgba(255, 255, 255, 0.1);">
+                        <span style="font-weight: bold; color: #64748b; font-size: 15px;">SLOT ${s}</span>
+                        <span style="color: #64748b; font-style: italic; font-size: 16px;">Open Pilot Seat...</span>
+                        <span></span>
                     </div>
                 `;
             }
         }
-        grid.innerHTML = html;
-
-        // Host launch button logic
-        const startBtn = document.getElementById("btn-start-online-match");
-        const hostNotice = document.getElementById("modal-host-notice");
-        if (startBtn && hostNotice) {
-            if (isHost) {
-                startBtn.style.display = "inline-flex";
-                if (actors.length >= 2) {
-                    startBtn.disabled = false;
-                    startBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>START GAME (' + actors.length + ' Players)</span>';
-                    hostNotice.textContent = "You are the Flight Host. Launch when ready!";
-                } else {
-                    startBtn.disabled = true;
-                    startBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Waiting for at least 2 pilots...</span>';
-                    hostNotice.textContent = "Need at least 2 players to start.";
-                }
-            } else {
-                startBtn.style.display = "none";
-                hostNotice.textContent = "Waiting for Host to launch the game...";
-            }
-        }
+        container.innerHTML = html;
     }
 
     function exitRoom() {
         if (photonClient && photonClient.isJoinedToRoom()) {
             photonClient.leaveRoom();
         }
-        document.getElementById("view-matchmaking").style.display = "flex";
         document.getElementById("view-room-lobby").style.display = "none";
+        document.getElementById("view-matchmaking").style.display = "flex";
+        renderPublicRoomsList();
     }
 
-    // -------------------------------------------------------------
-    // HOST LAUNCH & EVENT LISTENER
-    // -------------------------------------------------------------
     function hostStartGame() {
         if (!photonClient || !photonClient.isJoinedToRoom()) return;
-
-        const actors = roomActorsList;
-        if (actors.length < 2) {
-            showModalError("Need at least 2 players in the room to launch!");
-            return;
-        }
-
+        const count = window.__onlinePlayerCount || 2;
         const startPayload = {
-            count: actors.length,
+            count: count,
             profiles: window.__onlineProfiles
         };
-
         photonClient.raiseEvent(EV_START_GAME, startPayload);
         launchMatchLocally(startPayload);
     }
@@ -3063,8 +2987,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         if (code === EV_START_GAME) {
             launchMatchLocally(content);
         } else if (code === EV_UPDATE_PROFILE) {
-            if (content && content.slot && content.slot !== localSlot) {
-                window.__onlineProfiles[content.slot] = {
+            if (content && content.s) {
+                window.__onlineProfiles[content.s] = {
                     name: content.name,
                     color: content.color
                 };
@@ -3093,13 +3017,11 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             window.__onlinePlayerCount = config.count;
         }
 
-        // Hide modal
         const modal = document.getElementById("modal-online-beta");
         if (modal) modal.style.display = "none";
 
         window.__currentBitPlanesMode = "online-beta";
 
-        // Select radio and submit to invoke engine switch
         const radio = document.getElementById("mode-online-beta");
         if (radio) radio.checked = true;
 
@@ -3150,25 +3072,48 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         }
     }
 
-    // Remote crash: immediately destroy plane in world so it does NOT stay frozen in air
+    function logKillMessage(killerPlayer, victimPlayer) {
+        const defLog = document.getElementById("log-single");
+        if (!defLog || !victimPlayer) return;
+        const div = document.createElement("div");
+        if (killerPlayer && killerPlayer !== victimPlayer) {
+            div.innerHTML = '<span class="message">' + killerPlayer.name + ' <div class="icon target"></div> ' + victimPlayer.name + '</span>';
+        } else {
+            div.innerHTML = '<span class="message"><div class="icon skull"></div> ' + victimPlayer.name + '</span>';
+        }
+        defLog.appendChild(div);
+        setTimeout(() => div.classList.add("hide"), 6000);
+        setTimeout(() => div.parentElement && div.parentElement.removeChild(div), 6400);
+    }
+
     function handleRemoteCrash(data) {
         if (!data) return;
         const victimSlot = data.s;
         const killerSlot = data.killer;
 
-        if (killerSlot && window.__pKills[killerSlot] !== undefined) {
-            window.__pKills[killerSlot]++;
+        const victimPlayer = window.__onlinePlayers[victimSlot];
+        if (victimPlayer) {
+            victimPlayer.deaths = (victimPlayer.deaths || 0) + 1;
+            victimPlayer.detach();
         }
         if (victimSlot && window.__pDeaths[victimSlot] !== undefined) {
             window.__pDeaths[victimSlot]++;
         }
-        updateHudLeaderboard();
+
+        let killerPlayer = null;
+        if (killerSlot) {
+            killerPlayer = window.__onlinePlayers[killerSlot];
+            if (killerPlayer) {
+                killerPlayer.kills = (killerPlayer.kills || 0) + 1;
+            }
+            if (window.__pKills[killerSlot] !== undefined) {
+                window.__pKills[killerSlot]++;
+            }
+        }
+
+        logKillMessage(killerPlayer, victimPlayer);
 
         const plane = window.__onlinePlanes[victimSlot];
-        const player = window.__onlinePlayers[victimSlot];
-        if (player) {
-            player.detach();
-        }
         if (plane && window.__onlineWorld) {
             plane.isCrashed = true;
             plane.targetState = null;
@@ -3182,7 +3127,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         window.__onlinePlanes[victimSlot] = null;
     }
 
-    // Remote respawn: recreate remote plane at spawn location
     function handleRemoteRespawn(data) {
         if (!data || data.s === localSlot || !window.__onlineWorld) return;
         const slotNum = data.s;
@@ -3205,6 +3149,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             }
         }
         newPlane.life = u.h;
+        newPlane.ammo = newPlane.maxAmmo = player.maxAmmo || u.f;
+        newPlane.missiles = newPlane.maxMissiles = player.maxMissiles || u.i;
         newPlane.landed = true;
         newPlane.move(Object(A.u)(data.x, data.y));
         player.control(newPlane);
@@ -3223,8 +3169,91 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         };
     }
 
+    // Canvas UI: Draws "Online Match" header and player titles on the LEFT of symbols & numbers
+    function drawOnlineScoreboard(ctx, players, o) {
+        if (!players || !players.length) return;
+
+        ctx.save();
+        ctx.textBaseline = "top";
+
+        // 1. Text "Online Match" directly above the little symbols and numbers
+        ctx.font = 'bold 20px "Cormorant Garamond", serif';
+        ctx.fillStyle = "#1e293b";
+        ctx.fillText("Online Match", 12, 11);
+        ctx.fillStyle = "#38bdf8";
+        ctx.fillText("Online Match", 11, 10);
+
+        // Sort players by kills/points descending
+        const sorted = [...players].sort((p1, p2) => (p2.kills || 0) - (p1.kills || 0));
+
+        // Compute max name width for clean column alignment
+        ctx.font = 'bold 22px "Cormorant Garamond", serif';
+        let maxNameW = 55;
+        for (let p of sorted) {
+            const w = ctx.measureText(p.name || "Pilot").width;
+            if (w > maxNameW) maxNameW = w;
+        }
+
+        for (let t = 0; t < sorted.length; t++) {
+            const p = sorted[t];
+            const rowY = 38 + 28 * t;
+            const pName = p.name || ("Pilot " + (t + 1));
+            const pColor = p.color || "#ff0015";
+            const isWhite = (pColor.toLowerCase() === "#ffffff" || pColor.toLowerCase() === "white");
+
+            // 1. Title of the player on the LEFT
+            ctx.font = 'bold 22px "Cormorant Garamond", serif';
+            const nameW = ctx.measureText(pName).width;
+
+            // Translucent pill background
+            ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
+            ctx.beginPath();
+            if (typeof ctx.roundRect === "function") {
+                ctx.roundRect(10, rowY - 1, nameW + 10, 25, 5);
+            } else {
+                ctx.rect(10, rowY - 1, nameW + 10, 25);
+            }
+            ctx.fill();
+
+            if (isWhite) {
+                ctx.fillStyle = "rgba(0, 0, 0, 0.85)";
+                ctx.fillText(pName, 15 + 1, rowY + 1);
+                ctx.fillStyle = "#ffffff";
+                ctx.fillText(pName, 15, rowY);
+            } else {
+                ctx.fillStyle = "rgb(82, 161, 255)";
+                ctx.fillText(pName, 15, rowY + 1);
+                ctx.fillStyle = pColor;
+                ctx.fillText(pName, 15, rowY);
+            }
+
+            // 2. Little symbols and numbers to the RIGHT of the title
+            const iconsStartX = 10 + maxNameW + 18;
+
+            // Kills (TargetMark icon + number)
+            if (o && o.b && o.b.ui && o.b.ui.targetMark) {
+                ctx.drawImage(o.b.ui.targetMark.canvas, iconsStartX, rowY + 2, 20, 20);
+            }
+            ctx.font = "20px monospace";
+            ctx.fillStyle = "#333333";
+            const killsStr = (p.kills || 0).toString();
+            ctx.fillText(killsStr, iconsStartX + 24, rowY + 3);
+
+            const killsW = ctx.measureText(killsStr).width;
+            const skullX = iconsStartX + 24 + killsW + 14;
+
+            // Deaths (Skull icon + number)
+            if (o && o.b && o.b.ui && o.b.ui.skull) {
+                ctx.drawImage(o.b.ui.skull.canvas, skullX, rowY + 2, 20, 20);
+            }
+            ctx.fillText((p.deaths || 0).toString(), skullX + 24, rowY + 3);
+        }
+
+        ctx.restore();
+    }
+
     // -------------------------------------------------------------
-    // THE ONLINE GAME ENGINE: RESPAWN & LEAVE BUTTON FIX
+    // THE ONLINE GAME ENGINE: RESPAWN & CLEAN CANVAS SCOREBOARD
     // -------------------------------------------------------------
     window.__startOnlineBetaGame = function(engine) {
         window.__onlineEngineRef = engine;
@@ -3244,11 +3273,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             }
         }, true);
 
-        // Show HUD
-        const hud = document.getElementById("online-4p-hud");
-        if (hud) hud.style.display = "block";
-
-        // Configure Top-Right Pause Button into a clean Google Fonts "Leave Match" button!
+        // Configure Top-Right Button into clean "Leave Match" button
         const oldPauseBtn = document.getElementById("bitplanes-pause-btn");
         if (oldPauseBtn) {
             const leaveBtn = oldPauseBtn.cloneNode(false);
@@ -3267,7 +3292,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             leaveBtn.style.cursor = "pointer";
             leaveBtn.style.zIndex = "9999";
             leaveBtn.title = "Leave Online Match";
-            leaveBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span style="font-size:17px; font-weight:bold; color:#fca5a5; font-family:'Cormorant Garamond',serif !important; letter-spacing: 0.5px;">Leave</span>`;
+            leaveBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span style="font-size:17px; font-weight:bold; color:#fca5a5; font-family:\'Cormorant Garamond\',serif !important; letter-spacing: 0.5px;">Leave</span>';
             leaveBtn.onclick = function(ev) {
                 ev.preventDefault();
                 ev.stopPropagation();
@@ -3283,7 +3308,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         const N_PLAYERS = Math.max(2, Math.min(4, window.__onlinePlayerCount || 2));
         const WORLD_WIDTH = 15000;
 
-        // Create world
         const M = new r.a({ width: WORLD_WIDTH, height: 4000, ground: 0, stratosphere: 50 });
         M.ground = M.height - o.b.ground.height;
         M.players = [];
@@ -3291,7 +3315,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         Object(g.b)(M);
         Object(g.a)(M);
 
-        // Mathematical Even Spacing of Barns / Bases
         if (N_PLAYERS === 2) {
             basePositions = [2500, 12500];
         } else {
@@ -3307,14 +3330,14 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         localPlayer = null;
         localPlane = null;
 
-        // Instantiate Barns and Planes for each connected player
         for (let idx = 0; idx < N_PLAYERS; idx++) {
             const slotNum = idx + 1;
             const prof = window.__onlineProfiles[slotNum] || { name: "Pilot " + slotNum, color: "#ff0015" };
             const posX = basePositions[idx];
             const isLeftHalf = posX < (WORLD_WIDTH / 2);
+            const isWhite = (prof.color.toLowerCase() === "#ffffff" || prof.color.toLowerCase() === "white");
 
-            // Create Barn at mathematically spaced location
+            // Barn: NO dark line under flag and title, title moved higher, white title gets drop shadow
             const barn = new a.a(posX, M.ground);
             barn.color = prof.color;
             barn.pilotName = prof.name;
@@ -3325,38 +3348,45 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 drawMiddle: function(ctx) {
                     origSprite.drawMiddle(ctx);
 
-                    // Player Color Roof Trim & Base Flag
                     ctx.save();
-                    ctx.fillStyle = prof.color;
-                    ctx.fillRect(-origSprite.width / 2 + 10, -origSprite.height / 2 + 3, origSprite.width - 20, 7);
 
-                    // Flagpole
-                    ctx.strokeStyle = "#374151";
-                    ctx.lineWidth = 3;
-                    ctx.beginPath();
-                    ctx.moveTo(0, -origSprite.height / 2);
-                    ctx.lineTo(0, -origSprite.height / 2 - 32);
-                    ctx.stroke();
-
-                    // Colored Pennant Flag
+                    // Colored Pennant Flag (NO dark flagpole line, NO dark roof trim line)
                     ctx.fillStyle = prof.color;
                     ctx.beginPath();
-                    ctx.moveTo(0, -origSprite.height / 2 - 32);
-                    ctx.lineTo(32, -origSprite.height / 2 - 24);
-                    ctx.lineTo(0, -origSprite.height / 2 - 16);
+                    ctx.moveTo(0, -origSprite.height / 2 - 30);
+                    ctx.lineTo(30, -origSprite.height / 2 - 22);
+                    ctx.lineTo(0, -origSprite.height / 2 - 14);
                     ctx.closePath();
                     ctx.fill();
-                    ctx.strokeStyle = "rgba(0,0,0,0.4)";
-                    ctx.lineWidth = 1;
-                    ctx.stroke();
 
-                    // Pilot Callsign
-                    ctx.font = 'bold 16px "Cormorant Garamond", serif';
+                    if (isWhite) {
+                        ctx.strokeStyle = "rgba(0, 0, 0, 0.3)";
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+
+                    // Pilot Title (Moved HIGHER so it does not hit the flag)
+                    const titleY = -origSprite.height / 2 - 48;
+                    ctx.font = 'bold 17px "Cormorant Garamond", serif';
                     ctx.textAlign = "center";
-                    ctx.fillStyle = "rgba(0,0,0,0.75)";
-                    ctx.fillText(prof.name, 0, -origSprite.height / 2 - 37);
-                    ctx.fillStyle = prof.color;
-                    ctx.fillText(prof.name, 0, -origSprite.height / 2 - 38);
+
+                    if (isWhite) {
+                        // Drop shadow for white title
+                        ctx.shadowColor = "rgba(0, 0, 0, 0.9)";
+                        ctx.shadowBlur = 4;
+                        ctx.shadowOffsetX = 1;
+                        ctx.shadowOffsetY = 2;
+                        ctx.fillStyle = "#ffffff";
+                        ctx.fillText(prof.name, 0, titleY);
+                    } else {
+                        // Colored title without dark line
+                        ctx.shadowColor = "rgba(0, 0, 0, 0.45)";
+                        ctx.shadowBlur = 2;
+                        ctx.shadowOffsetX = 0;
+                        ctx.shadowOffsetY = 1;
+                        ctx.fillStyle = prof.color;
+                        ctx.fillText(prof.name, 0, titleY);
+                    }
 
                     ctx.restore();
                 }
@@ -3364,13 +3394,11 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             M.add(barn);
             window.__onlineBarns.push(barn);
 
-            // Team definition for this pilot
             const team = new n.b(prof.color);
             team.name = prof.name;
             team.startingPosition = posX;
             teams[slotNum] = team;
 
-            // Plane with player's chosen color
             const plane = new y.a(prof.color);
             if (isLeftHalf) {
                 plane.flippedHorizontal = true;
@@ -3381,10 +3409,13 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
             const player = new n.a(prof.name, prof.color, plane);
             player.slot = slotNum;
+            player.kills = 0;
+            player.deaths = 0;
             player.join(team);
             plane.player = player;
             M.players.push(player);
             player.maxAmmo = plane.maxAmmo = plane.ammo = u.f;
+            player.maxMissiles = plane.maxMissiles = plane.missiles = u.i;
             plane.landed = true;
             plane.move(Object(A.u)(posX + (isLeftHalf ? 120 : -120), M.ground));
             M.add(plane);
@@ -3402,7 +3433,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             }
         }
 
-        // Attach controls to local human player
         if (localPlayer) {
             Object(D.a)(M, localPlayer, {
                 thrustLevers: { up: ["ArrowUp", "KeyW", "w", "W"], down: ["ArrowDown", "KeyS", "s", "S"] },
@@ -3413,7 +3443,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             });
         }
 
-        // Hook keydown for immediate weapon events
         window.addEventListener("keydown", function(e) {
             if (!photonClient || !photonClient.isJoinedToRoom()) return;
             const code = e.code;
@@ -3426,26 +3455,42 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             }
         });
 
-        // Crash and Respawn - GUARANTEED RESPAWN IMPLEMENTATION
+        // Crash and Respawn
         M.onCrash = function(body) {
             const pl = body.player;
             if (!pl) return;
 
+            pl.deaths = (pl.deaths || 0) + 1;
+            if (window.__pDeaths[pl.slot] !== undefined) {
+                window.__pDeaths[pl.slot]++;
+            }
+
+            const killer = body.lastHitBy;
+            let killerSlot = null;
+            if (killer && killer !== pl) {
+                killerSlot = killer.slot;
+                killer.kills = (killer.kills || 0) + 1;
+                if (window.__pKills[killer.slot] !== undefined) {
+                    window.__pKills[killer.slot]++;
+                }
+                logKillMessage(killer, pl);
+            } else {
+                logKillMessage(null, pl);
+            }
+
             if (pl === localPlayer) {
                 localPlane = null;
                 if (photonClient && photonClient.isJoinedToRoom()) {
-                    photonClient.raiseEvent(EV_CRASH_OR_KILL, { s: localSlot });
+                    photonClient.raiseEvent(EV_CRASH_OR_KILL, { s: localSlot, killer: killerSlot });
                 }
             }
 
-            // Immediately detach and clean up destroyed plane
             pl.detach();
             if (M.has(body)) {
                 Object(o.d)(M, body, true);
                 M.delete(body);
             }
 
-            // Clean 2-second Respawn at home base
             setTimeout(function() {
                 const slotNum = pl.slot;
                 const prof = window.__onlineProfiles[slotNum] || { color: "#ff0015" };
@@ -3471,7 +3516,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
                 if (pl === localPlayer) {
                     localPlane = newPlane;
-                    // Broadcast Respawn to all other players in the room!
                     if (photonClient && photonClient.isJoinedToRoom()) {
                         photonClient.raiseEvent(EV_RESPAWN, {
                             s: localSlot,
@@ -3490,11 +3534,11 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         Object(I.a)(x, l, M, ((j, t) => {
             Object(e.a)(j, M, localPlayer, t);
         }), (j => {
-            Object(T.g)(j, M.players);
+            // Render Online Match Scoreboard on Canvas (titles on the left)
+            drawOnlineScoreboard(j, M.players, o);
         }));
         Object(T.e)(M);
 
-        // State Broadcast Timer (20 Hz / 50ms) - continuous real-time sync
         if (stateSyncTimer) clearInterval(stateSyncTimer);
         stateSyncTimer = setInterval(function() {
             if (!photonClient || !photonClient.isJoinedToRoom() || !localPlane) return;
@@ -3511,7 +3555,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             });
         }, 50);
 
-        // Interpolation Loop for Remote Planes
         function interpolateRemotePlanes() {
             for (let s = 1; s <= N_PLAYERS; s++) {
                 if (s === localSlot) continue;
@@ -3540,84 +3583,18 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             requestAnimationFrame(interpolateRemotePlanes);
         }
         requestAnimationFrame(interpolateRemotePlanes);
-
-        updateHudLeaderboard();
     };
 
-    function updateHudLeaderboard() {
-        const board = document.getElementById("hud-leaderboard");
-        if (!board) return;
-
-        const N_PLAYERS = window.__onlinePlayerCount || 2;
-        let html = "";
-        for (let s = 1; s <= N_PLAYERS; s++) {
-            const prof = window.__onlineProfiles[s] || { name: "Pilot " + s, color: "#ff0015" };
-            const kills = window.__pKills[s] || 0;
-            const deaths = window.__pDeaths[s] || 0;
-            const isMe = (s === localSlot);
-            const bold = isMe ? "font-weight: bold; text-decoration: underline;" : "";
-
-            html += `
-                <div style="display: flex; justify-content: space-between; gap: 14px; ${bold}">
-                    <span><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${prof.color}; margin-right:6px;"></span>${prof.name}</span>
-                    <span>${kills} K / ${deaths} D</span>
-                </div>
-            `;
-        }
-        board.innerHTML = html;
-    }
-
-    // -------------------------------------------------------------
-    // MODALS & HOME SCREEN BUTTONS WIRING
-    // -------------------------------------------------------------
     function setupUIEvents() {
+        const btnOpenOnline = document.getElementById("mode-online-beta");
+        const btnOpenSplit = document.getElementById("mode-split-2p");
         const onlineModal = document.getElementById("modal-online-beta");
-        const btnCloseOnline = document.getElementById("btn-close-online-modal");
         const splitModal = document.getElementById("modal-split-screen");
+        const btnCloseOnline = document.getElementById("btn-close-online-modal");
         const btnCloseSplit = document.getElementById("btn-close-split-modal");
-        const mainSubmitBtn = document.getElementById("main-submit-btn");
-        const gameForm = document.getElementById("game");
+        const btnCancelSplit = document.getElementById("btn-cancel-split-modal");
+        const btnLaunchSplit = document.getElementById("btn-launch-split-modal");
 
-        // Radio change: toggle Start Game vs Configure Game
-        function updateSubmitButtonText() {
-            const selected = document.querySelector('input[name="mode"]:checked');
-            if (mainSubmitBtn) {
-                if (selected && (selected.value === "online-beta" || selected.value === "split-2p")) {
-                    mainSubmitBtn.textContent = "‣ Configure game";
-                } else {
-                    mainSubmitBtn.textContent = "‣ Start Game";
-                }
-            }
-        }
-
-        document.querySelectorAll('input[name="mode"]').forEach(r => {
-            r.addEventListener("change", updateSubmitButtonText);
-        });
-        updateSubmitButtonText();
-
-        // Form submit interceptor: opens configuration modals for online-beta or split-2p
-        if (gameForm) {
-            gameForm.addEventListener("submit", function(e) {
-                const selected = document.querySelector('input[name="mode"]:checked');
-                if (selected && selected.value === "online-beta") {
-                    if (window.__currentBitPlanesMode !== "online-beta") {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        openOnlineModal();
-                        return false;
-                    }
-                } else if (selected && selected.value === "split-2p") {
-                    if (!window.__bypassSplitModal) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        openSplitScreenModal();
-                        return false;
-                    }
-                }
-            }, true);
-        }
-
-        // Open Online Beta Fullscreen Modal
         function openOnlineModal() {
             if (onlineModal) {
                 onlineModal.style.display = "flex";
@@ -3629,7 +3606,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             }
         }
 
-        // Keep callsign synced with localStorage on typing
         const modalNickInput = document.getElementById("modal-callsign-input");
         if (modalNickInput) {
             modalNickInput.addEventListener("input", function() {
@@ -3644,7 +3620,6 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             btnCloseOnline.onclick = () => { onlineModal.style.display = "none"; };
         }
 
-        // Open Split Screen Fullscreen Modal
         function openSplitScreenModal() {
             if (!splitModal) return;
             splitModal.style.display = "flex";
@@ -3652,113 +3627,152 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             const homeP2 = document.getElementById("p2-nickname");
             const splitP1 = document.getElementById("split-modal-p1-nick");
             const splitP2 = document.getElementById("split-modal-p2-nick");
-            if (homeP1 && splitP1) splitP1.value = homeP1.value || "";
-            if (homeP2 && splitP2) splitP2.value = homeP2.value || "";
 
-            const err = document.getElementById("split-modal-error");
-            if (err) err.style.display = "none";
+            if (splitP1) {
+                splitP1.value = (homeP1 && homeP1.value.trim()) ? homeP1.value.trim() : (localStorage.getItem("nickname") || "Red Ace");
+            }
+            if (splitP2) {
+                splitP2.value = (homeP2 && homeP2.value.trim()) ? homeP2.value.trim() : (localStorage.getItem("nickname_p2") || "Blue Bandit");
+            }
         }
 
         if (btnCloseSplit && splitModal) {
             btnCloseSplit.onclick = () => { splitModal.style.display = "none"; };
         }
+        if (btnCancelSplit && splitModal) {
+            btnCancelSplit.onclick = () => { splitModal.style.display = "none"; };
+        }
 
-        // Split screen modal start button
-        const btnStartSplitModal = document.getElementById("btn-start-split-modal");
-        if (btnStartSplitModal) {
-            btnStartSplitModal.onclick = () => {
+        if (btnLaunchSplit) {
+            btnLaunchSplit.onclick = () => {
                 const splitP1 = document.getElementById("split-modal-p1-nick");
                 const splitP2 = document.getElementById("split-modal-p2-nick");
-                const n1 = (splitP1 && splitP1.value.trim()) || "";
-                const n2 = (splitP2 && splitP2.value.trim()) || "";
-                const err = document.getElementById("split-modal-error");
+                const nick1 = splitP1 ? splitP1.value.trim() : "";
+                const nick2 = splitP2 ? splitP2.value.trim() : "";
+                const errBox = document.getElementById("split-modal-error");
 
-                if (!n1 || !n2) {
-                    if (err) {
-                        err.textContent = "Both players must enter a username to start the 2-player duel!";
-                        err.style.display = "block";
+                if (!nick1 || !nick2) {
+                    if (errBox) {
+                        errBox.textContent = "Please enter usernames for both pilots!";
+                        errBox.style.display = "block";
+                    }
+                    return;
+                }
+                if (nick1.toLowerCase() === nick2.toLowerCase()) {
+                    if (errBox) {
+                        errBox.textContent = "Pilots must choose distinct usernames!";
+                        errBox.style.display = "block";
                     }
                     return;
                 }
 
-                // Sync with home inputs and localStorage
+                if (errBox) errBox.style.display = "none";
                 const homeP1 = document.getElementById("p1-nickname");
                 const homeP2 = document.getElementById("p2-nickname");
-                if (homeP1) homeP1.value = n1;
-                if (homeP2) homeP2.value = n2;
+                if (homeP1) homeP1.value = nick1;
+                if (homeP2) homeP2.value = nick2;
                 try {
-                    localStorage.setItem("nickname", n1);
-                    localStorage.setItem("nickname2", n2);
+                    localStorage.setItem("nickname", nick1);
+                    localStorage.setItem("nickname_p2", nick2);
                 } catch(e) {}
 
-                // Sync match rules
                 const modalRule = document.querySelector('input[name="modalMatchRule"]:checked');
-                if (modalRule) {
-                    const homeRule = document.getElementById("matchRule-hidden");
-                    if (homeRule) homeRule.value = modalRule.value;
-                }
                 const modalTarget = document.getElementById("modalMatchTargetScore");
+                const homeRule = document.querySelector('input[name="matchRule"][value="' + (modalRule ? modalRule.value : "infinite") + '"]');
                 const homeTarget = document.getElementById("matchTargetScore");
-                if (modalTarget && homeTarget) homeTarget.value = modalTarget.value;
+
+                if (homeRule) homeRule.checked = true;
+                if (homeTarget && modalTarget) homeTarget.value = modalTarget.value;
 
                 splitModal.style.display = "none";
-                window.__bypassSplitModal = true;
-                if (gameForm) {
-                    gameForm.dispatchEvent(new Event("submit", { cancelable: true }));
+
+                window.__currentBitPlanesMode = "split-2p";
+                const radio = document.getElementById("mode-split-2p");
+                if (radio) radio.checked = true;
+
+                const form = document.getElementById("game");
+                if (form) {
+                    form.dispatchEvent(new Event("submit", { cancelable: true }));
                 }
-                window.__bypassSplitModal = false;
             };
         }
 
-        // Modal Match Rule Radio Toggle
         const modalRuleRadios = document.querySelectorAll('input[name="modalMatchRule"]');
         const modalTargetSelect = document.getElementById("modalMatchTargetScore");
-        modalRuleRadios.forEach(r => {
-            r.addEventListener("change", () => {
-                const checked = document.querySelector('input[name="modalMatchRule"]:checked');
+        modalRuleRadios.forEach(radio => {
+            radio.addEventListener("change", function() {
                 if (modalTargetSelect) {
-                    modalTargetSelect.style.display = (checked && checked.value === "score") ? "inline-block" : "none";
+                    modalTargetSelect.style.display = (this.value === "score") ? "inline-block" : "none";
                 }
             });
         });
 
-        // Online Matchmaking buttons
+        if (btnOpenOnline) {
+            btnOpenOnline.addEventListener("change", function() {
+                if (this.checked) openOnlineModal();
+            });
+            const lbl = btnOpenOnline.parentElement;
+            if (lbl) {
+                lbl.addEventListener("click", function(e) {
+                    openOnlineModal();
+                });
+            }
+        }
+
+        if (btnOpenSplit) {
+            btnOpenSplit.addEventListener("change", function() {
+                if (this.checked) openSplitScreenModal();
+            });
+            const lbl = btnOpenSplit.parentElement;
+            if (lbl) {
+                lbl.addEventListener("click", function(e) {
+                    openSplitScreenModal();
+                });
+            }
+        }
+
         const btnRefresh = document.getElementById("btn-refresh-rooms");
-        const btnCreatePub = document.getElementById("btn-create-public");
-        const btnCreatePriv = document.getElementById("btn-create-private");
-        const inputCreatePrivPass = document.getElementById("input-create-private-pass");
-        const btnJoinPriv = document.getElementById("btn-join-private");
-        const inputPriv = document.getElementById("input-private-code");
-
-        // Enforce uppercase alphanumeric only on password inputs (no symbols)
-        if (inputCreatePrivPass) {
-            inputCreatePrivPass.addEventListener("input", function() {
-                this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
-            });
-        }
-        if (inputPriv) {
-            inputPriv.addEventListener("input", function() {
-                this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
-            });
-        }
-
-        if (btnRefresh) btnRefresh.onclick = renderPublicRoomsList;
-        if (btnCreatePub) btnCreatePub.onclick = () => createRoom(false, "");
-        if (btnCreatePriv) {
-            btnCreatePriv.onclick = () => {
-                const customPass = inputCreatePrivPass ? sanitizeCode(inputCreatePrivPass.value) : "";
-                createRoom(true, customPass || generateCode());
+        if (btnRefresh) {
+            btnRefresh.onclick = () => {
+                btnRefresh.classList.add("spinning");
+                renderPublicRoomsList();
+                setTimeout(() => btnRefresh.classList.remove("spinning"), 500);
             };
         }
-        if (btnJoinPriv && inputPriv) {
-            btnJoinPriv.onclick = () => joinRoom(inputPriv.value, true);
-            inputPriv.addEventListener("keyup", e => {
-                if (e.key === "Enter") joinRoom(inputPriv.value, true);
+
+        const btnCreatePublic = document.getElementById("btn-create-public");
+        if (btnCreatePublic) {
+            btnCreatePublic.onclick = () => createRoom(false, null);
+        }
+
+        const btnCreatePrivate = document.getElementById("btn-create-private");
+        if (btnCreatePrivate) {
+            btnCreatePrivate.onclick = () => {
+                const passInput = document.getElementById("input-create-private-pass");
+                const customPass = passInput ? passInput.value.trim() : "";
+                createRoom(true, customPass);
+            };
+        }
+
+        const btnJoinPrivate = document.getElementById("btn-join-private");
+        const privCodeInput = document.getElementById("input-private-code");
+        if (btnJoinPrivate && privCodeInput) {
+            btnJoinPrivate.onclick = () => {
+                const code = privCodeInput.value.trim();
+                if (!code) {
+                    showModalError("Please enter the room password to join!");
+                    return;
+                }
+                joinRoom(code, true);
+            };
+            privCodeInput.addEventListener("keydown", function(e) {
+                if (e.key === "Enter") {
+                    btnJoinPrivate.click();
+                }
             });
         }
 
-        // Inside room buttons
-        const btnUpdateNick = document.getElementById("btn-update-room-callsign");
+        const btnUpdateNick = document.getElementById("btn-update-room-nick");
         const roomNickInput = document.getElementById("room-callsign-input");
         const btnCopy = document.getElementById("btn-copy-code");
         const btnStart = document.getElementById("btn-start-online-match");
@@ -3769,6 +3783,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 const name = roomNickInput.value.trim();
                 if (name) {
                     myChosenName = name.substring(0, 14);
+                    try { localStorage.setItem("nickname", myChosenName); } catch(e) {}
                     if (photonClient && photonClient.isJoinedToRoom()) {
                         photonClient.myActor().setName(myChosenName);
                     }
@@ -3807,6 +3822,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         });
     } else {
         setupUIEvents();
+        const initialNick = document.getElementById("modal-callsign-input");
+        if (initialNick) initialNick.value = getCallsign();
         initPhoton();
     }
 })();
