@@ -2452,10 +2452,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         <div class="bp-card-glass" style="display: flex; flex-direction: column; min-height: 290px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
             <span style="font-size: clamp(20px, 2vw, 24px); font-weight: bold; color: #38bdf8;">Active Public Games</span>
-            <button type="button" id="btn-refresh-rooms" class="bp-btn-ghost" style="padding: 6px 12px; font-size: 16px;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
-              <span>Refresh</span>
-            </button>
+
           </div>
           <div id="public-rooms-container" style="flex: 1; overflow-y: auto; max-height: 280px; display: flex; flex-direction: column; gap: 8px;">
             <div style="text-align: center; color: #94a3b8; padding: 40px 0; font-size: 18px;">Searching for public games...</div>
@@ -2628,7 +2625,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         Photon.LoadBalancing.LoadBalancingClient.prototype.initMasterPeer = function(peer) {
             origInitMasterPeer.call(this, peer);
             const self = this;
-            if (peer) peer.keepAliveTimeoutMs = 30000;
+            if (peer) peer.keepAliveTimeoutMs = 60000;
 
             // Save Master Server Secret on Authenticate (230)
             peer.addResponseListener(230, function(resp) {
@@ -2651,24 +2648,95 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         if (!window.__photonHeartbeatInterval) {
             window.__photonHeartbeatInterval = setInterval(function() {
                 try {
-                    if (photonClient && photonClient.gamePeer && photonClient.gamePeer.isConnected()) {
-                        photonClient.gamePeer.resetKeepAlive();
+                    if (photonClient) {
+                        const peer = (photonClient.gamePeer && photonClient.gamePeer.isConnected()) ? photonClient.gamePeer :
+                                     (photonClient.masterPeer && photonClient.masterPeer.isConnected()) ? photonClient.masterPeer : null;
+                        if (peer && !peer.isClosing()) {
+                            const p = {};
+                            p.irq = 1;
+                            p.vals = [1, Date.now() - peer.initTimestamp];
+                            peer._send(p, true);
+                        }
                     }
                 } catch(e) {}
-            }, 3000);
+            }, 10000);
         }
 
         const origInitGamePeer = Photon.LoadBalancing.LoadBalancingClient.prototype.initGamePeer;
         Photon.LoadBalancing.LoadBalancingClient.prototype.initGamePeer = function(peer, op) {
             origInitGamePeer.call(this, peer, op);
-            if (peer) peer.keepAliveTimeoutMs = 30000;
+            if (peer) peer.keepAliveTimeoutMs = 60000;
         };
 
         const origInitNameServerPeer = Photon.LoadBalancing.LoadBalancingClient.prototype.initNameServerPeer;
         Photon.LoadBalancing.LoadBalancingClient.prototype.initNameServerPeer = function(peer) {
             origInitNameServerPeer.call(this, peer);
-            if (peer) peer.keepAliveTimeoutMs = 30000;
+            if (peer) peer.keepAliveTimeoutMs = 60000;
         };
+    }
+
+    let isReconnecting = false;
+    let roomsAutoRefreshTimer = null;
+
+    function cleanupPhotonClient() {
+        if (!photonClient) return;
+        try {
+            // Mute callbacks so zombie events from dying sockets do nothing
+            photonClient.onStateChange = () => {};
+            photonClient.onError = () => {};
+            photonClient.onOperationResponse = () => {};
+            photonClient.onEvent = () => {};
+            photonClient.onRoomList = () => {};
+            photonClient.onRoomListUpdate = () => {};
+            photonClient.onJoinRoom = () => {};
+            photonClient.onActorJoin = () => {};
+            photonClient.onActorLeave = () => {};
+
+            // Strip socket listeners on all peers to prevent delayed onclose events
+            ["nameServerPeer", "masterPeer", "gamePeer"].forEach(peerName => {
+                const p = photonClient[peerName];
+                if (p && p._socket) {
+                    p._socket.onopen = null;
+                    p._socket.onmessage = null;
+                    p._socket.onerror = null;
+                    p._socket.onclose = null;
+                }
+            });
+
+            photonClient.disconnect();
+        } catch(e) {
+            console.warn("[Photon] cleanup error:", e);
+        }
+        photonClient = null;
+    }
+
+    function instantReconnect() {
+        if (isReconnecting) return;
+        isReconnecting = true;
+        isBusyJoiningOrCreate = false;
+        updateConnectionStatus("connecting", "Connecting to server...");
+        cleanupPhotonClient();
+        setTimeout(() => {
+            isReconnecting = false;
+            initPhoton();
+        }, 100);
+    }
+
+    function ensurePhotonConnected() {
+        if (!photonClient || (!photonClient.isConnectedToMaster() && !photonClient.isJoinedToRoom())) {
+            instantReconnect();
+        }
+    }
+
+    function startRoomsAutoRefresh() {
+        if (roomsAutoRefreshTimer) return;
+        roomsAutoRefreshTimer = setInterval(() => {
+            const modal = document.getElementById("modal-online-beta");
+            const matchView = document.getElementById("view-matchmaking");
+            if (modal && modal.style.display !== "none" && matchView && matchView.style.display !== "none") {
+                renderPublicRoomsList();
+            }
+        }, 2500);
     }
 
     function initPhoton() {
@@ -2687,6 +2755,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             );
             window.__photonClient = photonClient;
             photonClient.autoJoinLobby = true;
+            photonClient.keepAliveTimeoutMs = 60000;
 
             photonClient.onStateChange = onStateChange;
             photonClient.onError = onError;
@@ -2700,6 +2769,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
             updateConnectionStatus("connecting", "Connecting to cloud...");
             photonClient.connectToRegionMaster("us");
+            startRoomsAutoRefresh();
         } catch (e) {
             console.error("[Photon] Init failed:", e);
             updateConnectionStatus("error", "Init Error: " + e.message);
@@ -2740,7 +2810,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 if (modal && modal.style.display !== "none") {
                     ensurePhotonConnected();
                 }
-            }, 1500);
+            }, 300);
         }
     }
 
@@ -2827,7 +2897,12 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
     function renderPublicRoomsList() {
         const container = document.getElementById("public-rooms-container");
-        if (!container || !photonClient) return;
+        if (!container) return;
+
+        if (!photonClient || (!photonClient.isConnectedToMaster() && !photonClient.isJoinedToRoom())) {
+            container.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 40px 0; font-size: 18px;">Connecting to game servers...</div>';
+            return;
+        }
 
         const rooms = photonClient.availableRooms() || [];
         const publicRooms = rooms.filter(r => {
@@ -3737,26 +3812,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         const btnCancelSplit = document.getElementById("btn-cancel-split-modal");
         const btnLaunchSplit = document.getElementById("btn-launch-split-modal");
 
-        function ensurePhotonConnected() {
-            if (!photonClient) {
-                initPhoton();
-                return;
-            }
-            const LbcState = Photon.LoadBalancing.LoadBalancingClient.State;
-            if (photonClient.state === LbcState.Disconnected || photonClient.state === LbcState.Error || photonClient.state === LbcState.Uninitialized) {
-                updateConnectionStatus("connecting", "Connecting to server...");
-                try {
-                    if (photonClient.state === LbcState.Error) photonClient.disconnect();
-                } catch(e) {}
-                setTimeout(() => {
-                    try {
-                        photonClient.connectToRegionMaster("us");
-                    } catch(e) {
-                        console.warn("[Photon] connect error:", e);
-                    }
-                }, 150);
-            }
-        }
+
 
         function openOnlineModal() {
             if (onlineModal) {
@@ -3767,6 +3823,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 }
                 ensurePhotonConnected();
                 renderPublicRoomsList();
+                startRoomsAutoRefresh();
             }
         }
 
@@ -3937,14 +3994,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             }
         });
 
-        const btnRefresh = document.getElementById("btn-refresh-rooms");
-        if (btnRefresh) {
-            btnRefresh.onclick = () => {
-                btnRefresh.classList.add("spinning");
-                renderPublicRoomsList();
-                setTimeout(() => btnRefresh.classList.remove("spinning"), 500);
-            };
-        }
+
 
         const btnCreatePublic = document.getElementById("btn-create-public");
         if (btnCreatePublic) {
