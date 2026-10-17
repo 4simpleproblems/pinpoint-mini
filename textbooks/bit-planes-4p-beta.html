@@ -2101,7 +2101,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     color: #ffffff !important;
 }
 
-/* Fullscreen Menus Common Styles - Expanded & Scaled Up */
+/* Responsive Fullscreen Menus Common Styles - Dynamic Viewport Scaling */
 .bp-fullscreen-modal {
     display: none;
     position: fixed;
@@ -2109,12 +2109,12 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     width: 100vw;
     height: 100vh;
     z-index: 99999;
-    background: rgba(10, 15, 26, 0.82);
+    background: rgba(10, 15, 26, 0.84);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     overflow-y: auto;
     font-family: 'Cormorant Garamond', serif !important;
-    padding: 28px 20px;
+    padding: clamp(14px, 3vh, 32px) clamp(14px, 3vw, 36px);
     box-sizing: border-box;
 }
 
@@ -2125,13 +2125,13 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
 .bp-menu-wrap {
     width: 100%;
-    max-width: 1080px;
+    max-width: min(94vw, 1140px);
     margin: auto;
     color: #ffffff;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    min-height: calc(100vh - 56px);
+    gap: clamp(14px, 2vh, 22px);
+    min-height: calc(100vh - clamp(28px, 6vh, 64px));
     justify-content: center;
 }
 
@@ -2140,28 +2140,28 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    padding-bottom: 14px;
+    padding-bottom: clamp(8px, 1.5vh, 14px);
 }
 
 .bp-menu-title {
-    font-size: 36px;
+    font-size: clamp(26px, 3.2vw, 38px);
     font-weight: bold;
     color: #ffffff;
     letter-spacing: 0.5px;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: clamp(10px, 1.5vw, 16px);
 }
 
 .bp-status-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 17px;
+    font-size: clamp(15px, 1.4vw, 18px);
     font-weight: bold;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 4px 12px;
+    padding: 4px 14px;
     border-radius: 20px;
 }
 
@@ -2169,8 +2169,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    width: 44px;
-    height: 44px;
+    width: clamp(38px, 4.5vw, 46px);
+    height: clamp(38px, 4.5vw, 46px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2187,7 +2187,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 12px;
-    padding: 20px 24px;
+    padding: clamp(14px, 2vh, 22px) clamp(16px, 2vw, 26px);
 }
 
 /* Translucent Keys in Fullscreen Menus */
@@ -2200,15 +2200,15 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     padding: 2px 8px !important;
     border-radius: 5px !important;
     font-family: inherit !important;
-    font-size: 16px !important;
+    font-size: clamp(14px, 1.4vw, 17px) !important;
     line-height: 1.4 !important;
 }
 
 .bp-input-field {
     width: 100%;
     box-sizing: border-box;
-    font-size: 20px;
-    padding: 10px 14px;
+    font-size: clamp(17px, 1.8vw, 21px);
+    padding: clamp(8px, 1.2vh, 12px) clamp(10px, 1.4vw, 16px);
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 8px;
@@ -2224,52 +2224,52 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 .bp-grid-2col {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: clamp(12px, 2vw, 20px);
 }
 
+/* Scaled-Up Action Boxes: Bold SVG icons and text that fill the space */
 .bp-square-btn {
-    aspect-ratio: 1.15 / 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    border-radius: 12px;
+    gap: clamp(8px, 1.2vh, 12px);
+    border-radius: 14px;
     cursor: pointer;
     font-family: inherit;
     text-align: center;
-    padding: 14px;
+    padding: clamp(18px, 3vh, 32px) clamp(14px, 2vw, 24px);
+    min-height: clamp(160px, 22vh, 210px);
     transition: transform 0.15s, background 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 .bp-square-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4);
 }
 
-/* Light Blue & Light Green Theme Buttons */
 .bp-square-public {
-    background: rgba(56, 189, 248, 0.12);
-    border: 1.5px solid rgba(56, 189, 248, 0.45);
+    background: rgba(56, 189, 248, 0.14);
+    border: 1.5px solid rgba(56, 189, 248, 0.5);
     color: #38bdf8;
 }
 .bp-square-public:hover {
-    background: rgba(56, 189, 248, 0.22);
+    background: rgba(56, 189, 248, 0.25);
     border-color: #38bdf8;
 }
 
 .bp-square-private {
-    background: rgba(74, 222, 128, 0.12);
-    border: 1.5px solid rgba(74, 222, 128, 0.45);
+    background: rgba(74, 222, 128, 0.14);
+    border: 1.5px solid rgba(74, 222, 128, 0.5);
     color: #4ade80;
 }
 .bp-square-private:hover {
-    background: rgba(74, 222, 128, 0.22);
+    background: rgba(74, 222, 128, 0.25);
     border-color: #4ade80;
 }
 
 .bp-btn-blue {
-    padding: 12px 28px;
-    font-size: 20px;
+    padding: clamp(10px, 1.4vh, 14px) clamp(18px, 2vw, 28px);
+    font-size: clamp(17px, 1.8vw, 21px);
     font-weight: bold;
     border-radius: 8px;
     cursor: pointer;
@@ -2287,8 +2287,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 }
 
 .bp-btn-green {
-    padding: 12px 28px;
-    font-size: 20px;
+    padding: clamp(10px, 1.4vh, 14px) clamp(18px, 2vw, 28px);
+    font-size: clamp(17px, 1.8vw, 21px);
     font-weight: bold;
     border-radius: 8px;
     cursor: pointer;
@@ -2306,8 +2306,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 }
 
 .bp-btn-ghost {
-    padding: 10px 20px;
-    font-size: 18px;
+    padding: clamp(8px, 1.2vh, 12px) clamp(14px, 1.6vw, 20px);
+    font-size: clamp(16px, 1.6vw, 19px);
     font-weight: bold;
     border-radius: 8px;
     cursor: pointer;
@@ -2322,14 +2322,30 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 .bp-btn-ghost:hover {
     background: rgba(255, 255, 255, 0.16);
 }
+
+/* Target Score Dropdown: Grey background & options */
+#modalMatchTargetScore {
+    background: rgba(55, 65, 81, 0.92) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.28) !important;
+    border-radius: 8px !important;
+    font-size: clamp(16px, 1.6vw, 19px) !important;
+    padding: 6px 14px !important;
+    outline: none !important;
+}
+
+#modalMatchTargetScore option {
+    background: #374151 !important;
+    color: #ffffff !important;
+}
 </style>
 
 <!-- Fullscreen 1v1 Split-Screen Modal -->
 <div id="modal-split-screen" class="bp-fullscreen-modal">
-  <div class="bp-menu-wrap" style="max-width: 920px;">
+  <div class="bp-menu-wrap" style="max-width: min(94vw, 960px);">
     <div class="bp-menu-header">
       <div class="bp-menu-title">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
         <span>1v1 Split-Screen Setup</span>
       </div>
       <button type="button" id="btn-close-split-modal" class="bp-btn-close" title="Close">
@@ -2341,15 +2357,15 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     <div class="bp-grid-2col">
       <!-- Player 1 -->
       <div class="bp-card-glass">
-        <div style="font-size: 22px; font-weight: bold; color: #f87171; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <div style="font-size: clamp(19px, 2vw, 23px); font-weight: bold; color: #f87171; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
           <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:#ef4444;"></span>
           <span>Player 1 (Red / Left)</span>
         </div>
         <div style="margin-bottom: 14px;">
-          <label for="split-modal-p1-nick" style="display: block; font-size: 17px; color: #cbd5e1; margin-bottom: 6px;">Pilot Username</label>
+          <label for="split-modal-p1-nick" style="display: block; font-size: clamp(15px, 1.4vw, 17px); color: #cbd5e1; margin-bottom: 6px;">Pilot Username</label>
           <input type="text" id="split-modal-p1-nick" placeholder="Enter username..." maxlength="16" autocomplete="off" class="bp-input-field">
         </div>
-        <div style="font-size: 16px; color: #cbd5e1; line-height: 1.7; border-top: 1px dashed rgba(255,255,255,0.12); padding-top: 10px;">
+        <div style="font-size: clamp(14px, 1.4vw, 16px); color: #cbd5e1; line-height: 1.7; border-top: 1px dashed rgba(255,255,255,0.12); padding-top: 10px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Steer & Thrust:</span><span><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></span></div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Shoot Gun:</span><kbd>Z</kbd></div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Launch Missile:</span><kbd>X</kbd></div>
@@ -2359,15 +2375,15 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
       <!-- Player 2 -->
       <div class="bp-card-glass">
-        <div style="font-size: 22px; font-weight: bold; color: #60a5fa; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <div style="font-size: clamp(19px, 2vw, 23px); font-weight: bold; color: #60a5fa; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
           <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:#3b82f6;"></span>
           <span>Player 2 (Blue / Right)</span>
         </div>
         <div style="margin-bottom: 14px;">
-          <label for="split-modal-p2-nick" style="display: block; font-size: 17px; color: #cbd5e1; margin-bottom: 6px;">Pilot Username</label>
+          <label for="split-modal-p2-nick" style="display: block; font-size: clamp(15px, 1.4vw, 17px); color: #cbd5e1; margin-bottom: 6px;">Pilot Username</label>
           <input type="text" id="split-modal-p2-nick" placeholder="Enter username..." maxlength="16" autocomplete="off" class="bp-input-field">
         </div>
-        <div style="font-size: 16px; color: #cbd5e1; line-height: 1.7; border-top: 1px dashed rgba(255,255,255,0.12); padding-top: 10px;">
+        <div style="font-size: clamp(14px, 1.4vw, 16px); color: #cbd5e1; line-height: 1.7; border-top: 1px dashed rgba(255,255,255,0.12); padding-top: 10px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Steer & Thrust:</span><span><kbd>&uarr;</kbd> <kbd>&larr;</kbd> <kbd>&darr;</kbd> <kbd>&rarr;</kbd></span></div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Shoot Gun:</span><kbd>Right Ctrl</kbd></div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;"><span>Launch Missile:</span><kbd>Right Shift</kbd></div>
@@ -2378,14 +2394,15 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
     <div id="split-modal-error" style="display: none; padding: 10px 16px; background: rgba(239, 68, 68, 0.25); border: 1px solid #ef4444; border-radius: 8px; color: #fca5a5; font-size: 17px; font-weight: bold;"></div>
 
-    <!-- Match Mode -->
-    <div class="bp-card-glass" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
-      <div style="display: flex; align-items: center; gap: 18px; font-size: 19px;">
+    <!-- Match Mode Card (Constant Height: dropdown visibility toggled so container never jumps or resizes) -->
+    <div id="split-match-mode-card" class="bp-card-glass" style="display: flex; align-items: center; justify-content: space-between; min-height: 62px; box-sizing: border-box; gap: 16px;">
+      <div style="display: flex; align-items: center; gap: clamp(12px, 1.8vw, 20px); font-size: clamp(16px, 1.6vw, 19px);">
         <span style="font-weight: bold; color: #e2e8f0;">Match Mode:</span>
         <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px;"><input type="radio" name="modalMatchRule" value="infinite" checked> Infinite Plays</label>
         <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px;"><input type="radio" name="modalMatchRule" value="score"> Target Score</label>
       </div>
-      <select id="modalMatchTargetScore" class="bp-input-field" style="display: none; width: auto; padding: 6px 14px; font-size: 18px;">
+      <!-- Dropdown with grey background & constant layout presence -->
+      <select id="modalMatchTargetScore" class="bp-input-field" style="visibility: hidden; opacity: 0; pointer-events: none; width: auto; transition: opacity 0.15s ease;">
         <option value="5">First to 5 Kills</option>
         <option value="10">First to 10 Kills</option>
         <option value="15">First to 15 Kills</option>
@@ -2393,7 +2410,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
       </select>
     </div>
 
-    <div style="display: flex; justify-content: flex-end; gap: 14px; margin-top: 10px;">
+    <div style="display: flex; justify-content: flex-end; gap: 14px; margin-top: 6px;">
       <button type="button" id="btn-cancel-split-modal" class="bp-btn-ghost">Cancel</button>
       <button type="button" id="btn-launch-split-modal" class="bp-btn-green">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -2419,58 +2436,61 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
       </button>
     </div>
 
+    <!-- Error Toast Notification inside Modal (Non-blocking, replaces alert) -->
+    <div id="modal-error-toast" style="display: none; padding: 12px 18px; background: rgba(239, 68, 68, 0.25); border: 1.5px solid #ef4444; border-radius: 8px; color: #fca5a5; font-size: 18px; font-weight: bold; text-align: center; margin-bottom: 4px; transition: opacity 0.2s;"></div>
+
     <!-- VIEW 1: MATCHMAKING -->
-    <div id="view-matchmaking" style="display: flex; flex-direction: column; gap: 20px;">
+    <div id="view-matchmaking" style="display: flex; flex-direction: column; gap: clamp(14px, 2vh, 22px);">
       <!-- Callsign Bar -->
       <div class="bp-card-glass" style="display: flex; align-items: center; gap: 16px;">
-        <label for="modal-callsign-input" style="font-size: 20px; font-weight: bold; color: #e2e8f0; white-space: nowrap;">Pilot Call-sign:</label>
+        <label for="modal-callsign-input" style="font-size: clamp(18px, 1.8vw, 22px); font-weight: bold; color: #e2e8f0; white-space: nowrap;">Pilot Call-sign:</label>
         <input type="text" id="modal-callsign-input" placeholder="Enter your call-sign..." maxlength="16" autocomplete="off" class="bp-input-field">
       </div>
 
       <div class="bp-grid-2col">
         <!-- Left: Active Public Games -->
-        <div class="bp-card-glass" style="display: flex; flex-direction: column; min-height: 280px;">
+        <div class="bp-card-glass" style="display: flex; flex-direction: column; min-height: 290px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
-            <span style="font-size: 22px; font-weight: bold; color: #38bdf8;">Active Public Games</span>
+            <span style="font-size: clamp(20px, 2vw, 24px); font-weight: bold; color: #38bdf8;">Active Public Games</span>
             <button type="button" id="btn-refresh-rooms" class="bp-btn-ghost" style="padding: 6px 12px; font-size: 16px;">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
               <span>Refresh</span>
             </button>
           </div>
-          <div id="public-rooms-container" style="flex: 1; overflow-y: auto; max-height: 260px; display: flex; flex-direction: column; gap: 8px;">
+          <div id="public-rooms-container" style="flex: 1; overflow-y: auto; max-height: 280px; display: flex; flex-direction: column; gap: 8px;">
             <div style="text-align: center; color: #94a3b8; padding: 40px 0; font-size: 18px;">Searching for public games...</div>
           </div>
         </div>
 
-        <!-- Right: Create & Join Private -->
+        <!-- Right: Scaled Up Create & Join Private -->
         <div style="display: flex; flex-direction: column; gap: 16px;">
-          <!-- Square Action Cards: Create Public & Create Private -->
+          <!-- Scaled-Up Square Action Cards: Bold icons & prominent text -->
           <div class="bp-grid-2col" style="gap: 14px;">
             <button type="button" id="btn-create-public" class="bp-square-btn bp-square-public">
-              <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-              <span style="font-size: 21px; font-weight: bold;">Public Room</span>
-              <span style="font-size: 14px; opacity: 0.85;">Open match (no code)</span>
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              <span style="font-size: clamp(24px, 2.4vw, 30px); font-weight: bold; letter-spacing: 0.5px;">Public Room</span>
+              <span style="font-size: clamp(14px, 1.3vw, 17px); opacity: 0.88;">Open match (no code)</span>
             </button>
 
             <button type="button" id="btn-create-private" class="bp-square-btn bp-square-private">
-              <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              <span style="font-size: 21px; font-weight: bold;">Private Room</span>
-              <span style="font-size: 14px; opacity: 0.85;">Passcode protected</span>
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span style="font-size: clamp(24px, 2.4vw, 30px); font-weight: bold; letter-spacing: 0.5px;">Private Room</span>
+              <span style="font-size: clamp(14px, 1.3vw, 17px); opacity: 0.88;">Passcode protected</span>
             </button>
           </div>
 
           <!-- Custom Password for Creating Private -->
           <div>
-            <input type="text" id="input-create-private-pass" placeholder="CUSTOM PRIVATE PASSWORD (OPTIONAL)" maxlength="12" class="bp-input-field" style="text-align: center; font-family: monospace !important; letter-spacing: 2px; font-size: 16px; font-weight: bold;">
+            <input type="text" id="input-create-private-pass" placeholder="CUSTOM PRIVATE PASSWORD (OPTIONAL)" maxlength="12" class="bp-input-field" style="text-align: center; font-family: monospace !important; letter-spacing: 2px; font-size: clamp(16px, 1.6vw, 19px); font-weight: bold;">
           </div>
 
           <!-- Join Private Room -->
-          <div class="bp-card-glass" style="padding: 16px 18px;">
-            <div style="font-size: 17px; font-weight: bold; color: #e2e8f0; margin-bottom: 8px;">Join Private Room with Password</div>
+          <div class="bp-card-glass" style="padding: clamp(14px, 1.8vh, 18px);">
+            <div style="font-size: clamp(16px, 1.6vw, 19px); font-weight: bold; color: #e2e8f0; margin-bottom: 8px;">Join Private Room with Password</div>
             <div style="display: flex; gap: 10px;">
-              <input type="text" id="input-private-code" placeholder="ENTER ROOM PASSWORD" maxlength="12" class="bp-input-field" style="text-align: center; font-family: monospace !important; letter-spacing: 2px; font-size: 18px; font-weight: bold; flex: 1;">
+              <input type="text" id="input-private-code" placeholder="ENTER ROOM PASSWORD" maxlength="12" class="bp-input-field" style="text-align: center; font-family: monospace !important; letter-spacing: 2px; font-size: clamp(17px, 1.7vw, 20px); font-weight: bold; flex: 1;">
               <button type="button" id="btn-join-private" class="bp-btn-blue">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
                 <span>Join</span>
               </button>
             </div>
@@ -2481,16 +2501,16 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     </div>
 
     <!-- VIEW 2: ROOM LOBBY / BRIEFING -->
-    <div id="view-room-lobby" style="display: none; flex-direction: column; gap: 20px;">
+    <div id="view-room-lobby" style="display: none; flex-direction: column; gap: clamp(14px, 2vh, 22px);">
       <div class="bp-card-glass" style="display: flex; justify-content: space-between; align-items: center;">
         <div style="display: flex; align-items: center; gap: 14px;">
           <span id="room-type-badge" style="font-size: 17px; font-weight: bold; color: #38bdf8; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); padding: 4px 12px; border-radius: 6px;">Public</span>
-          <span id="room-banner-title" style="font-size: 24px; font-weight: bold; color: #38bdf8;">Match Briefing</span>
+          <span id="room-banner-title" style="font-size: clamp(20px, 2.2vw, 26px); font-weight: bold; color: #38bdf8;">Match Briefing</span>
           <!-- Room code only shown for private rooms -->
-          <span id="room-code-display" style="font-family: monospace !important; font-size: 22px; font-weight: bold; color: #e2e8f0; display: none;"></span>
+          <span id="room-code-display" style="font-family: monospace !important; font-size: clamp(19px, 2vw, 24px); font-weight: bold; color: #e2e8f0; display: none;"></span>
         </div>
         <button type="button" id="btn-copy-code" class="bp-btn-ghost" style="display: none;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           <span>Copy Password</span>
         </button>
       </div>
@@ -2498,7 +2518,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
       <!-- Pilots Briefing & Slot Assignment -->
       <div class="bp-grid-2col">
         <div class="bp-card-glass" style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="font-size: 20px; font-weight: bold; color: #e2e8f0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">Connected Pilots (Max 4)</div>
+          <div style="font-size: clamp(18px, 1.8vw, 21px); font-weight: bold; color: #e2e8f0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">Connected Pilots (Max 4)</div>
           <div id="lobby-slots-container" style="display: flex; flex-direction: column; gap: 10px;">
             <!-- Rendered dynamically -->
           </div>
@@ -2506,7 +2526,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
         <!-- Customize Slot Color & Username -->
         <div class="bp-card-glass" style="display: flex; flex-direction: column; gap: 14px;">
-          <div style="font-size: 20px; font-weight: bold; color: #e2e8f0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">Your Pilot Loadout</div>
+          <div style="font-size: clamp(18px, 1.8vw, 21px); font-weight: bold; color: #e2e8f0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">Your Pilot Loadout</div>
           <div>
             <label for="room-callsign-input" style="display: block; font-size: 16px; color: #cbd5e1; margin-bottom: 6px;">Pilot Call-sign</label>
             <div style="display: flex; gap: 10px;">
@@ -2524,13 +2544,13 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
       </div>
 
       <!-- Lobby Controls -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
         <button type="button" id="btn-exit-online-room" class="bp-btn-ghost">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           <span>Leave Room</span>
         </button>
 
-        <button type="button" id="btn-start-online-match" class="bp-btn-green" style="font-size: 22px; padding: 14px 36px;">
+        <button type="button" id="btn-start-online-match" class="bp-btn-green" style="font-size: clamp(19px, 2vw, 24px); padding: 12px 34px;">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           <span>Launch Match</span>
         </button>
@@ -2562,6 +2582,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     let isCurrentRoomPrivate = false;
     let currentMatchTitle = "";
     let stateSyncTimer = null;
+    let isBusyJoiningOrCreate = false;
 
     let basePositions = [2500, 12500];
     let localPlane = null;
@@ -2652,11 +2673,13 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     function onStateChange(state) {
         const LbcState = Photon.LoadBalancing.LoadBalancingClient.State;
         if (state === LbcState.ConnectedToMaster || state === LbcState.JoinedLobby) {
+            isBusyJoiningOrCreate = false;
             updateConnectionStatus("connected", "Connected (US Region)");
             renderPublicRoomsList();
         } else if (state === LbcState.ConnectingToNameServer || state === LbcState.ConnectingToMasterserver || state === LbcState.ConnectingToGameserver) {
             updateConnectionStatus("connecting", "Connecting...");
         } else if (state === LbcState.Disconnected || state === LbcState.Error) {
+            isBusyJoiningOrCreate = false;
             updateConnectionStatus("error", "Disconnected. Reconnecting...");
             setTimeout(() => {
                 if (photonClient && photonClient.state === LbcState.Disconnected) {
@@ -2666,24 +2689,51 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         }
     }
 
-    function onError(code, message) {
-        console.error("[Photon Error]", code, message);
-        showModalError(message || ("Error " + code));
-    }
-
+    // Friendly non-blocking error handler: NEVER call alert() so browser thread and WebSockets never freeze!
     function showModalError(msg) {
+        console.warn("[App Error Toast]", msg);
         const el = document.getElementById("modal-error-toast");
         if (el) {
             el.textContent = msg;
             el.style.display = "block";
-            setTimeout(() => { el.style.display = "none"; }, 5000);
+            clearTimeout(el._timer);
+            el._timer = setTimeout(() => { el.style.display = "none"; }, 5000);
         }
-        alert(msg);
+    }
+
+    function resetActionButtons() {
+        const btnPublic = document.getElementById("btn-create-public");
+        const btnPriv = document.getElementById("btn-create-private");
+        const btnJoin = document.getElementById("btn-join-private");
+        if (btnPublic) { btnPublic.style.pointerEvents = "auto"; btnPublic.style.opacity = "1"; }
+        if (btnPriv) { btnPriv.style.pointerEvents = "auto"; btnPriv.style.opacity = "1"; }
+        if (btnJoin) { btnJoin.style.pointerEvents = "auto"; btnJoin.style.opacity = "1"; }
+    }
+
+    function onError(code, message) {
+        console.warn("[Photon Error]", code, message);
+        isBusyJoiningOrCreate = false;
+        resetActionButtons();
+        if (code === 1101 || code === 2101) {
+            showModalError("Authentication error. Reconnecting...");
+        } else if (code === 3001 || code === 1002 || code === 2002) {
+            showModalError("Unable to reach game server. Reconnecting...");
+        }
     }
 
     function onOperationResponse(errorCode, errorMsg, opCode) {
         if (errorCode !== 0) {
             console.warn("[Photon OpResponse]", errorCode, errorMsg, opCode);
+            isBusyJoiningOrCreate = false;
+            resetActionButtons();
+            if (errorCode === 32737 || errorCode === 32758) {
+                showModalError("Room was closed or is no longer available. Please select another room.");
+                renderPublicRoomsList();
+            } else if (errorCode === 32766) {
+                showModalError("A room with that password already exists. Please choose a different password or join it.");
+            } else if (errorCode === 32765) {
+                showModalError("That room is already full (max 4 players).");
+            }
         }
     }
 
@@ -2761,21 +2811,26 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     }
 
     function createRoom(isPrivate, password) {
+        if (isBusyJoiningOrCreate) return;
+
         if (!photonClient || !photonClient.isConnectedToMaster()) {
             showModalError("Connecting to server, please wait a moment...");
             return;
         }
+
         const callsign = getCallsign();
         myChosenName = callsign;
         try { localStorage.setItem("nickname", callsign); } catch(e) {}
         photonClient.myActor().setName(callsign);
 
-        const code = isPrivate ? sanitizeCode(password || generateCode()) : ("PUB-" + generateCode());
+        // Globally unique code to guarantee no collisions with old zombie sessions
+        const code = isPrivate ? sanitizeCode(password || generateCode()) : ("PUB-" + Date.now().toString(36).toUpperCase() + "-" + generateCode());
         if (!code) {
             showModalError("Please enter a valid room password/code (letters and numbers only)!");
             return;
         }
 
+        isBusyJoiningOrCreate = true;
         currentRoomCode = code;
         isCurrentRoomPrivate = isPrivate;
         currentMatchTitle = callsign + "'s Match";
@@ -2784,6 +2839,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             maxPlayers: 4,
             isVisible: !isPrivate,
             isOpen: true,
+            emptyRoomLiveTime: 0,
+            suspendedPlayerLiveTime: 0,
             customGameProperties: {
                 host: callsign,
                 isPriv: isPrivate,
@@ -2794,10 +2851,13 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
     }
 
     function joinRoom(code, isPrivate) {
+        if (isBusyJoiningOrCreate) return;
+
         if (!photonClient || !photonClient.isConnectedToMaster()) {
             showModalError("Connecting to server, please wait a moment...");
             return;
         }
+
         const callsign = getCallsign();
         myChosenName = callsign;
         try { localStorage.setItem("nickname", callsign); } catch(e) {}
@@ -2809,12 +2869,16 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             return;
         }
 
+        isBusyJoiningOrCreate = true;
         currentRoomCode = code;
         isCurrentRoomPrivate = !!isPrivate;
         photonClient.joinRoom(code);
     }
 
     function onJoinRoom(createdByMe) {
+        isBusyJoiningOrCreate = false;
+        resetActionButtons();
+
         currentRoomCode = photonClient.myRoom().name;
         const roomProps = (typeof photonClient.myRoom().getCustomProperties === "function") ? photonClient.myRoom().getCustomProperties() : (photonClient.myRoom().customProperties || {});
         isCurrentRoomPrivate = !!roomProps.isPriv;
@@ -2967,6 +3031,8 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         if (photonClient && photonClient.isJoinedToRoom()) {
             photonClient.leaveRoom();
         }
+        isBusyJoiningOrCreate = false;
+        resetActionButtons();
         document.getElementById("view-room-lobby").style.display = "none";
         document.getElementById("view-matchmaking").style.display = "flex";
         renderPublicRoomsList();
@@ -3169,26 +3235,36 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
         };
     }
 
-    // Canvas UI: Draws "Online Match" header and player titles on the LEFT of symbols & numbers
+    // Responsive Canvas UI: Scales dynamically based on screen viewport size
     function drawOnlineScoreboard(ctx, players, o) {
         if (!players || !players.length) return;
 
         ctx.save();
         ctx.textBaseline = "top";
 
+        // Dynamic scale factor based on screen width/height (not rigid hardcoded pixels)
+        const uiScale = Math.min(Math.max((window.innerWidth || 1200) / 1366, 0.85), 1.45);
+
+        const headerFontSize = Math.round(20 * uiScale);
+        const nameFontSize = Math.round(22 * uiScale);
+        const monoFontSize = Math.round(20 * uiScale);
+        const rowHeight = Math.round(28 * uiScale);
+        const iconSize = Math.round(20 * uiScale);
+        const startY = Math.round(38 * uiScale);
+
         // 1. Text "Online Match" directly above the little symbols and numbers
-        ctx.font = 'bold 20px "Cormorant Garamond", serif';
+        ctx.font = 'bold ' + headerFontSize + 'px "Cormorant Garamond", serif';
         ctx.fillStyle = "#1e293b";
-        ctx.fillText("Online Match", 12, 11);
+        ctx.fillText("Online Match", Math.round(12 * uiScale), Math.round(11 * uiScale));
         ctx.fillStyle = "#38bdf8";
-        ctx.fillText("Online Match", 11, 10);
+        ctx.fillText("Online Match", Math.round(11 * uiScale), Math.round(10 * uiScale));
 
         // Sort players by kills/points descending
         const sorted = [...players].sort((p1, p2) => (p2.kills || 0) - (p1.kills || 0));
 
         // Compute max name width for clean column alignment
-        ctx.font = 'bold 22px "Cormorant Garamond", serif';
-        let maxNameW = 55;
+        ctx.font = 'bold ' + nameFontSize + 'px "Cormorant Garamond", serif';
+        let maxNameW = Math.round(55 * uiScale);
         for (let p of sorted) {
             const w = ctx.measureText(p.name || "Pilot").width;
             if (w > maxNameW) maxNameW = w;
@@ -3196,57 +3272,63 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
 
         for (let t = 0; t < sorted.length; t++) {
             const p = sorted[t];
-            const rowY = 38 + 28 * t;
+            const rowY = startY + rowHeight * t;
             const pName = p.name || ("Pilot " + (t + 1));
             const pColor = p.color || "#ff0015";
             const isWhite = (pColor.toLowerCase() === "#ffffff" || pColor.toLowerCase() === "white");
 
             // 1. Title of the player on the LEFT
-            ctx.font = 'bold 22px "Cormorant Garamond", serif';
+            ctx.font = 'bold ' + nameFontSize + 'px "Cormorant Garamond", serif';
             const nameW = ctx.measureText(pName).width;
 
             // Translucent pill background
             ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
             ctx.beginPath();
+            const pillX = Math.round(10 * uiScale);
+            const pillY = rowY - Math.round(1 * uiScale);
+            const pillW = nameW + Math.round(10 * uiScale);
+            const pillH = Math.round(25 * uiScale);
+            const pillR = Math.round(5 * uiScale);
             if (typeof ctx.roundRect === "function") {
-                ctx.roundRect(10, rowY - 1, nameW + 10, 25, 5);
+                ctx.roundRect(pillX, pillY, pillW, pillH, pillR);
             } else {
-                ctx.rect(10, rowY - 1, nameW + 10, 25);
+                ctx.rect(pillX, pillY, pillW, pillH);
             }
             ctx.fill();
 
+            const textX = Math.round(15 * uiScale);
             if (isWhite) {
                 ctx.fillStyle = "rgba(0, 0, 0, 0.85)";
-                ctx.fillText(pName, 15 + 1, rowY + 1);
+                ctx.fillText(pName, textX + 1, rowY + 1);
                 ctx.fillStyle = "#ffffff";
-                ctx.fillText(pName, 15, rowY);
+                ctx.fillText(pName, textX, rowY);
             } else {
                 ctx.fillStyle = "rgb(82, 161, 255)";
-                ctx.fillText(pName, 15, rowY + 1);
+                ctx.fillText(pName, textX, rowY + 1);
                 ctx.fillStyle = pColor;
-                ctx.fillText(pName, 15, rowY);
+                ctx.fillText(pName, textX, rowY);
             }
 
             // 2. Little symbols and numbers to the RIGHT of the title
-            const iconsStartX = 10 + maxNameW + 18;
+            const iconsStartX = pillX + maxNameW + Math.round(18 * uiScale);
 
             // Kills (TargetMark icon + number)
             if (o && o.b && o.b.ui && o.b.ui.targetMark) {
-                ctx.drawImage(o.b.ui.targetMark.canvas, iconsStartX, rowY + 2, 20, 20);
+                ctx.drawImage(o.b.ui.targetMark.canvas, iconsStartX, rowY + Math.round(2 * uiScale), iconSize, iconSize);
             }
-            ctx.font = "20px monospace";
+            ctx.font = monoFontSize + "px monospace";
             ctx.fillStyle = "#333333";
             const killsStr = (p.kills || 0).toString();
-            ctx.fillText(killsStr, iconsStartX + 24, rowY + 3);
+            ctx.fillText(killsStr, iconsStartX + Math.round(24 * uiScale), rowY + Math.round(3 * uiScale));
 
             const killsW = ctx.measureText(killsStr).width;
-            const skullX = iconsStartX + 24 + killsW + 14;
+            const skullX = iconsStartX + Math.round(24 * uiScale) + killsW + Math.round(14 * uiScale);
 
             // Deaths (Skull icon + number)
             if (o && o.b && o.b.ui && o.b.ui.skull) {
-                ctx.drawImage(o.b.ui.skull.canvas, skullX, rowY + 2, 20, 20);
+                ctx.drawImage(o.b.ui.skull.canvas, skullX, rowY + Math.round(2 * uiScale), iconSize, iconSize);
             }
-            ctx.fillText((p.deaths || 0).toString(), skullX + 24, rowY + 3);
+            ctx.fillText((p.deaths || 0).toString(), skullX + Math.round(24 * uiScale), rowY + Math.round(3 * uiScale));
         }
 
         ctx.restore();
@@ -3697,12 +3779,21 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
             };
         }
 
+        // Toggles Target Score dropdown visibility without collapsing layout so container stays constant height
         const modalRuleRadios = document.querySelectorAll('input[name="modalMatchRule"]');
         const modalTargetSelect = document.getElementById("modalMatchTargetScore");
         modalRuleRadios.forEach(radio => {
             radio.addEventListener("change", function() {
                 if (modalTargetSelect) {
-                    modalTargetSelect.style.display = (this.value === "score") ? "inline-block" : "none";
+                    if (this.value === "score") {
+                        modalTargetSelect.style.visibility = "visible";
+                        modalTargetSelect.style.opacity = "1";
+                        modalTargetSelect.style.pointerEvents = "auto";
+                    } else {
+                        modalTargetSelect.style.visibility = "hidden";
+                        modalTargetSelect.style.opacity = "0";
+                        modalTargetSelect.style.pointerEvents = "none";
+                    }
                 }
             });
         });
@@ -3801,7 +3892,7 @@ function Q2P(M1,j1,M2,j2,t,i1,i2,e1,e2){let u,I=0,a=Object(D.h)(),y=1/60;return 
                 navigator.clipboard.writeText(currentRoomCode).then(() => {
                     btnCopy.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Copied!</span>';
                     setTimeout(() => {
-                        btnCopy.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy Password</span>';
+                        btnCopy.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span>Copy Password</span>';
                     }, 2000);
                 }).catch(() => {
                     prompt("Copy room password:", currentRoomCode);
